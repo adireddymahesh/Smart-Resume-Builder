@@ -1,0 +1,136 @@
+
+export interface ATSAnalysis {
+    score: number;
+    breakdown: {
+        parsing: number;
+        keywords: number;
+        impact: number;
+    };
+    issues: {
+        type: "critical" | "warning";
+        message: string;
+        section: string;
+    }[];
+    positive: string[];
+}
+
+export function scoreResumeText(text: string): ATSAnalysis {
+    const issues: any[] = [];
+    const positive: string[] = [];
+
+    let score = 0;
+    const lowerText = text.toLowerCase();
+
+    // --- 1. Parsing & Structure (40 Points) ---
+
+    // Contact Info Check
+    const hasEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(text);
+    const hasPhone = /(\+\d{1,3}[-.]?)?\(?\d{3}\)?[-.]?\d{3}[-.]?\d{4}/.test(text);
+    const hasLinkedIn = /linkedin\.com\/in\/[\w-]+/.test(lowerText);
+
+    if (hasEmail) {
+        score += 10;
+        positive.push("Email address detected.");
+    } else {
+        issues.push({ type: "critical", message: "No email address found.", section: "Contact Info" });
+    }
+
+    if (hasPhone) {
+        score += 10;
+        positive.push("Phone number detected.");
+    } else {
+        issues.push({ type: "critical", message: "No phone number found.", section: "Contact Info" });
+    }
+
+    if (hasLinkedIn) {
+        score += 5;
+        positive.push("LinkedIn profile detected.");
+    } else {
+        issues.push({ type: "warning", message: "Adding a LinkedIn URL helps recruiters verify your profile.", section: "Contact Info" });
+    }
+
+    // Section Headers Check
+    const essentialSections = ["experience", "education", "skills"];
+    let missingSections = 0;
+
+    essentialSections.forEach(section => {
+        if (lowerText.includes(section)) {
+            score += 5;
+            positive.push(`${section.charAt(0).toUpperCase() + section.slice(1)} section found.`);
+        } else {
+            missingSections++;
+            issues.push({ type: "critical", message: `Missing '${section}' section header.`, section: "Structure" });
+        }
+    });
+
+
+    // --- 2. Keywords & Content (30 Points) ---
+
+    // Action Verbs
+    const actionVerbs = [
+        "led", "developed", "managed", "created", "designed", "implemented",
+        "increased", "reduced", "improved", "launched", "optimized", "built",
+        "engineered", "collaborated", "analyzed"
+    ];
+
+    let verbCount = 0;
+    actionVerbs.forEach(verb => {
+        if (new RegExp(`\\b${verb}\\b`, 'i').test(text)) verbCount++;
+    });
+
+    if (verbCount >= 5) {
+        score += 15;
+        positive.push("Strong use of action verbs.");
+    } else if (verbCount > 0) {
+        score += 5;
+        issues.push({ type: "warning", message: `Try to use more strong action verbs (Found: ${verbCount}).`, section: "Impact" });
+    } else {
+        issues.push({ type: "critical", message: "No strong action verbs found. Start bullets with words like 'Led', 'Created'.", section: "Impact" });
+    }
+
+    // Quantifiable Results (Numbers/Percentages)
+    const hasNumbers = /\d+%|\$\d+|\d+ (users|clients|customers|projects)/.test(text);
+    if (hasNumbers) {
+        score += 15;
+        positive.push("Contains quantifiable results (numbers/metrics).");
+    } else {
+        issues.push({ type: "warning", message: "Add numbers or percentages to your experience (e.g., 'Increased sales by 20%').", section: "Impact" });
+    }
+
+
+    // --- 3. Length & Formatting (30 Points) ---
+
+    // Word Count
+    const wordCount = text.split(/\s+/).length;
+    if (wordCount >= 200 && wordCount <= 1000) {
+        score += 15;
+    } else if (wordCount < 200) {
+        issues.push({ type: "critical", message: "Resume is too short. Add more detailed content.", section: "Length" });
+    } else {
+        issues.push({ type: "warning", message: "Resume might be too long. Keep it concise.", section: "Length" });
+    }
+
+    // File Readable Check (Basic)
+    if (text.length > 50) {
+        score += 15;
+    } else {
+        issues.push({ type: "critical", message: "Could not read text. Avoid scanning resumes as images.", section: "Parsing" });
+    }
+
+
+    // Breakdown Calculation
+    const parsingScore = Math.min(100, (hasEmail ? 30 : 0) + (hasPhone ? 30 : 0) + (hasLinkedIn ? 20 : 0) + (text.length > 50 ? 20 : 0));
+    const keywordScore = Math.min(100, (30 * (3 - missingSections) / 3) + (verbCount > 3 ? 50 : 20));
+    const impactScore = Math.min(100, (hasNumbers ? 50 : 0) + (verbCount >= 5 ? 50 : 30));
+
+    return {
+        score: Math.min(100, score),
+        breakdown: {
+            parsing: parsingScore,
+            keywords: keywordScore,
+            impact: impactScore
+        },
+        issues,
+        positive
+    };
+}
