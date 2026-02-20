@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { User, LogOut, LayoutDashboard, Settings, FileText } from "lucide-react";
+import { User, LogOut, LayoutDashboard, FileText } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -72,12 +72,6 @@ export function ProfileDropdown() {
                         </Link>
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem asChild className="cursor-pointer focus:bg-primary/10 focus:text-primary rounded-lg transition-colors p-2">
-                        <Link href="/settings" className="flex items-center">
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
-                        </Link>
-                    </DropdownMenuItem>
 
                     <DropdownMenuSeparator className="bg-white/10 my-2" />
 
