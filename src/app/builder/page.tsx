@@ -399,6 +399,8 @@ function BuilderContent() {
                                             { id: 'professional', name: 'Professional', color: 'bg-blue-50 border-l-4 border-blue-200' },
                                             { id: 'elegant', name: 'Elegant', color: 'bg-[#fcfbf9] border border-stone-200 font-serif' },
                                             { id: 'creative', name: 'Creative', color: 'bg-gray-50 border-2 border-gray-900' },
+                                            { id: 'ats-standard', name: 'ATS Standard', color: 'bg-white border-2 border-gray-300 font-serif' },
+                                            { id: 'executive', name: 'Executive', color: 'bg-slate-50 border-t-4 border-slate-900' },
                                         ].map((template) => (
                                             <div
                                                 key={template.id}

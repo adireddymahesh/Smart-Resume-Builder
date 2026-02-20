@@ -4,6 +4,8 @@ import { ModernTemplate } from "@/components/templates/ModernTemplate";
 import { ProfessionalTemplate } from "@/components/templates/ProfessionalTemplate";
 import { ElegantTemplate } from "@/components/templates/ElegantTemplate";
 import { CreativeTemplate } from "@/components/templates/CreativeTemplate";
+import { ATSStandardTemplate } from "@/components/templates/ATSStandardTemplate";
+import { ExecutiveTemplate } from "@/components/templates/ExecutiveTemplate";
 
 export function ResumePreview() {
     const { resumeData } = useResume();
@@ -16,6 +18,10 @@ export function ResumePreview() {
             return <ElegantTemplate data={resumeData} />;
         case "creative":
             return <CreativeTemplate data={resumeData} />;
+        case "ats-standard":
+            return <ATSStandardTemplate data={resumeData} />;
+        case "executive":
+            return <ExecutiveTemplate data={resumeData} />;
         case "modern":
         default:
             return <ModernTemplate data={resumeData} />;
