@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 export default function AtsCheckPage() {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -109,223 +110,225 @@ export default function AtsCheckPage() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-background relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute top-0 right-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-                <div className="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-green-500/5 rounded-full blur-[100px]" />
-                <div className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px]" />
-            </div>
+        <ProtectedRoute>
+            <div className="min-h-screen flex flex-col bg-background relative overflow-hidden">
+                {/* Background Elements */}
+                <div className="absolute top-0 right-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                    <div className="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-green-500/5 rounded-full blur-[100px]" />
+                    <div className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px]" />
+                </div>
 
 
-            <main className="container mx-auto px-6 py-12 flex-1 flex flex-col items-center">
-                <AnimatePresence mode="wait">
-                    {!results && !isAnalyzing ? (
-                        <motion.div
-                            key="upload"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            className="w-full flex flex-col items-center"
-                        >
-                            <div className="text-center max-w-2xl mb-12">
-                                <h1 className="text-4xl font-bold mb-4">Optimize for Application Robots</h1>
-                                <p className="text-muted-foreground text-lg">Upload your resume to see how well it parses against Applicant Tracking Systems (ATS). Get a score and actionable feedback.</p>
-                            </div>
-
-                            <div className="w-full max-w-xl mb-6">
-                                <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20 bg-primary/5 flex items-center justify-between">
-                                    <div className="space-y-0.5">
-                                        <Label htmlFor="fresher-mode" className="text-base font-semibold text-primary">I am a Fresher / Entry-Level</Label>
-                                        <p className="text-sm text-muted-foreground">Adapts the ATS scoring algorithm to not penalize for missing work experience.</p>
-                                    </div>
-                                    <Switch
-                                        id="fresher-mode"
-                                        checked={isFresher}
-                                        onCheckedChange={setIsFresher}
-                                    />
-                                </Card>
-                            </div>
-
-                            <div className="w-full max-w-xl">
-                                <Card
-                                    onClick={() => fileInputRef.current?.click()}
-                                    className="p-12 border-2 border-dashed border-muted-foreground/25 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-accent/5 transition-colors cursor-pointer group bg-card/50 backdrop-blur-sm"
-                                >
-                                    <input
-                                        type="file"
-                                        ref={fileInputRef}
-                                        className="hidden"
-                                        accept=".pdf,.docx"
-                                        onChange={handleFileSelect}
-                                    />
-                                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                        <Upload className="w-10 h-10 text-primary" />
-                                    </div>
-                                    <h3 className="text-xl font-semibold mb-2">Upload your resume</h3>
-                                    <p className="text-muted-foreground mb-8">Click to browse (PDF only for best results)</p>
-                                    <Button variant="default" size="lg" className="rounded-full px-8 pointer-events-none">
-                                        Select File
-                                    </Button>
-                                </Card>
-                            </div>
-
-                            <div className="w-full max-w-xl mt-6">
-                                <Card className="p-6 bg-card/50 backdrop-blur-sm border-muted-foreground/15">
-                                    <div className="space-y-4">
-                                        <div className="space-y-1">
-                                            <Label htmlFor="jd" className="text-base font-semibold">Target Job Description <span className="text-muted-foreground font-normal">(Optional)</span></Label>
-                                            <p className="text-sm text-muted-foreground">Paste the job description to get a tailored ATS compatibility score against specific requirements.</p>
-                                        </div>
-                                        <Textarea
-                                            id="jd"
-                                            placeholder="e.g. We are looking for a Senior React Developer with 5+ years of experience..."
-                                            className="min-h-[120px] resize-y bg-background/50"
-                                            value={jobDescription}
-                                            onChange={(e) => setJobDescription(e.target.value)}
-                                        />
-                                    </div>
-                                </Card>
-                            </div>
-
-                            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
-                                <FeatureItem icon={<FileText className="w-6 h-6 text-blue-400" />} title="Keyword Analysis" desc="Check if you're missing critical keywords for your industry." />
-                                <FeatureItem icon={<CheckCircle className="w-6 h-6 text-green-400" />} title="Formatting Check" desc="Ensure your layout is readable by automated parsers." />
-                                <FeatureItem icon={<AlertCircle className="w-6 h-6 text-orange-400" />} title="Actionable Fixes" desc="Get specific recommendations to improve your score." />
-                            </div>
-                        </motion.div>
-                    ) : isAnalyzing ? (
-                        <motion.div
-                            key="loading"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 1.05 }}
-                            className="flex flex-col items-center justify-center h-[50vh]"
-                        >
-                            <div className="relative mb-8">
-                                <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse" />
-                                <Loader2 className="w-16 h-16 text-primary animate-spin relative z-10" />
-                            </div>
-                            <h2 className="text-2xl font-semibold mb-2">Analyzing Resume...</h2>
-                            <p className="text-muted-foreground">Checking keywords, formatting, and readability</p>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="results"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="w-full max-w-5xl"
-                        >
-                            <div className="flex justify-between items-center mb-8">
-                                <div>
-                                    <h2 className="text-2xl font-bold flex items-center gap-3">
-                                        Analysis Result
-                                        <Badge variant="outline" className="text-base font-normal py-1">{fileName}</Badge>
-                                    </h2>
-                                    <p className="text-muted-foreground">{results.summary}</p>
+                <main className="container mx-auto px-6 py-12 flex-1 flex flex-col items-center">
+                    <AnimatePresence mode="wait">
+                        {!results && !isAnalyzing ? (
+                            <motion.div
+                                key="upload"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                className="w-full flex flex-col items-center"
+                            >
+                                <div className="text-center max-w-2xl mb-12">
+                                    <h1 className="text-4xl font-bold mb-4">Optimize for Application Robots</h1>
+                                    <p className="text-muted-foreground text-lg">Upload your resume to see how well it parses against Applicant Tracking Systems (ATS). Get a score and actionable feedback.</p>
                                 </div>
-                                <Button onClick={() => setResults(null)} variant="outline">
-                                    <RefreshCw className="w-4 h-4 mr-2" /> Upload Another
-                                </Button>
-                            </div>
 
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                                {/* Score Card */}
-                                <Card className="lg:col-span-1 bg-card/50 backdrop-blur-sm">
-                                    <CardContent className="pt-6 flex flex-col items-center justify-center min-h-[300px]">
-                                        <div className="relative w-40 h-40 flex items-center justify-center mb-6">
-                                            <svg className="w-full h-full transform -rotate-90">
-                                                <circle cx="80" cy="80" r="70" className="stroke-muted/20 fill-none" strokeWidth="12" />
-                                                <circle
-                                                    cx="80"
-                                                    cy="80"
-                                                    r="70"
-                                                    className={`fill-none transition-all duration-1000 ease-out ${getScoreColor(results.score)}`}
-                                                    strokeWidth="12"
-                                                    strokeLinecap="round"
-                                                    stroke="currentColor"
-                                                    strokeDasharray={439.8}
-                                                    strokeDashoffset={439.8 - (439.8 * results.score) / 100}
-                                                />
-                                            </svg>
-                                            <div className="absolute flex flex-col items-center">
-                                                <span className={`text-4xl font-bold ${getScoreColor(results.score)}`}>{results.score}</span>
-                                                <span className="text-xs text-muted-foreground uppercase tracking-wider">Score</span>
+                                <div className="w-full max-w-xl mb-6">
+                                    <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20 bg-primary/5 flex items-center justify-between">
+                                        <div className="space-y-0.5">
+                                            <Label htmlFor="fresher-mode" className="text-base font-semibold text-primary">I am a Fresher / Entry-Level</Label>
+                                            <p className="text-sm text-muted-foreground">Adapts the ATS scoring algorithm to not penalize for missing work experience.</p>
+                                        </div>
+                                        <Switch
+                                            id="fresher-mode"
+                                            checked={isFresher}
+                                            onCheckedChange={setIsFresher}
+                                        />
+                                    </Card>
+                                </div>
+
+                                <div className="w-full max-w-xl">
+                                    <Card
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className="p-12 border-2 border-dashed border-muted-foreground/25 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-accent/5 transition-colors cursor-pointer group bg-card/50 backdrop-blur-sm"
+                                    >
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef}
+                                            className="hidden"
+                                            accept=".pdf,.docx"
+                                            onChange={handleFileSelect}
+                                        />
+                                        <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                            <Upload className="w-10 h-10 text-primary" />
+                                        </div>
+                                        <h3 className="text-xl font-semibold mb-2">Upload your resume</h3>
+                                        <p className="text-muted-foreground mb-8">Click to browse (PDF only for best results)</p>
+                                        <Button variant="default" size="lg" className="rounded-full px-8 pointer-events-none">
+                                            Select File
+                                        </Button>
+                                    </Card>
+                                </div>
+
+                                <div className="w-full max-w-xl mt-6">
+                                    <Card className="p-6 bg-card/50 backdrop-blur-sm border-muted-foreground/15">
+                                        <div className="space-y-4">
+                                            <div className="space-y-1">
+                                                <Label htmlFor="jd" className="text-base font-semibold">Target Job Description <span className="text-muted-foreground font-normal">(Optional)</span></Label>
+                                                <p className="text-sm text-muted-foreground">Paste the job description to get a tailored ATS compatibility score against specific requirements.</p>
                                             </div>
+                                            <Textarea
+                                                id="jd"
+                                                placeholder="e.g. We are looking for a Senior React Developer with 5+ years of experience..."
+                                                className="min-h-[120px] resize-y bg-background/50"
+                                                value={jobDescription}
+                                                onChange={(e) => setJobDescription(e.target.value)}
+                                            />
                                         </div>
-                                        <div className="w-full space-y-4">
-                                            <ScoreBreakdown label="Parsing" value={results.breakdown.parsing} />
-                                            <ScoreBreakdown label="Keywords" value={results.breakdown.keywords} />
-                                            <ScoreBreakdown label="Impact" value={results.breakdown.impact} />
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                                    </Card>
+                                </div>
 
-                                {/* Issues & Improvements */}
-                                <div className="lg:col-span-2 space-y-6">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <Card className="bg-red-500/5 border-red-200/20">
-                                            <CardContent className="pt-6">
-                                                <h3 className="text-red-500 font-semibold mb-4 flex items-center gap-2">
-                                                    <AlertCircle className="w-5 h-5" /> Required Fixes
-                                                </h3>
-                                                <ul className="space-y-3">
-                                                    {results.issues.filter((i: any) => i.type === 'critical').length > 0 ? (
-                                                        results.issues.filter((i: any) => i.type === 'critical').map((issue: any, idx: number) => (
-                                                            <li key={idx} className="flex gap-3 text-sm">
-                                                                <span className="w-1.5 h-1.5 bg-red-500 rounded-full mt-2 flex-shrink-0" />
-                                                                <span>{issue.message}</span>
-                                                            </li>
-                                                        ))
-                                                    ) : (
-                                                        <li className="text-muted-foreground text-sm">No required fixes found!</li>
-                                                    )}
-                                                </ul>
-                                            </CardContent>
-                                        </Card>
-
-                                        <Card className="bg-yellow-500/5 border-yellow-200/20">
-                                            <CardContent className="pt-6">
-                                                <h3 className="text-yellow-500 font-semibold mb-4 flex items-center gap-2">
-                                                    <AlertTriangle className="w-5 h-5" /> Suggested Changes
-                                                </h3>
-                                                <ul className="space-y-3">
-                                                    {results.issues.filter((i: any) => i.type === 'warning').length > 0 ? (
-                                                        results.issues.filter((i: any) => i.type === 'warning').map((issue: any, idx: number) => (
-                                                            <li key={idx} className="flex gap-3 text-sm">
-                                                                <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
-                                                                <span>{issue.message}</span>
-                                                            </li>
-                                                        ))
-                                                    ) : (
-                                                        <li className="text-muted-foreground text-sm">No suggestions at this time.</li>
-                                                    )}
-                                                </ul>
-                                            </CardContent>
-                                        </Card>
+                                <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+                                    <FeatureItem icon={<FileText className="w-6 h-6 text-blue-400" />} title="Keyword Analysis" desc="Check if you're missing critical keywords for your industry." />
+                                    <FeatureItem icon={<CheckCircle className="w-6 h-6 text-green-400" />} title="Formatting Check" desc="Ensure your layout is readable by automated parsers." />
+                                    <FeatureItem icon={<AlertCircle className="w-6 h-6 text-orange-400" />} title="Actionable Fixes" desc="Get specific recommendations to improve your score." />
+                                </div>
+                            </motion.div>
+                        ) : isAnalyzing ? (
+                            <motion.div
+                                key="loading"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 1.05 }}
+                                className="flex flex-col items-center justify-center h-[50vh]"
+                            >
+                                <div className="relative mb-8">
+                                    <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse" />
+                                    <Loader2 className="w-16 h-16 text-primary animate-spin relative z-10" />
+                                </div>
+                                <h2 className="text-2xl font-semibold mb-2">Analyzing Resume...</h2>
+                                <p className="text-muted-foreground">Checking keywords, formatting, and readability</p>
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="results"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="w-full max-w-5xl"
+                            >
+                                <div className="flex justify-between items-center mb-8">
+                                    <div>
+                                        <h2 className="text-2xl font-bold flex items-center gap-3">
+                                            Analysis Result
+                                            <Badge variant="outline" className="text-base font-normal py-1">{fileName}</Badge>
+                                        </h2>
+                                        <p className="text-muted-foreground">{results.summary}</p>
                                     </div>
+                                    <Button onClick={() => setResults(null)} variant="outline">
+                                        <RefreshCw className="w-4 h-4 mr-2" /> Upload Another
+                                    </Button>
+                                </div>
 
-                                    <Card className="bg-green-500/5 border-green-200/20">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-green-600 font-semibold mb-4 flex items-center gap-2">
-                                                <CheckCircle className="w-5 h-5" /> What You Did Well
-                                            </h3>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                {results.positive.map((item: string, idx: number) => (
-                                                    <div key={idx} className="flex items-start gap-2 text-sm text-foreground/80">
-                                                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                                                        {item}
-                                                    </div>
-                                                ))}
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                    {/* Score Card */}
+                                    <Card className="lg:col-span-1 bg-card/50 backdrop-blur-sm">
+                                        <CardContent className="pt-6 flex flex-col items-center justify-center min-h-[300px]">
+                                            <div className="relative w-40 h-40 flex items-center justify-center mb-6">
+                                                <svg className="w-full h-full transform -rotate-90">
+                                                    <circle cx="80" cy="80" r="70" className="stroke-muted/20 fill-none" strokeWidth="12" />
+                                                    <circle
+                                                        cx="80"
+                                                        cy="80"
+                                                        r="70"
+                                                        className={`fill-none transition-all duration-1000 ease-out ${getScoreColor(results.score)}`}
+                                                        strokeWidth="12"
+                                                        strokeLinecap="round"
+                                                        stroke="currentColor"
+                                                        strokeDasharray={439.8}
+                                                        strokeDashoffset={439.8 - (439.8 * results.score) / 100}
+                                                    />
+                                                </svg>
+                                                <div className="absolute flex flex-col items-center">
+                                                    <span className={`text-4xl font-bold ${getScoreColor(results.score)}`}>{results.score}</span>
+                                                    <span className="text-xs text-muted-foreground uppercase tracking-wider">Score</span>
+                                                </div>
+                                            </div>
+                                            <div className="w-full space-y-4">
+                                                <ScoreBreakdown label="Parsing" value={results.breakdown.parsing} />
+                                                <ScoreBreakdown label="Keywords" value={results.breakdown.keywords} />
+                                                <ScoreBreakdown label="Impact" value={results.breakdown.impact} />
                                             </div>
                                         </CardContent>
                                     </Card>
+
+                                    {/* Issues & Improvements */}
+                                    <div className="lg:col-span-2 space-y-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <Card className="bg-red-500/5 border-red-200/20">
+                                                <CardContent className="pt-6">
+                                                    <h3 className="text-red-500 font-semibold mb-4 flex items-center gap-2">
+                                                        <AlertCircle className="w-5 h-5" /> Required Fixes
+                                                    </h3>
+                                                    <ul className="space-y-3">
+                                                        {results.issues.filter((i: any) => i.type === 'critical').length > 0 ? (
+                                                            results.issues.filter((i: any) => i.type === 'critical').map((issue: any, idx: number) => (
+                                                                <li key={idx} className="flex gap-3 text-sm">
+                                                                    <span className="w-1.5 h-1.5 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                                                                    <span>{issue.message}</span>
+                                                                </li>
+                                                            ))
+                                                        ) : (
+                                                            <li className="text-muted-foreground text-sm">No required fixes found!</li>
+                                                        )}
+                                                    </ul>
+                                                </CardContent>
+                                            </Card>
+
+                                            <Card className="bg-yellow-500/5 border-yellow-200/20">
+                                                <CardContent className="pt-6">
+                                                    <h3 className="text-yellow-500 font-semibold mb-4 flex items-center gap-2">
+                                                        <AlertTriangle className="w-5 h-5" /> Suggested Changes
+                                                    </h3>
+                                                    <ul className="space-y-3">
+                                                        {results.issues.filter((i: any) => i.type === 'warning').length > 0 ? (
+                                                            results.issues.filter((i: any) => i.type === 'warning').map((issue: any, idx: number) => (
+                                                                <li key={idx} className="flex gap-3 text-sm">
+                                                                    <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
+                                                                    <span>{issue.message}</span>
+                                                                </li>
+                                                            ))
+                                                        ) : (
+                                                            <li className="text-muted-foreground text-sm">No suggestions at this time.</li>
+                                                        )}
+                                                    </ul>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+
+                                        <Card className="bg-green-500/5 border-green-200/20">
+                                            <CardContent className="pt-6">
+                                                <h3 className="text-green-600 font-semibold mb-4 flex items-center gap-2">
+                                                    <CheckCircle className="w-5 h-5" /> What You Did Well
+                                                </h3>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    {results.positive.map((item: string, idx: number) => (
+                                                        <div key={idx} className="flex items-start gap-2 text-sm text-foreground/80">
+                                                            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                                                            {item}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </main>
-        </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </main>
+            </div>
+        </ProtectedRoute>
     );
 }
 

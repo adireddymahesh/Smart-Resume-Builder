@@ -8,6 +8,7 @@ import { ArrowLeft, Sparkles, FileText, Briefcase, Upload, Type } from "lucide-r
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 export default function KeywordExtractor() {
     const [mode, setMode] = useState<'resume' | 'jd'>('resume');
@@ -51,152 +52,154 @@ export default function KeywordExtractor() {
     };
 
     return (
-        <div className="min-h-screen bg-background text-foreground p-8">
+        <ProtectedRoute>
+            <div className="min-h-screen bg-background text-foreground p-8">
 
-            <div className="max-w-4xl mx-auto space-y-8">
+                <div className="max-w-4xl mx-auto space-y-8">
 
-                {/* Mode Selection */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
-                    <div className="flex gap-4 p-1 bg-black/5 dark:bg-white/5 rounded-2xl w-fit">
-                        <button
-                            onClick={() => { setMode('resume'); setResult(null); }}
-                            className={`px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all ${mode === 'resume' ? 'bg-primary text-black shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}
-                        >
-                            <FileText className="w-4 h-4" /> Resume
-                        </button>
-                        <button
-                            onClick={() => { setMode('jd'); setResult(null); }}
-                            className={`px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all ${mode === 'jd' ? 'bg-primary text-black shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}
-                        >
-                            <Briefcase className="w-4 h-4" /> Start JD
-                        </button>
-                    </div>
-
-                    {mode === 'resume' && (
-                        <div className="flex gap-2 text-sm bg-black/5 dark:bg-white/5 p-1 rounded-lg">
+                    {/* Mode Selection */}
+                    <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
+                        <div className="flex gap-4 p-1 bg-black/5 dark:bg-white/5 rounded-2xl w-fit">
                             <button
-                                onClick={() => setInputType('text')}
-                                className={`px-3 py-1.5 rounded-md flex items-center gap-2 transition-colors ${inputType === 'text' ? 'bg-white shadow text-black dark:bg-white/10 dark:text-white' : 'text-muted-foreground hover:text-foreground'}`}
+                                onClick={() => { setMode('resume'); setResult(null); }}
+                                className={`px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all ${mode === 'resume' ? 'bg-primary text-black shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}
                             >
-                                <Type className="w-4 h-4" /> Text
+                                <FileText className="w-4 h-4" /> Resume
                             </button>
                             <button
-                                onClick={() => setInputType('file')}
-                                className={`px-3 py-1.5 rounded-md flex items-center gap-2 transition-colors ${inputType === 'file' ? 'bg-white shadow text-black dark:bg-white/10 dark:text-white' : 'text-muted-foreground hover:text-foreground'}`}
+                                onClick={() => { setMode('jd'); setResult(null); }}
+                                className={`px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all ${mode === 'jd' ? 'bg-primary text-black shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}
                             >
-                                <Upload className="w-4 h-4" /> File
+                                <Briefcase className="w-4 h-4" /> Start JD
                             </button>
                         </div>
-                    )}
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Input Area */}
-                    <Card className="bg-card/50 dark:bg-white/5 border-border dark:border-white/10 h-fit min-h-[400px]">
-                        <CardHeader>
-                            <CardTitle>
-                                {mode === 'resume'
-                                    ? (inputType === 'file' ? 'Upload Resume (PDF)' : 'Paste Resume Text')
-                                    : 'Paste Job Description'}
-                            </CardTitle>
-                            <CardDescription>
-                                {mode === 'resume' ? 'Extract skills and keywords from your CV.' : 'Find main keywords to target in a job post.'}
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            {mode === 'resume' && inputType === 'file' ? (
-                                <div className="h-64 border-2 border-dashed border-border dark:border-white/10 rounded-xl flex flex-col items-center justify-center p-6 text-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer relative">
-                                    <Input
-                                        type="file"
-                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                        accept=".pdf"
-                                        onChange={(e) => setFile(e.target.files?.[0] || null)}
-                                    />
-                                    <Upload className="w-10 h-10 text-muted-foreground mb-4" />
-                                    {file ? (
-                                        <div>
-                                            <p className="font-medium text-green-400">{file.name}</p>
-                                            <p className="text-xs text-muted-foreground mt-1">{(file.size / 1024).toFixed(1)} KB</p>
-                                        </div>
-                                    ) : (
-                                        <p className="text-muted-foreground">Click to upload or drag and drop PDF</p>
-                                    )}
-                                </div>
-                            ) : (
-                                <Textarea
-                                    placeholder={mode === 'resume' ? "Paste your full resume content here..." : "Paste the job description here..."}
-                                    className="h-64 bg-transparent dark:bg-black/50 border-border dark:border-white/10 resize-none font-mono text-sm"
-                                    value={text}
-                                    onChange={(e) => setText(e.target.value)}
-                                />
-                            )}
-
-                            <Button
-                                onClick={handleAnalyze}
-                                disabled={analyzing}
-                                className="w-full font-bold"
-                                size="lg"
-                            >
-                                {analyzing ? "Extracting..." : "Extract Keywords"}
-                            </Button>
-                        </CardContent>
-                    </Card>
-
-                    {/* Results Area */}
-                    <Card className="bg-card/50 dark:bg-white/5 border-border dark:border-white/10 min-h-[400px]">
-                        <CardHeader>
-                            <CardTitle>Extracted Data</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            {result ? (
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    className="space-y-6"
+                        {mode === 'resume' && (
+                            <div className="flex gap-2 text-sm bg-black/5 dark:bg-white/5 p-1 rounded-lg">
+                                <button
+                                    onClick={() => setInputType('text')}
+                                    className={`px-3 py-1.5 rounded-md flex items-center gap-2 transition-colors ${inputType === 'text' ? 'bg-white shadow text-black dark:bg-white/10 dark:text-white' : 'text-muted-foreground hover:text-foreground'}`}
                                 >
-                                    <div>
-                                        <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Hard Skills</h3>
-                                        <div className="flex flex-wrap gap-2">
-                                            {result.hard_skills?.map((s: string, i: number) => (
-                                                <span key={i} className="px-3 py-1 bg-blue-500/20 text-blue-700 dark:text-blue-300 rounded-md text-sm border border-blue-500/30">
-                                                    {s}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
+                                    <Type className="w-4 h-4" /> Text
+                                </button>
+                                <button
+                                    onClick={() => setInputType('file')}
+                                    className={`px-3 py-1.5 rounded-md flex items-center gap-2 transition-colors ${inputType === 'file' ? 'bg-white shadow text-black dark:bg-white/10 dark:text-white' : 'text-muted-foreground hover:text-foreground'}`}
+                                >
+                                    <Upload className="w-4 h-4" /> File
+                                </button>
+                            </div>
+                        )}
+                    </div>
 
-                                    <div>
-                                        <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Soft Skills</h3>
-                                        <div className="flex flex-wrap gap-2">
-                                            {result.soft_skills?.map((s: string, i: number) => (
-                                                <span key={i} className="px-3 py-1 bg-purple-500/20 text-purple-700 dark:text-purple-300 rounded-md text-sm border border-purple-500/30">
-                                                    {s}
-                                                </span>
-                                            ))}
-                                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Input Area */}
+                        <Card className="bg-card/50 dark:bg-white/5 border-border dark:border-white/10 h-fit min-h-[400px]">
+                            <CardHeader>
+                                <CardTitle>
+                                    {mode === 'resume'
+                                        ? (inputType === 'file' ? 'Upload Resume (PDF)' : 'Paste Resume Text')
+                                        : 'Paste Job Description'}
+                                </CardTitle>
+                                <CardDescription>
+                                    {mode === 'resume' ? 'Extract skills and keywords from your CV.' : 'Find main keywords to target in a job post.'}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                {mode === 'resume' && inputType === 'file' ? (
+                                    <div className="h-64 border-2 border-dashed border-border dark:border-white/10 rounded-xl flex flex-col items-center justify-center p-6 text-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer relative">
+                                        <Input
+                                            type="file"
+                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                            accept=".pdf"
+                                            onChange={(e) => setFile(e.target.files?.[0] || null)}
+                                        />
+                                        <Upload className="w-10 h-10 text-muted-foreground mb-4" />
+                                        {file ? (
+                                            <div>
+                                                <p className="font-medium text-green-400">{file.name}</p>
+                                                <p className="text-xs text-muted-foreground mt-1">{(file.size / 1024).toFixed(1)} KB</p>
+                                            </div>
+                                        ) : (
+                                            <p className="text-muted-foreground">Click to upload or drag and drop PDF</p>
+                                        )}
                                     </div>
+                                ) : (
+                                    <Textarea
+                                        placeholder={mode === 'resume' ? "Paste your full resume content here..." : "Paste the job description here..."}
+                                        className="h-64 bg-transparent dark:bg-black/50 border-border dark:border-white/10 resize-none font-mono text-sm"
+                                        value={text}
+                                        onChange={(e) => setText(e.target.value)}
+                                    />
+                                )}
 
-                                    <div>
-                                        <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Keywords</h3>
-                                        <div className="flex flex-wrap gap-2">
-                                            {result.keywords?.map((s: string, i: number) => (
-                                                <span key={i} className="px-3 py-1 bg-black/10 dark:bg-white/10 text-black/70 dark:text-white/70 rounded-md text-sm">
-                                                    {s}
-                                                </span>
-                                            ))}
+                                <Button
+                                    onClick={handleAnalyze}
+                                    disabled={analyzing}
+                                    className="w-full font-bold"
+                                    size="lg"
+                                >
+                                    {analyzing ? "Extracting..." : "Extract Keywords"}
+                                </Button>
+                            </CardContent>
+                        </Card>
+
+                        {/* Results Area */}
+                        <Card className="bg-card/50 dark:bg-white/5 border-border dark:border-white/10 min-h-[400px]">
+                            <CardHeader>
+                                <CardTitle>Extracted Data</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                {result ? (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        className="space-y-6"
+                                    >
+                                        <div>
+                                            <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Hard Skills</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                {result.hard_skills?.map((s: string, i: number) => (
+                                                    <span key={i} className="px-3 py-1 bg-blue-500/20 text-blue-700 dark:text-blue-300 rounded-md text-sm border border-blue-500/30">
+                                                        {s}
+                                                    </span>
+                                                ))}
+                                            </div>
                                         </div>
+
+                                        <div>
+                                            <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Soft Skills</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                {result.soft_skills?.map((s: string, i: number) => (
+                                                    <span key={i} className="px-3 py-1 bg-purple-500/20 text-purple-700 dark:text-purple-300 rounded-md text-sm border border-purple-500/30">
+                                                        {s}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Keywords</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                {result.keywords?.map((s: string, i: number) => (
+                                                    <span key={i} className="px-3 py-1 bg-black/10 dark:bg-white/10 text-black/70 dark:text-white/70 rounded-md text-sm">
+                                                        {s}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ) : (
+                                    <div className="h-64 flex flex-col items-center justify-center text-muted-foreground text-center opacity-50">
+                                        <Sparkles className="w-12 h-12 mb-2" />
+                                        <p>Results will appear here</p>
                                     </div>
-                                </motion.div>
-                            ) : (
-                                <div className="h-64 flex flex-col items-center justify-center text-muted-foreground text-center opacity-50">
-                                    <Sparkles className="w-12 h-12 mb-2" />
-                                    <p>Results will appear here</p>
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ProtectedRoute>
     );
 }
