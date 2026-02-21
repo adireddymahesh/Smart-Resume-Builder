@@ -4,10 +4,14 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 import Image from "next/image";
 
+import BharthImg from "../../../public/images/Bharth.jpeg";
+import SalomiImg from "../../../public/images/Salomi.jpeg";
+import MaheshImg from "../../../public/images/Mahesh.jpeg";
+
 const teamMembers = [
     {
         name: "N.Bharath Adithya",
-        image: "/images/Bharth.jpeg",
+        image: BharthImg,
         github: "#",
         linkedin: "http://www.linkedin.com/in/nakka-bharath-adithya",
         email: "bharathadithya.nakka@gmail.com",
@@ -15,7 +19,7 @@ const teamMembers = [
     },
     {
         name: "Koppisetti Salomi",
-        image: "/images/Salomi.jpeg",
+        image: SalomiImg,
         github: "#",
         email: "koppisettisalomi8888@gmail.com",
         linkedin: "https://www.linkedin.com/in/salomi-koppisetti-8ba6b7301",
@@ -23,7 +27,7 @@ const teamMembers = [
     },
     {
         name: "Mahesh",
-        image: "/images/Mahesh.jpeg",
+        image: MaheshImg,
         github: "#",
         email: "adireddymahesh1@gmail.com",
         linkedin: "https://www.linkedin.com/in/mahesh-adireddy-abb139318?trk=contact-info",
