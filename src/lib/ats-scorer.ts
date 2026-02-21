@@ -25,7 +25,6 @@ export function scoreResumeText(text: string, isFresher: boolean = false): ATSAn
 
     // Contact Info Check
     const hasEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(text);
-    const hasPhone = /(\+\d{1,3}[-.]?)?\(?\d{3}\)?[-.]?\d{3}[-.]?\d{4}/.test(text);
     const hasLinkedIn = /linkedin\.com\/in\/[\w-]+/.test(lowerText);
 
     if (hasEmail) {
@@ -33,13 +32,6 @@ export function scoreResumeText(text: string, isFresher: boolean = false): ATSAn
         positive.push("Email address detected.");
     } else {
         issues.push({ type: "critical", message: "No email address found.", section: "Contact Info" });
-    }
-
-    if (hasPhone) {
-        score += 10;
-        positive.push("Phone number detected.");
-    } else {
-        issues.push({ type: "critical", message: "No phone number found.", section: "Contact Info" });
     }
 
     if (hasLinkedIn) {
@@ -126,7 +118,7 @@ export function scoreResumeText(text: string, isFresher: boolean = false): ATSAn
 
 
     // Breakdown Calculation
-    const parsingScore = Math.min(100, (hasEmail ? 30 : 0) + (hasPhone ? 30 : 0) + (hasLinkedIn ? 20 : 0) + (text.length > 50 ? 20 : 0));
+    const parsingScore = Math.min(100, (hasEmail ? 60 : 0) + (hasLinkedIn ? 20 : 0) + (text.length > 50 ? 20 : 0));
     const keywordScore = Math.min(100, (30 * (3 - missingSections) / 3) + (verbCount > 3 ? 50 : 20));
     const impactScore = Math.min(100, (hasNumbers ? 50 : 0) + (verbCount >= 5 ? 50 : 30));
 

@@ -90,7 +90,7 @@ export async function analyzeATS(fileBase64: string, mimeType: string, jobDescri
     Evaluate 3 key areas:
     1. Parsing / Readability (Can an ATS extract the text? Are there bad columns/graphics?)
     2. Keywords / Content (Does it use strong verbs? Is it quantifiable? ${jobDescription ? "Does it contain the essential keywords from the Job Description?" : ""})
-    3. Completeness (Contact info, education, etc.)
+    3. Completeness (Email, education, skills, etc. DO NOT check for or penalize missing Phone Numbers or Location/City/State. They are intentionally omitted.)
 
     Return a JSON object with this exact structure:
     {
