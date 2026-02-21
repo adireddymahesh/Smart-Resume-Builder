@@ -49,7 +49,7 @@ export function Footer() {
                 <div className="mt-16 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
                     <p>© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
                     <div className="flex items-center gap-8">
-                        <p>Made by Nikhilesh</p>
+
                     </div>
                 </div>
             </div>

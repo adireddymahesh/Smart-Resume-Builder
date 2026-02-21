@@ -6,52 +6,66 @@ import Image from "next/image";
 
 const teamMembers = [
     {
-        name: "Nikhilesh",
-        role: "Lead Developer & Founder",
-        bio: "Passionate about AI and building intuitive tools for career growth.",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nikhilesh&backgroundColor=b6e3f4",
+        name: "N.Bharath Adithya",
+        image: "/images/Bharth.jpeg",
         github: "#",
-        linkedin: "#",
-        hoverGlow: "group-hover:border-blue-500/50 group-hover:shadow-[0_0_40px_-15px_rgba(59,130,246,0.2)]",
+        linkedin: "http://www.linkedin.com/in/nakka-bharath-adithya",
+        email: "bharathadithya.nakka@gmail.com",
+        hoverGlow: "group-hover:border-blue-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(59,130,246,0.2)]",
     },
     {
-        name: "Harish",
-        role: "UI/UX Designer",
-        bio: "Crafting beautiful, user-centric experiences that feel like magic.",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Harish&backgroundColor=c0aede",
+        name: "Koppisetti Salomi",
+        image: "/images/Salomi.jpeg",
         github: "#",
-        linkedin: "#",
-        hoverGlow: "group-hover:border-purple-500/50 group-hover:shadow-[0_0_40px_-15px_rgba(168,85,247,0.2)]",
+        email: "koppisettisalomi8888@gmail.com",
+        linkedin: "https://www.linkedin.com/in/salomi-koppisetti-8ba6b7301",
+        hoverGlow: "group-hover:border-purple-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(168,85,247,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(168,85,247,0.2)]",
     },
     {
-        name: "Ramesh",
-        role: "AI Engineer",
-        bio: "Specializing in NLP and making our resume scorer as smart as possible.",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ramesh&backgroundColor=ffdfbf",
+        name: "Mahesh",
+        image: "/images/Mahesh.jpeg",
         github: "#",
-        linkedin: "#",
-        hoverGlow: "group-hover:border-orange-500/50 group-hover:shadow-[0_0_40px_-15px_rgba(249,115,22,0.2)]",
+        email: "adireddymahesh1@gmail.com",
+        linkedin: "https://www.linkedin.com/in/mahesh-adireddy-abb139318?trk=contact-info",
+        hoverGlow: "group-hover:border-orange-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(249,115,22,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(249,115,22,0.2)]",
     },
     {
         name: "Suresh",
-        role: "Backend Architecture",
-        bio: "Ensuring our systems are fast, reliable, and secure 24/7.",
         image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Suresh&backgroundColor=d1d4f9",
         github: "#",
         linkedin: "#",
-        hoverGlow: "group-hover:border-indigo-500/50 group-hover:shadow-[0_0_40px_-15px_rgba(99,102,241,0.2)]",
+        hoverGlow: "group-hover:border-indigo-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(99,102,241,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(99,102,241,0.2)]",
+    },
+    {
+        name: "Member 5",
+        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Member5&backgroundColor=ffc6d9",
+        github: "#",
+        linkedin: "#",
+        hoverGlow: "group-hover:border-pink-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(236,72,153,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(236,72,153,0.2)]",
     }
 ];
 
 export default function AboutPage() {
     return (
         <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
-            {/* Minimal Background Gradients matching the theme */}
-            <div className="absolute top-0 right-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-                <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px]" />
-            </div>
+            {/* Inject Marquee Animation */}
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                @keyframes marquee {
+                    0% { transform: translateX(0%); }
+                    100% { transform: translateX(-50%); }
+                }
+                .animate-marquee {
+                    animation: marquee 40s linear infinite;
+                }
+            `}} />
 
+            {/* Background Gradients */}
+            <div className="absolute top-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/40 dark:bg-primary/20 hover:bg-primary/50 dark:hover:bg-primary/30 transition-colors duration-1000 rounded-full blur-[120px]" />
+                <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-500/40 dark:bg-purple-500/20 hover:bg-purple-500/50 dark:hover:bg-purple-500/30 transition-colors duration-1000 rounded-full blur-[100px]" />
+                <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-pink-500/30 dark:bg-pink-500/10 hover:bg-pink-500/40 dark:hover:bg-pink-500/20 transition-colors duration-1000 rounded-full blur-[130px]" />
+            </div>
             <main className="container mx-auto px-6 py-20 lg:py-32 flex-1 flex flex-col">
                 {/* Header Section */}
                 <motion.div
@@ -61,9 +75,9 @@ export default function AboutPage() {
                     className="text-center max-w-4xl mx-auto mb-20 relative"
                 >
                     {/* Glowing Backlight behind Text */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-gradient-to-r from-primary/30 to-purple-500/30 blur-3xl rounded-full opacity-50 pointer-events-none" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-gradient-to-r from-primary/60 to-purple-500/60 dark:from-primary/30 dark:to-purple-500/30 blur-3xl rounded-full opacity-80 dark:opacity-50 pointer-events-none" />
 
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/60 dark:from-white dark:via-zinc-200 dark:to-zinc-500 drop-shadow-sm">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-600 dark:from-white dark:via-zinc-200 dark:to-zinc-500 drop-shadow-sm">
                         Meet the brilliant minds behind{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">
                             ResumeAI
@@ -75,45 +89,44 @@ export default function AboutPage() {
                 </motion.div>
 
                 {/* Team Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {teamMembers.map((member, index) => (
-                        <motion.div
-                            key={member.name}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-                            className="group relative"
-                        >
-                            <div className={`relative bg-card/40 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-3xl p-6 h-full flex flex-col items-center text-center transition-all duration-500 hover:-translate-y-2 ${member.hoverGlow}`}>
-                                {/* Image Container */}
-                                <div className="relative w-32 h-32 mb-6">
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-purple-500/30 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100" />
-                                    <div className="relative w-full h-full rounded-full border-4 border-background overflow-hidden bg-muted">
-                                        <Image
-                                            src={member.image}
-                                            alt={member.name}
-                                            fill
-                                            className="object-cover"
-                                        />
+                {/* Horizontal Looping Carousel */}
+                <div className="group w-full relative mt-32 pt-16 pb-12 overflow-hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-32 before:bg-gradient-to-r before:from-background before:to-transparent before:z-20 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-32 after:bg-gradient-to-l after:from-background after:to-transparent after:z-20 -mx-4 px-4 sm:mx-0 sm:px-0">
+                    <div className="flex w-max gap-8 lg:gap-12 pl-8 lg:pl-12 animate-marquee group-hover:[animation-play-state:paused]">
+                        {[...teamMembers, ...teamMembers].map((member, index) => (
+                            <div
+                                key={`${member.name}-${index}`}
+                                className="group relative w-[320px] shrink-0 pt-24 pb-8"
+                            >
+                                <div className={`relative bg-white/80 dark:bg-card/40 backdrop-blur-xl border border-zinc-200/80 dark:border-white/5 shadow-2xl dark:shadow-none transition-transform duration-500 hover:-translate-y-2 rounded-[3rem] pt-32 pb-10 px-6 flex flex-col items-center justify-center text-center ${member.hoverGlow}`}>
+                                    {/* Image Container (Medium) */}
+                                    <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-48">
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/60 to-purple-500/60 dark:from-primary/30 dark:to-purple-500/30 rounded-[2rem] blur-2xl transition-opacity duration-500 opacity-0 group-hover:opacity-100" />
+                                        <div className="relative w-full h-full rounded-[2rem] border-[6px] border-background shadow-2xl overflow-hidden bg-muted transition-transform duration-300 group-hover:scale-[1.05]">
+                                            <Image
+                                                src={member.image}
+                                                alt={member.name}
+                                                fill
+                                                className="object-cover"
+                                                unoptimized
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Content */}
+                                    <div className="flex-1 flex items-center justify-center mt-2">
+                                        <h3 className="text-2xl font-bold text-foreground">{member.name}</h3>
+                                    </div>
+
+                                    {/* Social Links */}
+                                    <div className="flex gap-3 mt-8 pt-6 border-t border-border/50 w-full justify-center">
+                                        <SocialIcon href={member.github} icon={<Github className="w-5 h-5" />} className="bg-zinc-800/10 text-zinc-800 dark:bg-white/10 dark:text-white hover:bg-zinc-800 hover:text-white dark:hover:bg-white dark:hover:text-black w-10 h-10" />
+                                        <SocialIcon href={member.linkedin} icon={<Linkedin className="w-5 h-5" />} className="bg-[#0077b5]/10 text-[#0077b5] dark:bg-[#0077b5]/20 dark:text-[#0077b5] hover:bg-[#0077b5] hover:text-white dark:hover:bg-[#0077b5] dark:hover:text-white w-10 h-10" />
+                                        <SocialIcon href={member.email ? `https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}` : "#"} icon={<Mail className="w-5 h-5" />} className="bg-red-500/10 text-red-500 dark:bg-red-500/20 dark:text-red-400 hover:bg-red-500 hover:text-white dark:hover:bg-red-500 dark:hover:text-white w-10 h-10" />
                                     </div>
                                 </div>
-
-                                {/* Content */}
-                                <h3 className="text-xl font-bold text-foreground mb-1">{member.name}</h3>
-                                <p className="text-sm font-medium text-primary mb-4">{member.role}</p>
-                                <p className="text-muted-foreground text-sm flex-1 leading-relaxed">
-                                    "{member.bio}"
-                                </p>
-
-                                {/* Social Links */}
-                                <div className="flex gap-4 mt-8 pt-6 border-t border-border/50 w-full justify-center">
-                                    <SocialIcon href={member.github} icon={<Github className="w-4 h-4" />} />
-                                    <SocialIcon href={member.linkedin} icon={<Linkedin className="w-4 h-4" />} />
-                                    <SocialIcon href="#" icon={<Mail className="w-4 h-4" />} />
-                                </div>
                             </div>
-                        </motion.div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
 
                 {/* Mission / Bottom Section */}
@@ -124,21 +137,21 @@ export default function AboutPage() {
                     className="mt-32 max-w-4xl mx-auto relative group"
                 >
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-purple-500/30 to-pink-500/30 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative bg-black/40 dark:bg-black/60 backdrop-blur-3xl rounded-[2rem] p-10 md:p-16 text-center border border-white/10 dark:border-white/5 overflow-hidden">
+                    <div className="relative bg-white/60 dark:bg-black/60 backdrop-blur-3xl rounded-[2rem] p-10 md:p-16 text-center border border-zinc-200/50 dark:border-white/5 shadow-xl dark:shadow-none overflow-hidden">
                         {/* Inner Gradient Spot */}
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-gradient-to-b from-primary/20 to-transparent blur-2xl pointer-events-none" />
 
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-white dark:to-white/70">
                             Crafted with precision & care
                         </h2>
                         <p className="text-muted-foreground text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
                             This project was built from the ground up to empower job seekers using the latest in Next.js, Tailwind CSS, and Google's Gemini Pro AI model.
                         </p>
                         <div className="flex flex-wrap justify-center gap-4 relative z-10">
-                            <span className="px-5 py-2.5 bg-white/5 hover:bg-white/10 hover:border-foreground/50 transition-all duration-300 rounded-full text-sm font-medium border border-white/10 text-white/90 backdrop-blur-md cursor-default">Next.js 14</span>
-                            <span className="px-5 py-2.5 bg-white/5 hover:bg-white/10 hover:border-cyan-500/50 hover:text-cyan-400 transition-all duration-300 rounded-full text-sm font-medium border border-white/10 text-white/90 backdrop-blur-md cursor-default">Tailwind CSS</span>
-                            <span className="px-5 py-2.5 bg-white/5 hover:bg-white/10 hover:border-blue-500/50 hover:text-blue-400 transition-all duration-300 rounded-full text-sm font-medium border border-white/10 text-white/90 backdrop-blur-md cursor-default">Gemini AI</span>
-                            <span className="px-5 py-2.5 bg-white/5 hover:bg-white/10 hover:border-purple-500/50 hover:text-purple-400 transition-all duration-300 rounded-full text-sm font-medium border border-white/10 text-white/90 backdrop-blur-md cursor-default">Aceternity UI</span>
+                            <span className="px-5 py-2.5 bg-zinc-100/80 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 hover:border-foreground/50 transition-all duration-300 rounded-full text-sm font-medium border border-zinc-200/50 dark:border-white/10 text-zinc-900 dark:text-white/90 backdrop-blur-md cursor-default">Next.js 14</span>
+                            <span className="px-5 py-2.5 bg-zinc-100/80 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 hover:border-cyan-500/50 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-300 rounded-full text-sm font-medium border border-zinc-200/50 dark:border-white/10 text-zinc-900 dark:text-white/90 backdrop-blur-md cursor-default">Tailwind CSS</span>
+                            <span className="px-5 py-2.5 bg-zinc-100/80 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 hover:border-blue-500/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-full text-sm font-medium border border-zinc-200/50 dark:border-white/10 text-zinc-900 dark:text-white/90 backdrop-blur-md cursor-default">Gemini AI</span>
+                            <span className="px-5 py-2.5 bg-zinc-100/80 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 hover:border-purple-500/50 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 rounded-full text-sm font-medium border border-zinc-200/50 dark:border-white/10 text-zinc-900 dark:text-white/90 backdrop-blur-md cursor-default">Aceternity UI</span>
                         </div>
                     </div>
                 </motion.div>
@@ -147,11 +160,11 @@ export default function AboutPage() {
     );
 }
 
-function SocialIcon({ href, icon }: { href: string; icon: React.ReactNode }) {
+function SocialIcon({ href, icon, className }: { href: string; icon: React.ReactNode; className?: string }) {
     return (
         <a
             href={href}
-            className="w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all shrink-0 hover:scale-110"
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 hover:scale-110 shadow-sm ${className || "bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground"}`}
             target="_blank"
             rel="noopener noreferrer"
         >
