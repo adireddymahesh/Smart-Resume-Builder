@@ -68,50 +68,80 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
 
-            {/* Left Side - Art & Testimonials */}
+            {/* Left Side - Art & Content */}
             <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                className="relative hidden lg:flex bg-muted flex-col justify-between p-12 overflow-hidden"
+                className="relative hidden lg:flex bg-white dark:bg-zinc-950 flex-col justify-between p-12 overflow-hidden border-r"
             >
                 {/* Animated Background */}
-                <div className="absolute inset-0 bg-zinc-900">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
-                    <div className="absolute inset-0 opacity-20 bg-[size:50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
+                <div className="absolute inset-0 bg-white dark:bg-zinc-950">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-primary/10 dark:from-primary/20 via-transparent to-transparent" />
+                    <div className="absolute inset-0 opacity-[0.03] dark:opacity-20 bg-[size:50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
                 </div>
 
                 {/* Content */}
                 <div className="relative z-10">
-                    <Link href="/" className="flex items-center gap-2 text-white mb-12 group">
+                    <Link href="/" className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white mb-12 group transition-colors">
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                         Back to Home
                     </Link>
-                    <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
+                    <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-6 leading-tight">
                         Welcome back to the <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600 dark:from-purple-400 dark:to-pink-600">
                             Future of Work
                         </span>
                     </h1>
-                    <p className="text-zinc-400 text-xl max-w-md">
+                    <p className="text-zinc-600 dark:text-zinc-400 text-xl max-w-md">
                         Your career journey continues here. Build, analyze, and optimize your path to success.
                     </p>
                 </div>
 
-                <div className="relative z-10 space-y-6">
-                    <QuoteCard
-                        quote="This tool completely transformed my job search. I got 3 interviews in one week!"
-                        author="Sarah J."
-                        role="Product Designer"
-                    />
-                    <div className="flex gap-4 items-center text-sm text-zinc-500">
-                        <div className="flex -space-x-2">
-                            {[1, 2, 3].map(i => (
-                                <div key={i} className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700" />
-                            ))}
+                <div className="relative z-10 flex-1 flex items-center justify-center mt-12">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="relative w-full max-w-sm"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-500/20 blur-2xl rounded-3xl"></div>
+                        <div className="relative bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 rounded-3xl shadow-2xl">
+                            <div className="flex gap-4 items-center mb-6">
+                                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                                    <Sparkles className="w-6 h-6 text-primary" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-zinc-900 dark:text-white">AI Resume Builder</h3>
+                                    <p className="text-sm text-zinc-500 dark:text-zinc-400">Crafting your perfect story</p>
+                                </div>
+                            </div>
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-zinc-600 dark:text-zinc-400">Industry Match</span>
+                                        <span className="font-medium text-zinc-900 dark:text-white">94%</span>
+                                    </div>
+                                    <div className="h-2 w-full bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+                                        <div className="h-full bg-primary w-[94%] rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-zinc-600 dark:text-zinc-400">ATS Optimization</span>
+                                        <span className="font-medium text-zinc-900 dark:text-white">98%</span>
+                                    </div>
+                                    <div className="h-2 w-full bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+                                        <div className="h-full bg-green-500 w-[98%] rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-6 flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-100/50 dark:bg-zinc-800/50 p-3 rounded-lg">
+                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                                <span>Found 12 matching keywords for your target role</span>
+                            </div>
                         </div>
-                        <span>Joined by 10,000+ professionals</span>
-                    </div>
+                    </motion.div>
                 </div>
             </motion.div>
 
@@ -207,19 +237,4 @@ export default function LoginPage() {
             </div>
         </div>
     );
-}
-
-function QuoteCard({ quote, author, role }: { quote: string, author: string, role: string }) {
-    return (
-        <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
-            <div className="flex gap-2 mb-4 text-yellow-500">
-                {[1, 2, 3, 4, 5].map(i => <Sparkles key={i} className="w-4 h-4" />)}
-            </div>
-            <p className="text-lg text-white mb-4 italic">"{quote}"</p>
-            <div>
-                <p className="font-semibold text-white">{author}</p>
-                <p className="text-sm text-zinc-400">{role}</p>
-            </div>
-        </div>
-    )
 }

@@ -66,7 +66,7 @@ export async function enhanceResumeContent(currentData: ResumeData): Promise<Res
     }
 }
 
-export async function analyzeATS(fileBase64: string, mimeType: string): Promise<any> {
+export async function analyzeATS(fileBase64: string, mimeType: string, jobDescription?: string): Promise<any> {
     if (!API_KEY) {
         throw new Error("API Key missing");
     }
@@ -76,10 +76,20 @@ export async function analyzeATS(fileBase64: string, mimeType: string): Promise<
     const prompt = `
     You are an advanced Applicant Tracking System (ATS) Expert.
     Analyze the attached resume file strictly as an ATS robot would.
+    
+    ${jobDescription ? `
+    IMPORTANT: You have also been provided with the Target Job Description below. 
+    You MUST evaluate the resume against this specific JD, checking for matching keywords, required skills, and overall fit.
+    
+    TARGET JOB DESCRIPTION:
+    """
+    ${jobDescription.slice(0, 5000)}
+    """
+    ` : ""}
 
     Evaluate 3 key areas:
     1. Parsing / Readability (Can an ATS extract the text? Are there bad columns/graphics?)
-    2. Keywords / Content (Does it use strong verbs? Is it quantifiable?)
+    2. Keywords / Content (Does it use strong verbs? Is it quantifiable? ${jobDescription ? "Does it contain the essential keywords from the Job Description?" : ""})
     3. Completeness (Contact info, education, etc.)
 
     Return a JSON object with this exact structure:

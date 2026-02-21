@@ -14,7 +14,7 @@ export interface ATSAnalysis {
     positive: string[];
 }
 
-export function scoreResumeText(text: string): ATSAnalysis {
+export function scoreResumeText(text: string, isFresher: boolean = false): ATSAnalysis {
     const issues: any[] = [];
     const positive: string[] = [];
 
@@ -50,7 +50,7 @@ export function scoreResumeText(text: string): ATSAnalysis {
     }
 
     // Section Headers Check
-    const essentialSections = ["experience", "education", "skills"];
+    const essentialSections = isFresher ? ["education", "skills", "projects"] : ["experience", "education", "skills"];
     let missingSections = 0;
 
     essentialSections.forEach(section => {
@@ -78,7 +78,7 @@ export function scoreResumeText(text: string): ATSAnalysis {
         if (new RegExp(`\\b${verb}\\b`, 'i').test(text)) verbCount++;
     });
 
-    if (verbCount >= 5) {
+    if (verbCount >= (isFresher ? 3 : 5)) {
         score += 15;
         positive.push("Strong use of action verbs.");
     } else if (verbCount > 0) {
@@ -89,12 +89,17 @@ export function scoreResumeText(text: string): ATSAnalysis {
     }
 
     // Quantifiable Results (Numbers/Percentages)
-    const hasNumbers = /\d+%|\$\d+|\d+ (users|clients|customers|projects)/.test(text);
+    const hasNumbers = /\d+%|\$\d+|\d+ (users|clients|customers|projects|students|members)/.test(text);
     if (hasNumbers) {
         score += 15;
         positive.push("Contains quantifiable results (numbers/metrics).");
     } else {
-        issues.push({ type: "warning", message: "Add numbers or percentages to your experience (e.g., 'Increased sales by 20%').", section: "Impact" });
+        if (isFresher) {
+            score += 10; // Don't penalize as heavily for freshers
+            issues.push({ type: "warning", message: "Try to add numbers even to academic projects (e.g., 'Led a team of 4', 'Analyzed 500+ rows of data').", section: "Impact" });
+        } else {
+            issues.push({ type: "warning", message: "Add numbers or percentages to your experience (e.g., 'Increased sales by 20%').", section: "Impact" });
+        }
     }
 
 
@@ -102,9 +107,11 @@ export function scoreResumeText(text: string): ATSAnalysis {
 
     // Word Count
     const wordCount = text.split(/\s+/).length;
-    if (wordCount >= 200 && wordCount <= 1000) {
+    const minWords = isFresher ? 100 : 200;
+
+    if (wordCount >= minWords && wordCount <= 1000) {
         score += 15;
-    } else if (wordCount < 200) {
+    } else if (wordCount < minWords) {
         issues.push({ type: "critical", message: "Resume is too short. Add more detailed content.", section: "Length" });
     } else {
         issues.push({ type: "warning", message: "Resume might be too long. Keep it concise.", section: "Length" });

@@ -8,11 +8,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useState, useRef } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 export default function AtsCheckPage() {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [results, setResults] = useState<any>(null);
     const [fileName, setFileName] = useState("");
+    const [jobDescription, setJobDescription] = useState("");
+    const [isFresher, setIsFresher] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +48,7 @@ export default function AtsCheckPage() {
             const text = await extractTextFromPDF(file);
 
             // 2. Local Rule-Based Score
-            const localAnalysis = scoreResumeText(text);
+            const localAnalysis = scoreResumeText(text, isFresher);
 
             // 3. AI Analysis (Qualitative Feedback)
             let aiAnalysis = null;
@@ -61,7 +66,8 @@ export default function AtsCheckPage() {
                     reader.readAsDataURL(file);
                 });
 
-                aiAnalysis = await analyzeATS(base64, file.type);
+                const finalJobDescContext = isFresher ? `(Note: The candidate is an Entry-Level/Fresher. Adjust expectations accordingly.)\n\n${jobDescription}` : jobDescription;
+                aiAnalysis = await analyzeATS(base64, file.type, finalJobDescContext || (isFresher ? "(Note: The candidate is an Entry-Level/Fresher. Adjust expectations accordingly.)" : undefined));
             } catch (error) {
                 console.error("AI Analysis Failed (Soft Fail):", error);
             }
@@ -126,6 +132,20 @@ export default function AtsCheckPage() {
                                 <p className="text-muted-foreground text-lg">Upload your resume to see how well it parses against Applicant Tracking Systems (ATS). Get a score and actionable feedback.</p>
                             </div>
 
+                            <div className="w-full max-w-xl mb-6">
+                                <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20 bg-primary/5 flex items-center justify-between">
+                                    <div className="space-y-0.5">
+                                        <Label htmlFor="fresher-mode" className="text-base font-semibold text-primary">I am a Fresher / Entry-Level</Label>
+                                        <p className="text-sm text-muted-foreground">Adapts the ATS scoring algorithm to not penalize for missing work experience.</p>
+                                    </div>
+                                    <Switch
+                                        id="fresher-mode"
+                                        checked={isFresher}
+                                        onCheckedChange={setIsFresher}
+                                    />
+                                </Card>
+                            </div>
+
                             <div className="w-full max-w-xl">
                                 <Card
                                     onClick={() => fileInputRef.current?.click()}
@@ -146,6 +166,24 @@ export default function AtsCheckPage() {
                                     <Button variant="default" size="lg" className="rounded-full px-8 pointer-events-none">
                                         Select File
                                     </Button>
+                                </Card>
+                            </div>
+
+                            <div className="w-full max-w-xl mt-6">
+                                <Card className="p-6 bg-card/50 backdrop-blur-sm border-muted-foreground/15">
+                                    <div className="space-y-4">
+                                        <div className="space-y-1">
+                                            <Label htmlFor="jd" className="text-base font-semibold">Target Job Description <span className="text-muted-foreground font-normal">(Optional)</span></Label>
+                                            <p className="text-sm text-muted-foreground">Paste the job description to get a tailored ATS compatibility score against specific requirements.</p>
+                                        </div>
+                                        <Textarea
+                                            id="jd"
+                                            placeholder="e.g. We are looking for a Senior React Developer with 5+ years of experience..."
+                                            className="min-h-[120px] resize-y bg-background/50"
+                                            value={jobDescription}
+                                            onChange={(e) => setJobDescription(e.target.value)}
+                                        />
+                                    </div>
                                 </Card>
                             </div>
 
@@ -228,7 +266,7 @@ export default function AtsCheckPage() {
                                         <Card className="bg-red-500/5 border-red-200/20">
                                             <CardContent className="pt-6">
                                                 <h3 className="text-red-500 font-semibold mb-4 flex items-center gap-2">
-                                                    <AlertCircle className="w-5 h-5" /> Critical Issues
+                                                    <AlertCircle className="w-5 h-5" /> Required Fixes
                                                 </h3>
                                                 <ul className="space-y-3">
                                                     {results.issues.filter((i: any) => i.type === 'critical').length > 0 ? (
@@ -239,7 +277,7 @@ export default function AtsCheckPage() {
                                                             </li>
                                                         ))
                                                     ) : (
-                                                        <li className="text-muted-foreground text-sm">No critical issues found!</li>
+                                                        <li className="text-muted-foreground text-sm">No required fixes found!</li>
                                                     )}
                                                 </ul>
                                             </CardContent>
@@ -248,7 +286,7 @@ export default function AtsCheckPage() {
                                         <Card className="bg-yellow-500/5 border-yellow-200/20">
                                             <CardContent className="pt-6">
                                                 <h3 className="text-yellow-500 font-semibold mb-4 flex items-center gap-2">
-                                                    <AlertTriangle className="w-5 h-5" /> Warnings
+                                                    <AlertTriangle className="w-5 h-5" /> Suggested Changes
                                                 </h3>
                                                 <ul className="space-y-3">
                                                     {results.issues.filter((i: any) => i.type === 'warning').length > 0 ? (
@@ -259,7 +297,7 @@ export default function AtsCheckPage() {
                                                             </li>
                                                         ))
                                                     ) : (
-                                                        <li className="text-muted-foreground text-sm">No warnings found.</li>
+                                                        <li className="text-muted-foreground text-sm">No suggestions at this time.</li>
                                                     )}
                                                 </ul>
                                             </CardContent>

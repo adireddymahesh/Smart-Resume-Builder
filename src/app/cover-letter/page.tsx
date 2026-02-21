@@ -263,7 +263,7 @@ export default function CoverLetterPage() {
                         <Card className="flex-1 border-border/50 bg-card/80 backdrop-blur-md min-h-[500px]">
                             <CardContent className="p-8 h-full overflow-auto custom-scrollbar">
                                 {generatedLetter ? (
-                                    <div className="prose prose-invert max-w-none text-sm leading-relaxed text-zinc-300">
+                                    <div className="prose dark:prose-invert max-w-none text-sm leading-relaxed text-foreground prose-p:text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-li:text-foreground">
                                         <ReactMarkdown>{generatedLetter}</ReactMarkdown>
                                     </div>
                                 ) : (

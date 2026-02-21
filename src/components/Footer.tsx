@@ -40,10 +40,8 @@ export function Footer() {
                     {/* Company Links */}
                     <div className="flex flex-col space-y-4">
                         <h3 className="font-semibold text-lg">Company</h3>
-                        <Link href="#" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">About Us</Link>
-                        <Link href="#" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Carrers</Link>
-                        <Link href="#" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Privacy Policy</Link>
-                        <Link href="#" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Terms of Service</Link>
+                        <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">About Us</Link>
+                        <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Terms of Service</Link>
                     </div>
                 </div>
 

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, Rocket } from "lucide-react";
+import { ArrowLeft, Sparkles, Rocket, CheckCircle2 } from "lucide-react";
 import { auth } from "@/lib/firebase";
 
 export default function SignupPage() {
@@ -65,39 +65,61 @@ export default function SignupPage() {
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                className="relative hidden lg:flex bg-muted flex-col justify-between p-12 overflow-hidden"
+                className="relative hidden lg:flex bg-white dark:bg-zinc-950 flex-col justify-between p-12 overflow-hidden border-r"
             >
                 {/* Animated Background */}
-                <div className="absolute inset-0 bg-zinc-900">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-500/20 via-background to-background" />
-                    <div className="absolute inset-0 opacity-20 bg-[size:50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
+                <div className="absolute inset-0 bg-white dark:bg-zinc-950">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 dark:from-blue-500/20 via-transparent to-transparent" />
+                    <div className="absolute inset-0 opacity-[0.03] dark:opacity-20 bg-[size:50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
                 </div>
 
                 {/* Content */}
                 <div className="relative z-10">
-                    <Link href="/" className="flex items-center gap-2 text-white mb-12 group">
+                    <Link href="/" className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white mb-12 group transition-colors">
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                         Back to Home
                     </Link>
-                    <div className="inline-flex items-center px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm mb-6">
+                    <div className="inline-flex items-center px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 text-sm mb-6">
                         <Rocket className="w-4 h-4 mr-2" /> Start your journey
                     </div>
-                    <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
+                    <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-6 leading-tight">
                         Join the  <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-500">
                             AI Revolution
                         </span>
                     </h1>
-                    <p className="text-zinc-400 text-xl max-w-md">
-                        Create account to access premium templates, ATS scoring, and AI-powered career tools.
+                    <p className="text-zinc-600 dark:text-zinc-400 text-xl max-w-md">
+                        Create an account to access premium templates, ATS scoring, and AI-powered career tools.
                     </p>
                 </div>
 
-                <div className="relative z-10 grid grid-cols-2 gap-4">
-                    <FeatureItem icon={<Sparkles className="w-5 h-5 text-yellow-400" />} text="Smart Resume Parsing" />
-                    <FeatureItem icon={<Sparkles className="w-5 h-5 text-purple-400" />} text="Cover Letter Generator" />
-                    <FeatureItem icon={<Sparkles className="w-5 h-5 text-green-400" />} text="ATS Compatibility Score" />
-                    <FeatureItem icon={<Sparkles className="w-5 h-5 text-blue-400" />} text="Keyword Analysis" />
+                <div className="relative z-10 flex-1 flex items-center justify-center mt-12">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="relative w-full max-w-sm"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-cyan-500/20 blur-2xl rounded-3xl"></div>
+                        <div className="relative bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 rounded-3xl shadow-2xl">
+                            <h3 className="font-semibold text-lg text-zinc-900 dark:text-white mb-6">Premium AI Tools Included</h3>
+                            <div className="space-y-4">
+                                {[
+                                    { text: "Smart Resume Parsing", color: "text-blue-500", bg: "bg-blue-100 dark:bg-blue-900/30" },
+                                    { text: "Cover Letter Generator", color: "text-purple-500", bg: "bg-purple-100 dark:bg-purple-900/30" },
+                                    { text: "ATS Compatibility Score", color: "text-green-500", bg: "bg-green-100 dark:bg-green-900/30" },
+                                    { text: "Keyword Analysis", color: "text-orange-500", bg: "bg-orange-100 dark:bg-orange-900/30" }
+                                ].map((feature, i) => (
+                                    <div key={i} className="flex items-center gap-3">
+                                        <div className={`w-8 h-8 rounded-full ${feature.bg} flex items-center justify-center flex-shrink-0`}>
+                                            <CheckCircle2 className={`w-4 h-4 ${feature.color}`} />
+                                        </div>
+                                        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{feature.text}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </motion.div>
 
@@ -205,13 +227,4 @@ export default function SignupPage() {
             </div>
         </div>
     );
-}
-
-function FeatureItem({ icon, text }: { icon: React.ReactNode, text: string }) {
-    return (
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
-            {icon}
-            <span className="text-sm text-zinc-300">{text}</span>
-        </div>
-    )
 }
