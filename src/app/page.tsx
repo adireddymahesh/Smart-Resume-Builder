@@ -320,11 +320,11 @@ function FeatureCard({ icon, title, description, href, color }: { icon: React.Re
   return (
     <Link href={href} className="group h-full">
       <div className={cn(
-        "relative h-full p-8 rounded-3xl border border-zinc-200/50 dark:border-white/5 bg-white/50 dark:bg-card/40 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col justify-between",
+        "relative h-full p-8 rounded-3xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-card/40 shadow-sm dark:shadow-none backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col justify-between",
         colorClasses[color as keyof typeof colorClasses]
       )}>
         <div>
-          <div className="mb-6 w-16 h-16 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 flex items-center justify-center shadow-md dark:shadow-none group-hover:scale-110 transition-transform duration-300">
+          <div className="mb-6 w-16 h-16 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center shadow-sm dark:shadow-none group-hover:scale-110 transition-transform duration-300">
             {icon}
           </div>
           <h3 className="text-2xl font-bold mb-3 text-foreground transition-colors">{title}</h3>
