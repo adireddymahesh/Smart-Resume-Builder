@@ -172,3 +172,40 @@
     opacity: 0;
   }
 }
+
+/* Gradient Text Shimmer Animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-text {
+  animation: gradient-shift 6s ease infinite;
+  background-size: 200% auto;
+}
+
+/* Breathing Glow Effect */
+@keyframes breathing-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px -5px rgba(159, 43, 240, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px 5px rgba(159, 43, 240, 0.7);
+  }
+}
+
+.animate-breathing-glow {
+  animation: breathing-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

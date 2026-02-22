@@ -44,6 +44,23 @@ function BuilderContent() {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [tempTitle, setTempTitle] = useState("");
     const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
+    const [previewZoom, setPreviewZoom] = useState(0.65);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1024) {
+                const padding = 32; // 16px padding on each side
+                const scale = (window.innerWidth - padding) / 794;
+                setPreviewZoom(Math.min(scale, 0.8));
+            } else {
+                setPreviewZoom(0.65);
+            }
+        };
+
+        handleResize(); // Set initial scale
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const previewRef = useRef<HTMLDivElement>(null);
     const printContentRef = useRef<HTMLDivElement>(null);
@@ -325,12 +342,12 @@ function BuilderContent() {
     return (
         <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground">
             {/* Top Bar */}
-            <header className="flex items-center justify-between px-6 py-4 border-b border-border bg-card/50 backdrop-blur-sm z-10">
-                <div className="flex items-center gap-4">
-                    <Link href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
+            <header className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-border bg-card/50 backdrop-blur-sm z-10 gap-3 sm:gap-0">
+                <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto overflow-hidden">
+                    <Link href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors shrink-0">
                         <ArrowLeft className="w-5 h-5" />
                     </Link>
-                    <div>
+                    <div className="min-w-0 flex-1">
                         {isEditingTitle ? (
                             <div className="flex items-center gap-2">
                                 <input
@@ -360,9 +377,9 @@ function BuilderContent() {
                                 </button>
                             </div>
                         ) : (
-                            <div className="flex items-center gap-2 group">
+                            <div className="flex items-center gap-2 group min-w-0">
                                 <h1
-                                    className="text-lg font-semibold cursor-pointer"
+                                    className="text-base sm:text-lg font-semibold cursor-pointer truncate"
                                     onClick={() => {
                                         setTempTitle(resumeData.title || "Untitled Resume");
                                         setIsEditingTitle(true);
@@ -385,7 +402,7 @@ function BuilderContent() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 hide-scrollbar shrink-0">
                     <Button
                         variant="outline"
                         size="sm"
@@ -647,16 +664,16 @@ function BuilderContent() {
 
                 {/* Visual multi-page preview */}
                 <div className={cn(
-                    "flex-1 bg-[#525659] overflow-y-auto pb-20 lg:pb-0",
+                    "flex-1 bg-[#525659] overflow-y-auto overflow-x-auto pb-24 lg:pb-0",
                     !isMobilePreviewOpen ? "hidden lg:block" : "block"
                 )}>
                     {(() => {
-                        const PREVIEW_ZOOM = 0.65;
                         const A4_H_PX = 1122.5;
                         return (
                             <div
+                                suppressHydrationWarning
                                 className="flex flex-col items-center py-8 gap-5"
-                                style={{ zoom: PREVIEW_ZOOM }}
+                                style={{ zoom: previewZoom }}
                             >
                                 {pageBreaks.map((breakStart, i) => {
                                     const breakEnd = pageBreaks[i + 1] ?? contentHeight;

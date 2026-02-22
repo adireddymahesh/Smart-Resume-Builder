@@ -3,9 +3,9 @@ import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 
 export function Footer() {
     return (
-        <footer className="w-full border-t border-border bg-background/50 backdrop-blur-xl relative z-10">
+        <footer className="w-full relative z-10 bg-background/60 backdrop-blur-2xl border-t border-purple-500/20 shadow-[0_-4px_30px_rgba(0,0,0,0.05)] mt-auto mt-24">
             {/* Gradient Top Border */}
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
 
             <div className="container mx-auto px-4 py-12 md:py-24">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -31,18 +31,18 @@ export function Footer() {
 
                     {/* Product Links */}
                     <div className="flex flex-col space-y-4">
-                        <h3 className="font-semibold text-lg">Product</h3>
-                        <Link href="/dashboard" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Resume Builder</Link>
-                        <Link href="/ats-check" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">ATS Scorer</Link>
-                        <Link href="/keywords" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Keyword Extractor</Link>
-                        <Link href="/cover-letter" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Cover Letter Generator</Link>
+                        <h3 className="font-semibold text-lg text-foreground">Product</h3>
+                        <Link href="/dashboard" className="text-muted-foreground hover:text-purple-500 dark:hover:text-purple-400 transition-colors hover:translate-x-1 duration-200 block w-fit">Resume Builder</Link>
+                        <Link href="/ats-check" className="text-muted-foreground hover:text-purple-500 dark:hover:text-purple-400 transition-colors hover:translate-x-1 duration-200 block w-fit">ATS Scorer</Link>
+                        <Link href="/keywords" className="text-muted-foreground hover:text-purple-500 dark:hover:text-purple-400 transition-colors hover:translate-x-1 duration-200 block w-fit">Keyword Extractor</Link>
+                        <Link href="/cover-letter" className="text-muted-foreground hover:text-purple-500 dark:hover:text-purple-400 transition-colors hover:translate-x-1 duration-200 block w-fit">Cover Letter Generator</Link>
                     </div>
 
                     {/* Company Links */}
                     <div className="flex flex-col space-y-4">
-                        <h3 className="font-semibold text-lg">Company</h3>
-                        <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">About Us</Link>
-                        <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Terms of Service</Link>
+                        <h3 className="font-semibold text-lg text-foreground">Company</h3>
+                        <Link href="/about" className="text-muted-foreground hover:text-purple-500 dark:hover:text-purple-400 transition-colors hover:translate-x-1 duration-200 block w-fit">About Us</Link>
+                        <Link href="/terms" className="text-muted-foreground hover:text-purple-500 dark:hover:text-purple-400 transition-colors hover:translate-x-1 duration-200 block w-fit">Terms of Service</Link>
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
+            className="w-10 h-10 rounded-full bg-secondary/80 flex items-center justify-center text-muted-foreground hover:bg-purple-500 hover:text-white dark:hover:bg-purple-600 transition-all duration-300 hover:scale-110 shadow-sm hover:shadow-[0_0_15px_rgba(168,85,247,0.5)]"
             aria-label={label}
         >
             {icon}
