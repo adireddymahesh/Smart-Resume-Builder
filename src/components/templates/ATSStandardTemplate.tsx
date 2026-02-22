@@ -10,7 +10,7 @@ export function ATSStandardTemplate({ data }: TemplateProps) {
     const headingColor = themeColor || '#000000';
 
     return (
-        <div className="w-full h-full bg-white font-[Times_New_Roman,serif] text-[10.5pt] text-black p-8 leading-snug">
+        <div className="w-full bg-white font-[Times_New_Roman,serif] text-[10.5pt] text-black p-8 leading-snug print-content">
             {/* Header */}
             <header className="text-center mb-6">
                 <h1 className="text-[24pt] font-bold uppercase tracking-wide mb-2" style={{ color: headingColor }}>
@@ -103,14 +103,14 @@ export function ATSStandardTemplate({ data }: TemplateProps) {
                     <div className="space-y-3">
                         {education.map((edu) => (
                             <div key={edu.id}>
-                                <div className="flex justify-between items-baseline font-bold text-[12pt]">
+                                <div className="flex justify-between items-start font-bold text-[12pt]">
                                     <span>{edu.degree}</span>
-                                    <span className="text-sm font-normal">{edu.startDate} – {edu.endDate}</span>
+                                    <div className="text-right">
+                                        <div className="text-sm font-normal whitespace-nowrap">{edu.startDate} – {edu.endDate}</div>
+                                        {edu.grade && <div className="text-sm font-normal text-gray-600 mt-0.5">{edu.gradeType || "Grade"}: {edu.grade}</div>}
+                                    </div>
                                 </div>
-                                <div className="font-medium">
-                                    {edu.school}
-                                    {edu.grade && <span className="ml-2 text-sm text-gray-600">| Grade: {edu.grade}</span>}
-                                </div>
+                                <div className="font-medium">{edu.school}</div>
                             </div>
                         ))}
                     </div>
@@ -139,16 +139,17 @@ export function ATSStandardTemplate({ data }: TemplateProps) {
                     <h2 className="text-[14pt] font-bold uppercase border-b-2 border-gray-300 pb-1 mb-3" style={{ color: headingColor }}>
                         Certifications
                     </h2>
-                    <div className="flex flex-wrap gap-x-3 gap-y-1">
-                        {certifications.map((cert, i) => (
-                            <div key={cert.id} className="flex items-center">
-                                <div>
-                                    <span className="font-semibold">{cert.name}</span>
-                                    {cert.issuer && <span> - {cert.issuer}</span>}
-                                    {cert.date && <span> ({cert.date})</span>}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                        {certifications.map((cert) => (
+                            <div key={cert.id} className="flex flex-col">
+                                <div className="font-medium text-[0.95rem] flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-gray-600 shrink-0"></span>
+                                    {cert.name}
                                 </div>
-                                {i < certifications.length - 1 && (
-                                    <span className="mx-3 text-gray-400">•</span>
+                                {(cert.issuer || cert.date) && (
+                                    <div className="text-sm ml-3 text-gray-700 mt-0.5">
+                                        {cert.issuer} {cert.date && <span className="text-gray-500">({cert.date})</span>}
+                                    </div>
                                 )}
                             </div>
                         ))}

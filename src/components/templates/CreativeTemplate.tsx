@@ -8,7 +8,7 @@ export function CreativeTemplate({ data }: TemplateProps) {
     const { profile, experience, education, skills, projects, certifications, themeColor } = data;
 
     return (
-        <div className="w-full h-full p-8 font-sans text-sm leading-relaxed text-gray-800">
+        <div className="w-full p-8 font-sans text-sm leading-relaxed text-gray-800 print-content bg-white">
             {/* Header */}
             <div className="mb-6 pb-5 border-b-4 border-gray-200">
                 <h1 className="text-3xl font-extrabold uppercase tracking-tight text-gray-900 leading-none mb-2">
@@ -137,13 +137,20 @@ export function CreativeTemplate({ data }: TemplateProps) {
                             <div key={edu.id} className="flex justify-between items-start border-b border-gray-100 pb-2 last:border-0">
                                 <div>
                                     <h4 className="font-bold text-gray-900 text-sm">{edu.school}</h4>
-                                    <div className="text-gray-600 text-xs">
+                                    <div className="text-gray-600 text-xs mt-0.5">
                                         {edu.degree} {edu.fieldOfStudy ? `in ${edu.fieldOfStudy}` : ""}
                                     </div>
                                 </div>
-                                <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap bg-gray-50 px-2 py-0.5 rounded border border-gray-100">
-                                    {edu.startDate} – {edu.endDate}
-                                </span>
+                                <div className="text-right flex flex-col items-end">
+                                    <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap bg-gray-50 px-2 py-0.5 rounded border border-gray-100">
+                                        {edu.startDate} – {edu.endDate}
+                                    </span>
+                                    {edu.grade && (
+                                        <div className="text-[10px] text-gray-500 font-medium mt-1">
+                                            {edu.gradeType || "Grade"}: {edu.grade}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -157,23 +164,23 @@ export function CreativeTemplate({ data }: TemplateProps) {
                         <span className="w-1.5 h-1.5 rounded-full bg-gray-900"></span>
                         Certifications
                     </h3>
-                    <div className="space-y-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
                         {certifications.map(cert => (
-                            <div key={cert.id} className="flex justify-between items-start">
-                                <div>
-                                    <h4 className="font-bold text-gray-900 text-sm">
-                                        {cert.name}
-                                        {cert.link && (
-                                            <a href={cert.link} target="_blank" rel="noreferrer" className="ml-2 hover:underline text-[10px] font-normal opacity-75 text-gray-500">
-                                                Link ↗
-                                            </a>
-                                        )}
-                                    </h4>
-                                    <div className="text-gray-500 text-[10px]">{cert.issuer}</div>
-                                </div>
-                                <span className="text-[10px] text-gray-400 font-medium whitespace-nowrap">
-                                    {cert.date}
-                                </span>
+                            <div key={cert.id} className="flex flex-col">
+                                <h4 className="font-medium text-[0.95rem] text-gray-900 flex items-center gap-1.5">
+                                    <span className="w-1 h-1 rounded-full bg-gray-500 shrink-0"></span>
+                                    {cert.name}
+                                    {cert.link && (
+                                        <a href={cert.link} target="_blank" rel="noreferrer" className="hover:underline text-[10px] font-normal opacity-75 text-gray-500">
+                                            Link ↗
+                                        </a>
+                                    )}
+                                </h4>
+                                {(cert.issuer || cert.date) && (
+                                    <div className="text-gray-500 text-[10px] ml-2.5 mt-0.5 flex gap-1">
+                                        {cert.issuer} {cert.date && <span className="font-medium">| {cert.date}</span>}
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

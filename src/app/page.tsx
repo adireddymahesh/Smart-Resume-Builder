@@ -172,7 +172,7 @@ export default function Home() {
             />
             <FeatureCard
               icon={<Wand2 className="w-12 h-12 text-purple-500" />}
-              title="Cover Letter Gen"
+              title="Cover Letter Generator"
               description="Generate personalized cover letters matching your resume's tone and the job description in seconds."
               href="/cover-letter"
               color="purple"

@@ -13,8 +13,9 @@ export function Footer() {
                     {/* Brand Section */}
                     <div className="col-span-1 md:col-span-2 space-y-4">
                         <Link href="/" className="flex items-center gap-2 w-fit">
-                            <span className="text-2xl font-bold tracking-tighter">
+                            <span className="text-2xl font-bold tracking-tighter flex items-center gap-1.5">
                                 <span className="text-primary">AI Powered Resume World</span>
+                                <span className="text-2xl">🌍</span>
                             </span>
                         </Link>
                         <p className="text-muted-foreground text-lg max-w-sm leading-relaxed">
@@ -47,7 +48,7 @@ export function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="mt-16 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-                    <p>© {new Date().getFullYear()} AI Powered Resume World. All rights reserved.</p>
+                    <p className="flex items-center gap-1">© {new Date().getFullYear()} AI Powered Resume World 🌍. All rights reserved.</p>
                     <div className="flex items-center gap-8">
 
                     </div>

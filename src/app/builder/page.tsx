@@ -110,8 +110,8 @@ function BuilderContent() {
             const actualHeight = innerContent.scrollHeight;
 
             if (actualHeight > a4HeightPx) {
-                // Squeeze it down just strictly enough to fit
-                const scale = (a4HeightPx - 10) / actualHeight;
+                // Squeeze it down just strictly enough to fit with a bit more buffer
+                const scale = (a4HeightPx - 20) / actualHeight;
 
                 // transform scales visually but keeps original layout space. 
                 innerContent.style.transform = `scale(${scale})`;
@@ -145,7 +145,7 @@ function BuilderContent() {
                     container.style.overflow = '';
                 }
             }, 1000);
-        }, 50);
+        }, 150);
     };
 
     const handleSave = async () => {

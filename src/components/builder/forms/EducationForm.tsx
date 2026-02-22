@@ -93,12 +93,24 @@ export function EducationForm() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-xs font-medium uppercase text-muted-foreground">Grade / CGPA</label>
-                                <Input
-                                    value={edu.grade || ""}
-                                    onChange={(e) => updateEducation(edu.id, "grade", e.target.value)}
-                                    placeholder="Ex: 3.8/4.0 or 95%"
-                                />
+                                <label className="text-xs font-medium uppercase text-muted-foreground">Grade Type & Value</label>
+                                <div className="flex gap-2">
+                                    <select
+                                        className="flex h-10 w-32 items-center justify-between rounded-md border border-input bg-background/50 backdrop-blur-sm px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        value={edu.gradeType || "Grade"}
+                                        onChange={(e) => updateEducation(edu.id, "gradeType", e.target.value)}
+                                    >
+                                        <option value="Grade">Grade</option>
+                                        <option value="CGPA">CGPA</option>
+                                        <option value="Percentage">Percentage</option>
+                                    </select>
+                                    <Input
+                                        className="flex-1"
+                                        value={edu.grade || ""}
+                                        onChange={(e) => updateEducation(edu.id, "grade", e.target.value)}
+                                        placeholder="Ex: 3.8/4.0 or 95%"
+                                    />
+                                </div>
                             </div>
                         </div>
 

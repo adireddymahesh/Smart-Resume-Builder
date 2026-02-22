@@ -149,7 +149,7 @@ export default function DashboardPage() {
                                         <Card className="h-[280px] flex flex-col p-6 hover:shadow-xl transition-all border-border/50 hover:border-primary/50 group relative overflow-hidden cursor-pointer">
                                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500" />
                                             {/* Delete Button */}
-                                            <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <div className="absolute top-4 right-4 z-10">
                                                 <Button
                                                     variant="destructive"
                                                     size="icon"

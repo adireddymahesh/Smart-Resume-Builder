@@ -8,7 +8,7 @@ export function ModernTemplate({ data }: TemplateProps) {
     const { profile, experience, education, skills, projects, certifications, themeColor, customSection } = data;
 
     return (
-        <div className="w-full h-full p-10 font-sans text-sm leading-relaxed text-gray-800">
+        <div className="w-full h-full p-8 font-sans text-sm leading-relaxed text-gray-800">
             {/* Header */}
             <div className="mb-6 border-b pb-4 border-gray-200">
                 <h1 className="text-3xl font-bold uppercase tracking-wide text-gray-900">
@@ -132,15 +132,19 @@ export function ModernTemplate({ data }: TemplateProps) {
                     <div className="space-y-3">
                         {education.map((edu) => (
                             <div key={edu.id}>
-                                <div className="flex justify-between items-baseline">
-                                    <h4 className="font-bold text-gray-800">{edu.school}</h4>
-                                    <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
-                                        {edu.startDate} – {edu.endDate}
-                                    </span>
-                                </div>
-                                <div className="text-gray-600 text-sm">
-                                    {edu.degree} {edu.fieldOfStudy ? `in ${edu.fieldOfStudy}` : ""}
-                                    {edu.grade && <span className="ml-2 font-medium">| Grade: {edu.grade}</span>}
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h4 className="font-bold text-gray-800">{edu.school}</h4>
+                                        <div className="text-gray-600 text-sm mt-0.5">
+                                            {edu.degree} {edu.fieldOfStudy ? `in ${edu.fieldOfStudy}` : ""}
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-xs text-gray-500 font-medium whitespace-nowrap">
+                                            {edu.startDate} – {edu.endDate}
+                                        </div>
+                                        {edu.grade && <div className="text-xs text-gray-500 font-medium mt-0.5">{edu.gradeType || "Grade"}: {edu.grade}</div>}
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -154,26 +158,22 @@ export function ModernTemplate({ data }: TemplateProps) {
                     <h3 className="uppercase font-bold border-b mb-2 pb-1 text-xs tracking-wider text-gray-800 border-gray-200">
                         Certifications
                     </h3>
-                    <div className="flex flex-wrap gap-x-3 gap-y-1">
-                        {certifications.map((cert, i) => (
-                            <div key={cert.id} className="flex flex-wrap items-center">
-                                <div>
-                                    <h4 className="font-bold text-gray-800 inline-block">
-                                        {cert.name}
-                                        {cert.link && (
-                                            <a href={cert.link} target="_blank" rel="noreferrer" className="ml-1 hover:underline text-xs font-normal text-blue-600">
-                                                ↗
-                                            </a>
-                                        )}
-                                    </h4>
-                                    {(cert.issuer || cert.date) && (
-                                        <span className="text-gray-600 text-sm ml-1">
-                                            - {cert.issuer} {cert.date && <span className="text-gray-500 font-medium">| {cert.date}</span>}
-                                        </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
+                        {certifications.map((cert) => (
+                            <div key={cert.id} className="flex flex-col">
+                                <h4 className="font-medium text-sm text-gray-800 flex items-center gap-1.5">
+                                    <span className="w-1 h-1 rounded-full bg-gray-500 shrink-0"></span>
+                                    {cert.name}
+                                    {cert.link && (
+                                        <a href={cert.link} target="_blank" rel="noreferrer" className="hover:underline text-xs font-normal text-blue-600">
+                                            ↗
+                                        </a>
                                     )}
-                                </div>
-                                {i < certifications.length - 1 && (
-                                    <span className="mx-3 text-gray-400">•</span>
+                                </h4>
+                                {(cert.issuer || cert.date) && (
+                                    <div className="text-gray-600 text-xs ml-2.5 mt-0.5">
+                                        {cert.issuer} {cert.date && <span className="text-gray-500 font-medium">| {cert.date}</span>}
+                                    </div>
                                 )}
                             </div>
                         ))}

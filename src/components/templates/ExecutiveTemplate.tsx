@@ -10,7 +10,7 @@ export function ExecutiveTemplate({ data }: TemplateProps) {
     const primaryColor = themeColor || '#1f2937'; // Default to gray-900
 
     return (
-        <div className="w-full h-full bg-white font-sans text-[10pt] text-gray-800 p-10 leading-relaxed">
+        <div className="w-full bg-white font-sans text-[10pt] text-gray-800 p-10 leading-relaxed print-content">
             {/* Header */}
             <header className="mb-8 pl-4 pr-4">
                 <h1 className="text-4xl font-extrabold tracking-tight mb-2" style={{ color: primaryColor }}>
@@ -127,11 +127,21 @@ export function ExecutiveTemplate({ data }: TemplateProps) {
                             <div className="space-y-4">
                                 {education.map((edu) => (
                                     <div key={edu.id}>
-                                        <h3 className="font-bold text-gray-900">{edu.degree}</h3>
-                                        <div className="text-sm text-gray-700 mb-1">{edu.school}</div>
-                                        <div className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                            {edu.startDate} – {edu.endDate}
-                                            {edu.grade && <span className="ml-1 normal-case font-medium">| Grade: {edu.grade}</span>}
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h3 className="font-bold text-gray-900">{edu.degree}</h3>
+                                                <div className="text-sm text-gray-700 mb-1">{edu.school}</div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                                    {edu.startDate} – {edu.endDate}
+                                                </div>
+                                                {edu.grade && (
+                                                    <div className="text-xs font-medium text-gray-500 tracking-normal mt-0.5">
+                                                        {edu.gradeType || "Grade"}: {edu.grade}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
@@ -146,19 +156,17 @@ export function ExecutiveTemplate({ data }: TemplateProps) {
                                 <h2 className="text-sm font-bold uppercase tracking-widest mb-4" style={{ color: primaryColor }}>
                                     Certifications
                                 </h2>
-                                <div className="flex flex-wrap gap-x-3 gap-y-1">
-                                    {certifications.map((cert, i) => (
-                                        <div key={cert.id} className="flex flex-wrap items-center">
-                                            <div>
-                                                <span className="font-bold text-gray-900">{cert.name}</span>
-                                                {(cert.issuer || cert.date) && (
-                                                    <span className="text-sm text-gray-700 ml-1">
-                                                        - {cert.issuer} {cert.date && <span className="text-gray-500">| {cert.date}</span>}
-                                                    </span>
-                                                )}
+                                <div className="grid grid-cols-1 gap-y-3">
+                                    {certifications.map((cert) => (
+                                        <div key={cert.id} className="flex flex-col">
+                                            <div className="font-medium text-sm text-gray-900 flex items-center gap-2">
+                                                <span className="w-1 h-1 rounded-full bg-gray-500 shrink-0"></span>
+                                                {cert.name}
                                             </div>
-                                            {i < certifications.length - 1 && (
-                                                <span className="mx-3 text-gray-400">•</span>
+                                            {(cert.issuer || cert.date) && (
+                                                <div className="text-sm text-gray-700 ml-3 mt-0.5">
+                                                    {cert.issuer} {cert.date && <span className="text-gray-500">| {cert.date}</span>}
+                                                </div>
                                             )}
                                         </div>
                                     ))}

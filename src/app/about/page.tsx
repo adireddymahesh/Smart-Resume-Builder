@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { motion, useAnimation, useMotionValue } from "framer-motion";
+import { Github, Linkedin, Twitter, Mail, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 import BharthImg from "../../../public/images/Bharth.jpeg";
@@ -52,6 +53,18 @@ const teamMembers = [
 ];
 
 export default function AboutPage() {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: "left" | "right") => {
+        if (scrollContainerRef.current) {
+            const scrollAmount = 350; // card width + gap
+            scrollContainerRef.current.scrollBy({
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth"
+            });
+        }
+    };
+
     return (
         <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
             {/* Inject Marquee Animation */}
@@ -63,6 +76,15 @@ export default function AboutPage() {
                 }
                 .animate-marquee {
                     animation: marquee 40s linear infinite;
+                }
+                /* Hide scrollbar for Chrome, Safari and Opera */
+                .no-scrollbar::-webkit-scrollbar {
+                    display: none;
+                }
+                /* Hide scrollbar for IE, Edge and Firefox */
+                .no-scrollbar {
+                    -ms-overflow-style: none;  /* IE and Edge */
+                    scrollbar-width: none;  /* Firefox */
                 }
             `}} />
 
@@ -94,44 +116,66 @@ export default function AboutPage() {
                     </p>
                 </motion.div>
 
-                {/* Team Grid */}
-                {/* Horizontal Looping Carousel */}
-                <div className="group w-full relative mt-32 pt-16 pb-12 overflow-hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-32 before:bg-gradient-to-r before:from-background before:to-transparent before:z-20 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-32 after:bg-gradient-to-l after:from-background after:to-transparent after:z-20 -mx-4 px-4 sm:mx-0 sm:px-0">
-                    <div className="flex w-max gap-8 lg:gap-12 pl-8 lg:pl-12 animate-marquee group-hover:[animation-play-state:paused]">
-                        {[...teamMembers, ...teamMembers].map((member, index) => (
-                            <div
-                                key={`${member.name}-${index}`}
-                                className="group relative w-[320px] shrink-0 pt-24 pb-8"
-                            >
-                                <div className={`relative bg-white/80 dark:bg-card/40 backdrop-blur-xl border border-zinc-200/80 dark:border-white/5 shadow-2xl dark:shadow-none transition-transform duration-500 hover:-translate-y-2 rounded-[3rem] pt-32 pb-10 px-6 flex flex-col items-center justify-center text-center ${member.hoverGlow}`}>
-                                    {/* Image Container (Medium) */}
-                                    <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-48">
-                                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/60 to-purple-500/60 dark:from-primary/30 dark:to-purple-500/30 rounded-[2rem] blur-2xl transition-opacity duration-500 opacity-0 group-hover:opacity-100" />
-                                        <div className="relative w-full h-full rounded-[2rem] border-[6px] border-background shadow-2xl overflow-hidden bg-muted transition-transform duration-300 group-hover:scale-[1.05]">
-                                            <Image
-                                                src={member.image}
-                                                alt={member.name}
-                                                fill
-                                                className="object-cover"
-                                                unoptimized
-                                            />
+                {/* Team Grid Loop with Manual Controls */}
+                <div className="relative w-full mt-32 pt-16 pb-12 overflow-hidden -mx-4 px-4 sm:mx-0 sm:px-0 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-16 md:before:w-32 before:bg-gradient-to-r before:from-background before:to-transparent before:z-20 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 md:after:w-32 after:bg-gradient-to-l after:from-background after:to-transparent after:z-20">
+                    {/* Controls */}
+                    <button
+                        onClick={() => scroll("left")}
+                        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-background/80 hover:bg-background border border-border shadow-lg backdrop-blur-sm transition-transform hover:scale-110"
+                        aria-label="Scroll left"
+                    >
+                        <ChevronLeft className="w-6 h-6 text-foreground" />
+                    </button>
+                    <button
+                        onClick={() => scroll("right")}
+                        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-background/80 hover:bg-background border border-border shadow-lg backdrop-blur-sm transition-transform hover:scale-110"
+                        aria-label="Scroll right"
+                    >
+                        <ChevronRight className="w-6 h-6 text-foreground" />
+                    </button>
+
+                    {/* Infinite Scrolling Track */}
+                    <div
+                        ref={scrollContainerRef}
+                        className="flex w-max gap-8 lg:gap-12 pl-8 pr-32 lg:pl-12 group no-scrollbar overflow-x-auto scroll-smooth"
+                    >
+                        {/* We duplicate the array to allow for a continuous marquee effect via CSS or seamless manual scrolling */}
+                        <div className="flex gap-8 lg:gap-12 animate-marquee group-hover:[animation-play-state:paused]">
+                            {[...teamMembers, ...teamMembers].map((member, index) => (
+                                <div
+                                    key={`${member.name}-${index}`}
+                                    className="group/card relative w-[300px] md:w-[320px] shrink-0 pt-24 pb-8"
+                                >
+                                    <div className={`relative bg-white/80 dark:bg-card/40 backdrop-blur-xl border border-zinc-200/80 dark:border-white/5 shadow-2xl dark:shadow-none transition-transform duration-500 hover:-translate-y-2 rounded-[3rem] pt-32 pb-10 px-6 flex flex-col items-center justify-center text-center ${member.hoverGlow}`}>
+                                        {/* Image Container */}
+                                        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-48">
+                                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/60 to-purple-500/60 dark:from-primary/30 dark:to-purple-500/30 rounded-[2rem] blur-2xl transition-opacity duration-500 opacity-0 group-hover/card:opacity-100" />
+                                            <div className="relative w-full h-full rounded-[2rem] border-[6px] border-background shadow-2xl overflow-hidden bg-muted transition-transform duration-300 group-hover/card:scale-[1.05]">
+                                                <Image
+                                                    src={member.image}
+                                                    alt={member.name}
+                                                    fill
+                                                    className="object-cover"
+                                                    unoptimized
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="flex-1 flex items-center justify-center mt-2">
+                                            <h3 className="text-xl md:text-2xl font-bold text-foreground">{member.name}</h3>
+                                        </div>
+
+                                        {/* Social Links */}
+                                        <div className="flex gap-3 mt-8 pt-6 border-t border-border/50 w-full justify-center">
+                                            <SocialIcon href={member.github} icon={<Github className="w-5 h-5" />} className="bg-zinc-800/10 text-zinc-800 dark:bg-white/10 dark:text-white hover:bg-zinc-800 hover:text-white dark:hover:bg-white dark:hover:text-black w-10 h-10" />
+                                            <SocialIcon href={member.linkedin} icon={<Linkedin className="w-5 h-5" />} className="bg-[#0077b5]/10 text-[#0077b5] dark:bg-[#0077b5]/20 dark:text-[#0077b5] hover:bg-[#0077b5] hover:text-white dark:hover:bg-[#0077b5] dark:hover:text-white w-10 h-10" />
+                                            <SocialIcon href={member.email ? `https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}` : "#"} icon={<Mail className="w-5 h-5" />} className="bg-red-500/10 text-red-500 dark:bg-red-500/20 dark:text-red-400 hover:bg-red-500 hover:text-white dark:hover:bg-red-500 dark:hover:text-white w-10 h-10" />
                                         </div>
                                     </div>
-
-                                    {/* Content */}
-                                    <div className="flex-1 flex items-center justify-center mt-2">
-                                        <h3 className="text-2xl font-bold text-foreground">{member.name}</h3>
-                                    </div>
-
-                                    {/* Social Links */}
-                                    <div className="flex gap-3 mt-8 pt-6 border-t border-border/50 w-full justify-center">
-                                        <SocialIcon href={member.github} icon={<Github className="w-5 h-5" />} className="bg-zinc-800/10 text-zinc-800 dark:bg-white/10 dark:text-white hover:bg-zinc-800 hover:text-white dark:hover:bg-white dark:hover:text-black w-10 h-10" />
-                                        <SocialIcon href={member.linkedin} icon={<Linkedin className="w-5 h-5" />} className="bg-[#0077b5]/10 text-[#0077b5] dark:bg-[#0077b5]/20 dark:text-[#0077b5] hover:bg-[#0077b5] hover:text-white dark:hover:bg-[#0077b5] dark:hover:text-white w-10 h-10" />
-                                        <SocialIcon href={member.email ? `https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}` : "#"} icon={<Mail className="w-5 h-5" />} className="bg-red-500/10 text-red-500 dark:bg-red-500/20 dark:text-red-400 hover:bg-red-500 hover:text-white dark:hover:bg-red-500 dark:hover:text-white w-10 h-10" />
-                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
 

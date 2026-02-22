@@ -9,7 +9,7 @@ export function ElegantTemplate({ data }: TemplateProps) {
     const accent = themeColor || '#000';
 
     return (
-        <div className="w-full h-full p-12 bg-[#fcfbf9] text-gray-800 font-serif leading-relaxed">
+        <div className="w-full p-12 bg-[#fcfbf9] text-gray-800 font-serif leading-relaxed print-content">
             {/* Header */}
             <div className="text-center border-b-2 border-double pb-8 mb-8" style={{ borderColor: accent }}>
                 <h1 className="text-5xl font-italic mb-3 tracking-wide" style={{ color: accent, fontFamily: 'serif' }}>
@@ -118,7 +118,7 @@ export function ElegantTemplate({ data }: TemplateProps) {
                                     </div>
                                     <div className="text-right">
                                         <div className="text-xs font-medium text-gray-500 whitespace-nowrap">{edu.startDate} – {edu.endDate}</div>
-                                        {edu.grade && <div className="text-xs font-medium text-gray-500 mt-0.5">Grade: {edu.grade}</div>}
+                                        {edu.grade && <div className="text-xs font-medium text-gray-500 mt-0.5">{edu.gradeType || "Grade"}: {edu.grade}</div>}
                                     </div>
                                 </div>
                             ))}
@@ -134,26 +134,21 @@ export function ElegantTemplate({ data }: TemplateProps) {
                             <span style={{ color: accent }}>Certifications</span>
                             <span className="w-12 h-[1px] bg-gray-300"></span>
                         </h2>
-                        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 px-8">
-                            {certifications.map((cert, i) => (
-                                <div key={cert.id} className="flex flex-wrap items-center">
-                                    <div className="text-center">
-                                        <h4 className="font-bold text-gray-800 inline-block">
-                                            {cert.name}
-                                            {cert.link && (
-                                                <a href={cert.link} target="_blank" rel="noreferrer" className="ml-1 hover:underline text-xs font-normal text-blue-600">
-                                                    ↗
-                                                </a>
-                                            )}
-                                        </h4>
-                                        {(cert.issuer || cert.date) && (
-                                            <span className="text-gray-600 text-sm ml-1">
-                                                - {cert.issuer} {cert.date && <span className="text-gray-500 font-medium italic">| {cert.date}</span>}
-                                            </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 px-8">
+                            {certifications.map((cert) => (
+                                <div key={cert.id} className="flex flex-col text-center">
+                                    <h4 className="font-medium text-sm text-gray-800">
+                                        {cert.name}
+                                        {cert.link && (
+                                            <a href={cert.link} target="_blank" rel="noreferrer" className="ml-1 hover:underline text-xs font-normal text-blue-600">
+                                                ↗
+                                            </a>
                                         )}
-                                    </div>
-                                    {i < certifications.length - 1 && (
-                                        <span className="mx-3 text-gray-400">•</span>
+                                    </h4>
+                                    {(cert.issuer || cert.date) && (
+                                        <div className="text-gray-600 text-sm mt-0.5">
+                                            {cert.issuer} {cert.date && <span className="text-gray-500 font-medium italic">| {cert.date}</span>}
+                                        </div>
                                     )}
                                 </div>
                             ))}
