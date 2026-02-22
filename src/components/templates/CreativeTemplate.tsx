@@ -8,7 +8,7 @@ export function CreativeTemplate({ data }: TemplateProps) {
     const { profile, experience, education, skills, projects, certifications, themeColor } = data;
 
     return (
-        <div className="w-full p-8 font-sans text-sm leading-relaxed text-gray-800 print-content bg-white">
+        <div className="w-full p-8 font-sans leading-relaxed text-gray-800 bg-white" style={{ fontSize: `${data.baseFontSize ?? 11}pt` }}>
             {/* Header */}
             <div className="mb-6 pb-5 border-b-4 border-gray-200">
                 <h1 className="text-3xl font-extrabold uppercase tracking-tight text-gray-900 leading-none mb-2">

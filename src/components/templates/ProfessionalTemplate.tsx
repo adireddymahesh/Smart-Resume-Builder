@@ -10,7 +10,7 @@ export function ProfessionalTemplate({ data }: TemplateProps) {
     const sidebarBg = themeColor || '#2c3e50';
 
     return (
-        <div className="w-full flex bg-white font-sans text-sm text-gray-800 print-content">
+        <div className="w-full flex bg-white font-sans text-gray-800" style={{ fontSize: `${data.baseFontSize ?? 11}pt` }}>
             {/* Left Sidebar */}
             <div className="w-[30%] shrink-0 text-white p-6 flex flex-col gap-6 min-h-full" style={{ backgroundColor: sidebarBg }}>
                 {/* Contact Info */}

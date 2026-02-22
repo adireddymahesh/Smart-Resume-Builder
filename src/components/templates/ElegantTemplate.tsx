@@ -9,7 +9,7 @@ export function ElegantTemplate({ data }: TemplateProps) {
     const accent = themeColor || '#000';
 
     return (
-        <div className="w-full p-12 bg-[#fcfbf9] text-gray-800 font-serif leading-relaxed print-content">
+        <div className="w-full p-12 bg-[#fcfbf9] text-gray-800 font-serif leading-relaxed" style={{ fontSize: `${data.baseFontSize ?? 11}pt` }}>
             {/* Header */}
             <div className="text-center border-b-2 border-double pb-8 mb-8" style={{ borderColor: accent }}>
                 <h1 className="text-5xl font-italic mb-3 tracking-wide" style={{ color: accent, fontFamily: 'serif' }}>

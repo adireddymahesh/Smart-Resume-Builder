@@ -8,7 +8,7 @@ export function ModernTemplate({ data }: TemplateProps) {
     const { profile, experience, education, skills, projects, certifications, themeColor, customSection } = data;
 
     return (
-        <div className="w-full h-full p-8 font-sans text-sm leading-relaxed text-gray-800">
+        <div className="w-full pl-8 pr-14 pt-8 pb-8 font-sans leading-relaxed text-gray-800" style={{ fontSize: `${data.baseFontSize ?? 11}pt` }}>
             {/* Header */}
             <div className="mb-6 border-b pb-4 border-gray-200">
                 <h1 className="text-3xl font-bold uppercase tracking-wide text-gray-900">

@@ -98,42 +98,33 @@
 
 @media print {
   @page {
-    /* Auto letting the browser decide the physical page size allows it to auto-scale the 210x297mm div to fit the user's paper */
-    size: auto;
-    margin: 0 !important;
+    size: A4 portrait;
+    margin: 0;
   }
 
   body {
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
     background: white !important;
-  }
-
-  /* Globally shrink text slightly during printing to maximize single-page fit */
-  #resume-preview-container * {
-    line-height: 1.35 !important;
-  }
-
-  #resume-preview-container {
-    font-size: 92% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   #resume-preview-container {
     box-shadow: none !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    width: 210mm !important;
-    height: 297mm !important;
-    max-height: 297mm !important;
-    overflow: hidden !important;
-    page-break-after: avoid !important;
-    page-break-before: avoid !important;
-    page-break-inside: avoid !important;
     border: none !important;
+    margin: 0 !important;
+    width: 210mm !important;
   }
 
   #resume-print-content {
     width: 210mm !important;
+  }
+
+  /* Force the browser's native PDF paginator to match our visual preview's section-aware page breaks */
+  #resume-print-content>div>div>* {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
 

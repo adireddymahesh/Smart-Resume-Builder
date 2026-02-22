@@ -10,7 +10,7 @@ export function ATSStandardTemplate({ data }: TemplateProps) {
     const headingColor = themeColor || '#000000';
 
     return (
-        <div className="w-full bg-white font-[Times_New_Roman,serif] text-[10.5pt] text-black p-8 leading-snug print-content">
+        <div className="w-full bg-white font-[Times_New_Roman,serif] text-black p-8 leading-snug" style={{ fontSize: `${data.baseFontSize ?? 11}pt` }}>
             {/* Header */}
             <header className="text-center mb-6">
                 <h1 className="text-[24pt] font-bold uppercase tracking-wide mb-2" style={{ color: headingColor }}>

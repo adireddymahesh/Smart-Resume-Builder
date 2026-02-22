@@ -23,6 +23,13 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useReactToPrint } from "react-to-print";
 import { initialResumeState } from "@/types/resume";
 import { useSearchParams } from "next/navigation";
+import * as htmlToImage from "html-to-image";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 function BuilderContent() {
     const searchParams = useSearchParams();
@@ -36,10 +43,88 @@ function BuilderContent() {
     const [isEnhancing, setIsEnhancing] = useState(false);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [tempTitle, setTempTitle] = useState("");
+    const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
 
     const previewRef = useRef<HTMLDivElement>(null);
+    const printContentRef = useRef<HTMLDivElement>(null);
+    const [contentHeight, setContentHeight] = useState(0);
 
     const [notFound, setNotFound] = useState(false);
+
+    // A4 height in natural pixels (297mm at 96dpi)
+    const A4_H_PX = 1122.5;
+
+    // Section-aware page breaks: computed break points in natural pixels.
+    // Each value is the contentHeight offset where a new page should start.
+    const [pageBreaks, setPageBreaks] = useState<number[]>([0]);
+
+    const computePageBreaks = () => {
+        const el = printContentRef.current;
+        if (!el || el.scrollHeight < 100) return;
+
+        const totalHeight = el.scrollHeight;
+        setContentHeight(totalHeight);
+
+        // Query direct children of the template root — these are the top-level sections
+        // el is #resume-print-content
+        // el.firstElementChild is the ResumePreview zoom wrapper
+        // el.firstElementChild.firstElementChild is the actual template's root div
+        const templateRoot = el.firstElementChild?.firstElementChild as HTMLElement | null;
+        if (!templateRoot) {
+            setPageBreaks([0]);
+            return;
+        }
+
+        const containerTop = el.getBoundingClientRect().top;
+        const sections = Array.from(templateRoot.children) as HTMLElement[];
+
+        const breaks: number[] = [0];
+        let pageBottom = A4_H_PX; // end of the first page in natural px
+
+        for (const section of sections) {
+            const rect = section.getBoundingClientRect();
+            const sTop = Math.max(0, rect.top - containerTop);
+            const sBot = sTop + rect.height;
+
+            // If this section straddles the current page boundary, push break to section start
+            if (sTop < pageBottom && sBot > pageBottom && sTop > 10) {
+                // Only break if it's not the very top of the page
+                // to avoid pushing an empty page 1
+                const lastBreak = breaks[breaks.length - 1];
+                if (sTop - lastBreak > 50) {
+                    breaks.push(sTop);
+                    pageBottom = sTop + A4_H_PX;
+                }
+            }
+
+            // If a single section is taller than one page, add raw breaks inside it
+            while (pageBottom < sBot) {
+                breaks.push(pageBottom);
+                pageBottom += A4_H_PX;
+            }
+        }
+
+        setPageBreaks(breaks);
+    };
+
+    // Recompute on resumeData changes (deferred so DOM has time to paint)
+    useEffect(() => {
+        const frameId = requestAnimationFrame(() => {
+            computePageBreaks();
+            // Retry once more at 500ms for slow-to-render content
+            setTimeout(computePageBreaks, 500);
+        });
+        return () => cancelAnimationFrame(frameId);
+    }, [resumeData]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Continuous ResizeObserver for live typing updates
+    useEffect(() => {
+        const el = printContentRef.current;
+        if (!el) return;
+        const observer = new ResizeObserver(() => computePageBreaks());
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Load data specific to this resume ID
     useEffect(() => {
@@ -88,64 +173,40 @@ function BuilderContent() {
         `,
     });
 
-    const handlePrintClick = () => {
+    const [isExportingImage, setIsExportingImage] = useState(false);
+
+    const handleExportImage = async (format: 'png' | 'jpeg') => {
         if (!previewRef.current) return;
+        setIsExportingImage(true);
+        try {
+            // Un-hide the container temporarily
+            const container = previewRef.current.parentElement;
+            if (container) {
+                const originalLeft = container.style.left;
+                container.style.left = '0px';
+                container.style.zIndex = '-9999';
 
-        const container = previewRef.current;
-        const innerContent = container.querySelector('#resume-print-content') as HTMLElement;
+                // We use html-to-image because html2canvas fails on Tailwind v4 lab() colors
+                const dataUrl = await (format === 'png'
+                    ? htmlToImage.toPng(previewRef.current, { pixelRatio: 2 })
+                    : htmlToImage.toJpeg(previewRef.current, { pixelRatio: 2, quality: 1.0 })
+                );
 
-        if (!innerContent) {
-            handlePrint();
-            return;
-        }
+                // Restore hidden state
+                container.style.left = originalLeft;
+                container.style.zIndex = 'auto';
 
-        // Reset scaling
-        innerContent.style.transform = 'none';
-        innerContent.style.transformOrigin = 'top left';
-        innerContent.style.removeProperty('zoom');
-        container.style.height = 'max-content';
-
-        setTimeout(() => {
-            const a4HeightPx = 1122.5;
-            const actualHeight = innerContent.scrollHeight;
-
-            if (actualHeight > a4HeightPx) {
-                // Squeeze it down just strictly enough to fit with a bit more buffer
-                const scale = (a4HeightPx - 20) / actualHeight;
-
-                // transform scales visually but keeps original layout space. 
-                innerContent.style.transform = `scale(${scale})`;
-
-                // zoom modifies actual layout space in WebKit/Blink (Chrome, Safari, Edge)
-                innerContent.style.setProperty('zoom', scale.toString());
-
-                // Reduce the height of the inner content so it doesn't push the container boundary
-                innerContent.style.height = `${actualHeight * scale}px`;
-                innerContent.style.overflow = 'hidden';
+                const link = document.createElement('a');
+                link.download = `${resumeData.profile.fullName || "Resume"}.${format === 'jpeg' ? 'jpg' : format}`;
+                link.href = dataUrl;
+                link.click();
             }
-
-            // Lock outer container to exactly 1 page height to forcefully prevent page 2
-            container.style.height = '297mm';
-            container.style.maxHeight = '297mm';
-            container.style.overflow = 'hidden';
-
-            handlePrint();
-
-            setTimeout(() => {
-                if (innerContent) {
-                    innerContent.style.transform = '';
-                    innerContent.style.transformOrigin = '';
-                    innerContent.style.removeProperty('zoom');
-                    innerContent.style.height = '';
-                    innerContent.style.overflow = '';
-                }
-                if (container) {
-                    container.style.height = '';
-                    container.style.maxHeight = '';
-                    container.style.overflow = '';
-                }
-            }, 1000);
-        }, 150);
+        } catch (error) {
+            console.error("Error exporting image:", error);
+            alert("Failed to export image. Please try again.");
+        } finally {
+            setIsExportingImage(false);
+        }
     };
 
     const handleSave = async () => {
@@ -353,20 +414,40 @@ function BuilderContent() {
                         )}
                         {isSaving ? "Saving..." : "Save"}
                     </Button>
-                    <Button
-                        size="sm"
-                        onClick={handlePrintClick}
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 hover:opacity-90 transition-opacity shadow-md"
-                    >
-                        <Download className="w-4 h-4 mr-2" /> Export PDF
-                    </Button>
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                size="sm"
+                                disabled={isExportingImage}
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 hover:opacity-90 transition-opacity shadow-md"
+                            >
+                                {isExportingImage ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
+                                {isExportingImage ? "Exporting..." : "Export"}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48 bg-background border-border">
+                            <DropdownMenuItem onClick={handlePrint} className="cursor-pointer">
+                                Download as PDF
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleExportImage('png')} className="cursor-pointer">
+                                Download as PNG
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleExportImage('jpeg')} className="cursor-pointer">
+                                Download as JPG
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </header>
 
             {/* Main Workspace */}
-            <main className="flex-1 flex overflow-hidden">
+            <main className="flex-1 flex overflow-hidden relative">
                 {/* Left Side - Editor */}
-                <div className="w-[55%] min-w-[500px] border-r border-border flex flex-col bg-card/20">
+                <div className={cn(
+                    "w-full lg:w-[55%] lg:min-w-[500px] border-r border-border flex flex-col bg-card/20 pb-20 lg:pb-0",
+                    isMobilePreviewOpen ? "hidden lg:flex" : "flex"
+                )}>
                     <div className="p-4 border-b border-border bg-background/50 backdrop-blur-sm sticky top-0 z-10">
                         <div className="flex space-x-2 bg-muted/50 p-1 rounded-lg w-fit mb-4">
                             <button
@@ -407,6 +488,24 @@ function BuilderContent() {
                                 ))}
                             </div>
                         )}
+
+                        <div className="mt-4 pt-4 border-t border-border/50">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Document Font Size</h3>
+                                <span className="text-xs font-semibold tabular-nums text-foreground">{resumeData.baseFontSize ?? 11}pt</span>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <input
+                                    type="range"
+                                    min="8"
+                                    max="14"
+                                    step="0.5"
+                                    value={resumeData.baseFontSize ?? 11}
+                                    onChange={(e) => updateResumeSection('baseFontSize', parseFloat(e.target.value))}
+                                    className="flex-1 accent-primary cursor-pointer"
+                                />
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex-1 overflow-y-auto p-6 space-y-12 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
@@ -531,19 +630,77 @@ function BuilderContent() {
                     </div>
                 </div>
 
-                {/* Right Side - Preview */}
-                <div className="flex-1 bg-muted/30 p-8 overflow-y-auto flex justify-center items-start">
-                    <div className="sticky top-8 origin-top scale-[0.65] lg:scale-[0.75] xl:scale-[0.85] transition-transform">
-                        <div
-                            ref={previewRef}
-                            id="resume-preview-container"
-                            className="bg-white text-black shadow-2xl rounded-sm w-[210mm] min-h-[297mm] p-0 m-0 print:overflow-hidden print:max-h-[297mm]"
-                        >
-                            <div id="resume-print-content" className="w-full h-full origin-top-left">
-                                <ResumePreview />
-                            </div>
+                {/* Right Side - Preview (PDF viewer style) */}
+
+                {/* Hidden off-screen print target — used ONLY for Export PDF */}
+                <div style={{ position: 'fixed', left: '-9999px', top: 0, width: '210mm' }} aria-hidden="true">
+                    <div
+                        ref={previewRef}
+                        id="resume-preview-container"
+                        className="bg-white text-black w-[210mm]"
+                    >
+                        <div ref={printContentRef} id="resume-print-content" className="w-full">
+                            <ResumePreview />
                         </div>
                     </div>
+                </div>
+
+                {/* Visual multi-page preview */}
+                <div className={cn(
+                    "flex-1 bg-[#525659] overflow-y-auto pb-20 lg:pb-0",
+                    !isMobilePreviewOpen ? "hidden lg:block" : "block"
+                )}>
+                    {(() => {
+                        const PREVIEW_ZOOM = 0.65;
+                        const A4_H_PX = 1122.5;
+                        return (
+                            <div
+                                className="flex flex-col items-center py-8 gap-5"
+                                style={{ zoom: PREVIEW_ZOOM }}
+                            >
+                                {pageBreaks.map((breakStart, i) => {
+                                    const breakEnd = pageBreaks[i + 1] ?? contentHeight;
+                                    // Each page shows at least A4 height, except the very last
+                                    const pageH = i < pageBreaks.length - 1
+                                        ? A4_H_PX
+                                        : Math.max(breakEnd - breakStart, 1); // last page: natural height
+                                    return (
+                                        <div
+                                            key={i}
+                                            className="relative bg-white shadow-xl print:hidden"
+                                            style={{ width: '210mm', height: `${pageH}px`, overflow: 'hidden' }}
+                                        >
+                                            {/* Page number badge */}
+                                            <div className="absolute bottom-2 right-2 z-10 bg-black/10 text-gray-500 text-[8px] font-medium px-2 py-0.5 rounded-full">
+                                                Page {i + 1}
+                                            </div>
+                                            {/* Shift content to show only this page's slice */}
+                                            <div style={{ height: `${breakEnd - breakStart}px`, overflow: 'hidden' }}>
+                                                <div style={{ marginTop: `-${breakStart}px` }}>
+                                                    <ResumePreview />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        );
+                    })()}
+                </div>
+
+                {/* Mobile Floating Toggle Button */}
+                <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+                    <Button
+                        size="lg"
+                        onClick={() => setIsMobilePreviewOpen(!isMobilePreviewOpen)}
+                        className="rounded-full shadow-2xl bg-primary text-primary-foreground px-6 py-6"
+                    >
+                        {isMobilePreviewOpen ? (
+                            <><Pencil className="w-5 h-5 mr-2" /> Edit Resume</>
+                        ) : (
+                            <><FileText className="w-5 h-5 mr-2" /> View Preview</>
+                        )}
+                    </Button>
                 </div>
             </main>
         </div>

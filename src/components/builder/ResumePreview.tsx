@@ -11,19 +11,35 @@ export function ResumePreview() {
     const { resumeData } = useResume();
     const { templateId } = resumeData;
 
+    const fontSizeScale = (resumeData.baseFontSize ?? 11) / 11;
+
+    let TemplateComponent;
     switch (templateId) {
         case "professional":
-            return <ProfessionalTemplate data={resumeData} />;
+            TemplateComponent = <ProfessionalTemplate data={resumeData} />;
+            break;
         case "elegant":
-            return <ElegantTemplate data={resumeData} />;
+            TemplateComponent = <ElegantTemplate data={resumeData} />;
+            break;
         case "creative":
-            return <CreativeTemplate data={resumeData} />;
+            TemplateComponent = <CreativeTemplate data={resumeData} />;
+            break;
         case "ats-standard":
-            return <ATSStandardTemplate data={resumeData} />;
+            TemplateComponent = <ATSStandardTemplate data={resumeData} />;
+            break;
         case "executive":
-            return <ExecutiveTemplate data={resumeData} />;
+            TemplateComponent = <ExecutiveTemplate data={resumeData} />;
+            break;
         case "modern":
         default:
-            return <ModernTemplate data={resumeData} />;
+            TemplateComponent = <ModernTemplate data={resumeData} />;
+            break;
     }
+
+    // Apply proportional scaling based on baseFontSize (11pt = 1.0x)
+    return (
+        <div style={{ zoom: fontSizeScale }}>
+            {TemplateComponent}
+        </div>
+    );
 }

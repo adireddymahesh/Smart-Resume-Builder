@@ -65,6 +65,7 @@ export interface ResumeData {
     title: string; // Internal title for the resume
     templateId: string;
     themeColor: string;
+    baseFontSize?: number; // Font size in pt, default 11
     profile: ResumeProfile;
     experience: ResumeExperience[];
     education: ResumeEducation[];
@@ -81,6 +82,7 @@ export const initialResumeState: ResumeData = {
     title: "Untitled Resume",
     templateId: "modern",
     themeColor: "#7c3aed",
+    baseFontSize: 11,
     profile: {
         fullName: "",
         email: "",

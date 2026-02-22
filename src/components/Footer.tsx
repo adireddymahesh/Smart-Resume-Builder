@@ -35,7 +35,7 @@ export function Footer() {
                         <Link href="/dashboard" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Resume Builder</Link>
                         <Link href="/ats-check" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">ATS Scorer</Link>
                         <Link href="/keywords" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Keyword Extractor</Link>
-                        <Link href="/cover-letter" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Cover Letter Gen</Link>
+                        <Link href="/cover-letter" className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 block w-fit">Cover Letter Generator</Link>
                     </div>
 
                     {/* Company Links */}
