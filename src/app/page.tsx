@@ -49,34 +49,29 @@ export default function Home() {
 
 
       {/* Hero Section (Full Height) */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+      <section className="relative isolate h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         {/* Dynamic Backgrounds */}
         <div className="absolute inset-0 -z-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background opacity-70 dark:opacity-40" />
         <div className="absolute inset-0 -z-10 bg-[size:50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
 
-        {/* Huge Background Text */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none overflow-hidden select-none -z-[5] opacity-[0.03] dark:opacity-[0.02]">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="flex flex-col items-center text-foreground"
-          >
-            <span className="text-[15vw] font-black whitespace-nowrap leading-[0.85] tracking-tighter uppercase">
-              ONE PLATFORM
-            </span>
-            <span className="text-[15vw] font-black whitespace-nowrap leading-[0.85] tracking-tighter uppercase pl-16 md:pl-32">
-              ALL SOLUTIONS
-            </span>
-          </motion.div>
-        </div>
+        {/* Top Feature Text */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="flex flex-col items-center mb-8 sm:mb-12"
+        >
+          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-center whitespace-normal md:whitespace-nowrap px-4 text-foreground/90 uppercase">
+            ONE <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 animate-gradient-x">PLATFORM</span> ALL <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 animate-gradient-x">SOLUTIONS</span>
+          </h2>
+        </motion.div>
 
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center px-4 py-1.5 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-8 backdrop-blur-sm"
+          className="inline-flex items-center px-4 py-1.5 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-6 backdrop-blur-sm"
         >
           <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
           AI-Powered Career Growth
@@ -87,10 +82,10 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4"
         >
-          Craft Your Perfect <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 animate-gradient-x">
+          Craft Your Perfect <br className="hidden md:block" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 animate-gradient-x ml-2 md:ml-0">
             {displayText}
           </span>
           <span className="typing-cursor ml-1 text-primary"></span>
@@ -100,7 +95,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10 leading-relaxed"
+          className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-8 leading-relaxed"
         >
           Create ATS-friendly resumes, generate tailored cover letters, and analyze your job fit with advanced AI. Stand out from the crowd instantly.
         </motion.p>

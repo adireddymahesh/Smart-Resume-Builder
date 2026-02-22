@@ -7,12 +7,14 @@ import Image from "next/image";
 import BharthImg from "../../../public/images/Bharth.jpeg";
 import SalomiImg from "../../../public/images/Salomi.jpeg";
 import MaheshImg from "../../../public/images/Mahesh.jpeg";
+import NaiduImg from "../../../public/images/Naidu.jpeg";
+import PavithraImg from "../../../public/images/pavithra.jpeg";
 
 const teamMembers = [
     {
         name: "N.Bharath Adithya",
         image: BharthImg,
-        github: "#",
+        github: "https://github.com/bharathadithya03",
         linkedin: "http://www.linkedin.com/in/nakka-bharath-adithya",
         email: "bharathadithya.nakka@gmail.com",
         hoverGlow: "group-hover:border-blue-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(59,130,246,0.2)]",
@@ -20,7 +22,7 @@ const teamMembers = [
     {
         name: "Koppisetti Salomi",
         image: SalomiImg,
-        github: "#",
+        github: "https://github.com/Salomi8866",
         email: "koppisettisalomi8888@gmail.com",
         linkedin: "https://www.linkedin.com/in/salomi-koppisetti-8ba6b7301",
         hoverGlow: "group-hover:border-purple-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(168,85,247,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(168,85,247,0.2)]",
@@ -28,23 +30,23 @@ const teamMembers = [
     {
         name: "Mahesh",
         image: MaheshImg,
-        github: "#",
+        github: "https://github.com/adireddymahesh/",
         email: "adireddymahesh1@gmail.com",
         linkedin: "https://www.linkedin.com/in/mahesh-adireddy-abb139318?trk=contact-info",
         hoverGlow: "group-hover:border-orange-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(249,115,22,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(249,115,22,0.2)]",
     },
     {
-        name: "Suresh",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Suresh&backgroundColor=d1d4f9",
-        github: "#",
-        linkedin: "#",
+        name: "D. Papayya Naidu",
+        image: NaiduImg,
+        github: "https://github.com/papayyanaidu",
+        linkedin: "https://www.linkedin.com/in/papayya-naidu-dulam-91a904361/",
         hoverGlow: "group-hover:border-indigo-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(99,102,241,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(99,102,241,0.2)]",
     },
     {
-        name: "Member 5",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Member5&backgroundColor=ffc6d9",
+        name: "G. Pavithra",
+        image: PavithraImg,
         github: "#",
-        linkedin: "#",
+        linkedin: "https://www.linkedin.com/in/geeta-pavithra-malathi-180975316/",
         hoverGlow: "group-hover:border-pink-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(236,72,153,0.5)] dark:group-hover:shadow-[0_0_40px_-15px_rgba(236,72,153,0.2)]",
     }
 ];

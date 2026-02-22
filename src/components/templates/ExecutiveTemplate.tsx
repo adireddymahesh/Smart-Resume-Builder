@@ -10,7 +10,7 @@ export function ExecutiveTemplate({ data }: TemplateProps) {
     const primaryColor = themeColor || '#1f2937'; // Default to gray-900
 
     return (
-        <div className="w-full min-h-[297mm] bg-white font-sans text-[10pt] text-gray-800 p-10 leading-relaxed">
+        <div className="w-full h-full bg-white font-sans text-[10pt] text-gray-800 p-10 leading-relaxed">
             {/* Header */}
             <header className="mb-8 pl-4 pr-4">
                 <h1 className="text-4xl font-extrabold tracking-tight mb-2" style={{ color: primaryColor }}>

@@ -73,7 +73,67 @@ function BuilderContent() {
     const handlePrint = useReactToPrint({
         contentRef: previewRef,
         documentTitle: resumeData.profile.fullName || "Resume",
+        pageStyle: `
+        @page {
+            size: A4 portrait;
+            margin: 0 !important;
+        }
+        @media print {
+            body { 
+                margin: 0 !important; 
+                padding: 0 !important;
+                background: white !important;
+            }
+        }
+        `,
     });
+
+    const handlePrintClick = () => {
+        if (!previewRef.current) return;
+
+        const container = previewRef.current;
+        const innerContent = container.querySelector('#resume-print-content') as HTMLElement;
+
+        if (!innerContent) {
+            handlePrint();
+            return;
+        }
+
+        // Reset scaling
+        innerContent.style.transform = 'none';
+        innerContent.style.transformOrigin = 'top left';
+        container.style.height = 'max-content';
+
+        setTimeout(() => {
+            const a4HeightPx = 1122.5;
+            const actualHeight = innerContent.scrollHeight;
+
+            if (actualHeight > a4HeightPx) {
+                // Squeeze it down just strictly enough to fit
+                const scale = (a4HeightPx - 5) / actualHeight;
+                innerContent.style.transform = `scale(${scale})`;
+            }
+
+            // Lock outer container to exactly 1 page height to forcefully prevent page 2
+            container.style.height = '297mm';
+            container.style.maxHeight = '297mm';
+            container.style.overflow = 'hidden';
+
+            handlePrint();
+
+            setTimeout(() => {
+                if (innerContent) {
+                    innerContent.style.transform = '';
+                    innerContent.style.transformOrigin = '';
+                }
+                if (container) {
+                    container.style.height = '';
+                    container.style.maxHeight = '';
+                    container.style.overflow = '';
+                }
+            }, 1000);
+        }, 50);
+    };
 
     const handleSave = async () => {
         if (!user || !resumeId) return;
@@ -282,7 +342,7 @@ function BuilderContent() {
                     </Button>
                     <Button
                         size="sm"
-                        onClick={() => handlePrint()}
+                        onClick={handlePrintClick}
                         className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 hover:opacity-90 transition-opacity shadow-md"
                     >
                         <Download className="w-4 h-4 mr-2" /> Export PDF
@@ -464,9 +524,11 @@ function BuilderContent() {
                         <div
                             ref={previewRef}
                             id="resume-preview-container"
-                            className="bg-white text-black shadow-2xl rounded-sm w-[210mm] min-h-[297mm] p-0 m-0"
+                            className="bg-white text-black shadow-2xl rounded-sm w-[210mm] min-h-[297mm] p-0 m-0 print:overflow-hidden print:max-h-[297mm]"
                         >
-                            <ResumePreview />
+                            <div id="resume-print-content" className="w-full h-full origin-top-left">
+                                <ResumePreview />
+                            </div>
                         </div>
                     </div>
                 </div>
