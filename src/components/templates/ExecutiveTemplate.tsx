@@ -129,7 +129,10 @@ export function ExecutiveTemplate({ data }: TemplateProps) {
                                     <div key={edu.id}>
                                         <h3 className="font-bold text-gray-900">{edu.degree}</h3>
                                         <div className="text-sm text-gray-700 mb-1">{edu.school}</div>
-                                        <div className="text-xs font-bold text-gray-500 uppercase tracking-wider">{edu.startDate} – {edu.endDate}</div>
+                                        <div className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                            {edu.startDate} – {edu.endDate}
+                                            {edu.grade && <span className="ml-1 normal-case font-medium">| Grade: {edu.grade}</span>}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -143,13 +146,20 @@ export function ExecutiveTemplate({ data }: TemplateProps) {
                                 <h2 className="text-sm font-bold uppercase tracking-widest mb-4" style={{ color: primaryColor }}>
                                     Certifications
                                 </h2>
-                                <div className="space-y-3">
-                                    {certifications.map((cert) => (
-                                        <div key={cert.id}>
-                                            <div className="font-bold text-gray-900">{cert.name}</div>
-                                            <div className="text-sm text-gray-700">
-                                                {cert.issuer} {cert.date && <span className="text-gray-500">| {cert.date}</span>}
+                                <div className="flex flex-wrap gap-x-3 gap-y-1">
+                                    {certifications.map((cert, i) => (
+                                        <div key={cert.id} className="flex flex-wrap items-center">
+                                            <div>
+                                                <span className="font-bold text-gray-900">{cert.name}</span>
+                                                {(cert.issuer || cert.date) && (
+                                                    <span className="text-sm text-gray-700 ml-1">
+                                                        - {cert.issuer} {cert.date && <span className="text-gray-500">| {cert.date}</span>}
+                                                    </span>
+                                                )}
                                             </div>
+                                            {i < certifications.length - 1 && (
+                                                <span className="mx-3 text-gray-400">•</span>
+                                            )}
                                         </div>
                                     ))}
                                 </div>

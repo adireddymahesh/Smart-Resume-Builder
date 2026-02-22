@@ -26,6 +26,7 @@ export interface ResumeEducation {
     fieldOfStudy: string;
     startDate: string;
     endDate: string;
+    grade?: string; // CGPA or Percentage
     description?: string;
 }
 

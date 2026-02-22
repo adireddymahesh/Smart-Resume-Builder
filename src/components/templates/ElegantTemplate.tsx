@@ -116,7 +116,45 @@ export function ElegantTemplate({ data }: TemplateProps) {
                                         <div className="text-sm text-gray-600 italic">{edu.degree}</div>
                                         <div className="text-xs text-gray-500">{edu.fieldOfStudy}</div>
                                     </div>
-                                    <div className="text-xs font-medium text-gray-500 whitespace-nowrap">{edu.startDate} – {edu.endDate}</div>
+                                    <div className="text-right">
+                                        <div className="text-xs font-medium text-gray-500 whitespace-nowrap">{edu.startDate} – {edu.endDate}</div>
+                                        {edu.grade && <div className="text-xs font-medium text-gray-500 mt-0.5">Grade: {edu.grade}</div>}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Certifications */}
+                {certifications && certifications.length > 0 && (
+                    <section>
+                        <h2 className="text-center text-lg uppercase tracking-widest font-bold mb-8 flex items-center justify-center gap-4">
+                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span style={{ color: accent }}>Certifications</span>
+                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                        </h2>
+                        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 px-8">
+                            {certifications.map((cert, i) => (
+                                <div key={cert.id} className="flex flex-wrap items-center">
+                                    <div className="text-center">
+                                        <h4 className="font-bold text-gray-800 inline-block">
+                                            {cert.name}
+                                            {cert.link && (
+                                                <a href={cert.link} target="_blank" rel="noreferrer" className="ml-1 hover:underline text-xs font-normal text-blue-600">
+                                                    ↗
+                                                </a>
+                                            )}
+                                        </h4>
+                                        {(cert.issuer || cert.date) && (
+                                            <span className="text-gray-600 text-sm ml-1">
+                                                - {cert.issuer} {cert.date && <span className="text-gray-500 font-medium italic">| {cert.date}</span>}
+                                            </span>
+                                        )}
+                                    </div>
+                                    {i < certifications.length - 1 && (
+                                        <span className="mx-3 text-gray-400">•</span>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -157,6 +195,6 @@ export function ElegantTemplate({ data }: TemplateProps) {
                 )}
 
             </div>
-        </div>
+        </div >
     );
 }

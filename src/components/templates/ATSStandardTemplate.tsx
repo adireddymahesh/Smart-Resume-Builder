@@ -107,7 +107,10 @@ export function ATSStandardTemplate({ data }: TemplateProps) {
                                     <span>{edu.degree}</span>
                                     <span className="text-sm font-normal">{edu.startDate} – {edu.endDate}</span>
                                 </div>
-                                <div className="font-medium">{edu.school}</div>
+                                <div className="font-medium">
+                                    {edu.school}
+                                    {edu.grade && <span className="ml-2 text-sm text-gray-600">| Grade: {edu.grade}</span>}
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -136,15 +139,20 @@ export function ATSStandardTemplate({ data }: TemplateProps) {
                     <h2 className="text-[14pt] font-bold uppercase border-b-2 border-gray-300 pb-1 mb-3" style={{ color: headingColor }}>
                         Certifications
                     </h2>
-                    <ul className="list-disc list-inside space-y-1 ml-2">
-                        {certifications.map((cert) => (
-                            <li key={cert.id}>
-                                <span className="font-semibold">{cert.name}</span>
-                                {cert.issuer && <span> - {cert.issuer}</span>}
-                                {cert.date && <span> ({cert.date})</span>}
-                            </li>
+                    <div className="flex flex-wrap gap-x-3 gap-y-1">
+                        {certifications.map((cert, i) => (
+                            <div key={cert.id} className="flex items-center">
+                                <div>
+                                    <span className="font-semibold">{cert.name}</span>
+                                    {cert.issuer && <span> - {cert.issuer}</span>}
+                                    {cert.date && <span> ({cert.date})</span>}
+                                </div>
+                                {i < certifications.length - 1 && (
+                                    <span className="mx-3 text-gray-400">•</span>
+                                )}
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </section>
             )}
 

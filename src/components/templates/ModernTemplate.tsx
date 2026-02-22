@@ -140,6 +140,7 @@ export function ModernTemplate({ data }: TemplateProps) {
                                 </div>
                                 <div className="text-gray-600 text-sm">
                                     {edu.degree} {edu.fieldOfStudy ? `in ${edu.fieldOfStudy}` : ""}
+                                    {edu.grade && <span className="ml-2 font-medium">| Grade: {edu.grade}</span>}
                                 </div>
                             </div>
                         ))}
@@ -153,23 +154,27 @@ export function ModernTemplate({ data }: TemplateProps) {
                     <h3 className="uppercase font-bold border-b mb-2 pb-1 text-xs tracking-wider text-gray-800 border-gray-200">
                         Certifications
                     </h3>
-                    <div className="space-y-3">
-                        {certifications.map(cert => (
-                            <div key={cert.id}>
-                                <div className="flex justify-between items-baseline">
-                                    <h4 className="font-bold text-gray-800">
+                    <div className="flex flex-wrap gap-x-3 gap-y-1">
+                        {certifications.map((cert, i) => (
+                            <div key={cert.id} className="flex flex-wrap items-center">
+                                <div>
+                                    <h4 className="font-bold text-gray-800 inline-block">
                                         {cert.name}
                                         {cert.link && (
-                                            <a href={cert.link} target="_blank" rel="noreferrer" className="ml-2 hover:underline text-xs font-normal text-blue-600">
-                                                Link ↗
+                                            <a href={cert.link} target="_blank" rel="noreferrer" className="ml-1 hover:underline text-xs font-normal text-blue-600">
+                                                ↗
                                             </a>
                                         )}
                                     </h4>
-                                    <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
-                                        {cert.date}
-                                    </span>
+                                    {(cert.issuer || cert.date) && (
+                                        <span className="text-gray-600 text-sm ml-1">
+                                            - {cert.issuer} {cert.date && <span className="text-gray-500 font-medium">| {cert.date}</span>}
+                                        </span>
+                                    )}
                                 </div>
-                                <div className="text-gray-600 text-sm">{cert.issuer}</div>
+                                {i < certifications.length - 1 && (
+                                    <span className="mx-3 text-gray-400">•</span>
+                                )}
                             </div>
                         ))}
                     </div>

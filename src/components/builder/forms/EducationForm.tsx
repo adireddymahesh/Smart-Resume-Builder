@@ -93,24 +93,31 @@ export function EducationForm() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-medium uppercase text-muted-foreground">Start</label>
-                                        <Input
-                                            value={edu.startDate}
-                                            onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)}
-                                            placeholder="Ex: 2018"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-medium uppercase text-muted-foreground">End</label>
-                                        <Input
-                                            value={edu.endDate}
-                                            onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
-                                            placeholder="Ex: 2022"
-                                        />
-                                    </div>
-                                </div>
+                                <label className="text-xs font-medium uppercase text-muted-foreground">Grade / CGPA</label>
+                                <Input
+                                    value={edu.grade || ""}
+                                    onChange={(e) => updateEducation(edu.id, "grade", e.target.value)}
+                                    placeholder="Ex: 3.8/4.0 or 95%"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="text-xs font-medium uppercase text-muted-foreground">Start Date</label>
+                                <Input
+                                    value={edu.startDate}
+                                    onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)}
+                                    placeholder="Ex: 2018"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-medium uppercase text-muted-foreground">End Date</label>
+                                <Input
+                                    value={edu.endDate}
+                                    onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
+                                    placeholder="Ex: 2022"
+                                />
                             </div>
                         </div>
                     </CardContent>
