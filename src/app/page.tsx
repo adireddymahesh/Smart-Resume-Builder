@@ -54,6 +54,23 @@ export default function Home() {
         <div className="absolute inset-0 -z-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background opacity-70 dark:opacity-40" />
         <div className="absolute inset-0 -z-10 bg-[size:50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
 
+        {/* Huge Background Text */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none overflow-hidden select-none -z-[5] opacity-[0.03] dark:opacity-[0.02]">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="flex flex-col items-center text-foreground"
+          >
+            <span className="text-[15vw] font-black whitespace-nowrap leading-[0.85] tracking-tighter uppercase">
+              ONE PLATFORM
+            </span>
+            <span className="text-[15vw] font-black whitespace-nowrap leading-[0.85] tracking-tighter uppercase pl-16 md:pl-32">
+              ALL SOLUTIONS
+            </span>
+          </motion.div>
+        </div>
+
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

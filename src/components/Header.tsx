@@ -21,7 +21,7 @@ export function Header() {
                         <FileText className="h-5 w-5 text-white" />
                     </div>
                     <span className="font-bold text-xl tracking-tight hidden sm:inline-block">
-                        ResumeArchitect
+                        AI Powered Resume World
                     </span>
                 </Link>
 
