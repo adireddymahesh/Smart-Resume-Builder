@@ -102,6 +102,7 @@ function BuilderContent() {
         // Reset scaling
         innerContent.style.transform = 'none';
         innerContent.style.transformOrigin = 'top left';
+        innerContent.style.removeProperty('zoom');
         container.style.height = 'max-content';
 
         setTimeout(() => {
@@ -110,8 +111,17 @@ function BuilderContent() {
 
             if (actualHeight > a4HeightPx) {
                 // Squeeze it down just strictly enough to fit
-                const scale = (a4HeightPx - 5) / actualHeight;
+                const scale = (a4HeightPx - 10) / actualHeight;
+
+                // transform scales visually but keeps original layout space. 
                 innerContent.style.transform = `scale(${scale})`;
+
+                // zoom modifies actual layout space in WebKit/Blink (Chrome, Safari, Edge)
+                innerContent.style.setProperty('zoom', scale.toString());
+
+                // Reduce the height of the inner content so it doesn't push the container boundary
+                innerContent.style.height = `${actualHeight * scale}px`;
+                innerContent.style.overflow = 'hidden';
             }
 
             // Lock outer container to exactly 1 page height to forcefully prevent page 2
@@ -125,6 +135,9 @@ function BuilderContent() {
                 if (innerContent) {
                     innerContent.style.transform = '';
                     innerContent.style.transformOrigin = '';
+                    innerContent.style.removeProperty('zoom');
+                    innerContent.style.height = '';
+                    innerContent.style.overflow = '';
                 }
                 if (container) {
                     container.style.height = '';
