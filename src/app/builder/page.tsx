@@ -20,7 +20,6 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { db } from "@/lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useReactToPrint } from "react-to-print";
 import { useSearchParams } from "next/navigation";
 import * as htmlToImage from "html-to-image";
 import {
@@ -40,6 +39,7 @@ function BuilderContent() {
     const [isSaving, setIsSaving] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isEnhancing, setIsEnhancing] = useState(false);
+    const [isPrinting, setIsPrinting] = useState(false);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [tempTitle, setTempTitle] = useState("");
     const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
@@ -171,25 +171,74 @@ function BuilderContent() {
         }
     }, [user, resumeId, setResumeData]);
 
-    const handlePrint = useReactToPrint({
-        contentRef: previewRef,
-        documentTitle: resumeData.profile.fullName || "Resume",
-        pageStyle: `
-            @page { size: A4 portrait; margin: 0 !important; }
-            @media print {
-                html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+    const handlePrint = async () => {
+        if (!previewRef.current) return;
+        setIsPrinting(true);
+
+        try {
+            // Move the print portal into the visible area so html-to-image can render it
+            const portal = document.getElementById('resume-pdf-print-portal');
+            if (!portal) return;
+            portal.style.left = '0px';
+            portal.style.zIndex = '99999';
+
+            // Wait one frame for layout to settle
+            await new Promise(r => requestAnimationFrame(r));
+
+            // Capture the full resume as a high-res PNG
+            const dataUrl = await htmlToImage.toPng(previewRef.current, {
+                pixelRatio: 2,
+                backgroundColor: '#ffffff',
+            });
+
+            // Restore the portal off-screen
+            portal.style.left = '-9999px';
+            portal.style.zIndex = 'auto';
+
+            // Build a clean A4 print page with only the resume image
+            const printWindow = window.open('', '_blank', 'width=900,height=700');
+            if (!printWindow) {
+                alert('Please allow popups for this site to export the PDF.');
+                return;
             }
-        `,
-        onBeforePrint: async () => {
-            // Temporarily move the hidden container into view so browsers can clone its styles correctly
+
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${resumeData.profile.fullName || 'Resume'}</title>
+                    <style>
+                        * { margin: 0; padding: 0; box-sizing: border-box; }
+                        @page { size: A4 portrait; margin: 0; }
+                        html, body { width: 210mm; background: white; }
+                        img { display: block; width: 210mm; height: auto; page-break-inside: avoid; }
+                    </style>
+                </head>
+                <body>
+                    <img src="${dataUrl}" />
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+
+            // Wait for image to load then trigger print
+            printWindow.onload = () => {
+                setTimeout(() => {
+                    printWindow.focus();
+                    printWindow.print();
+                    printWindow.close();
+                }, 500);
+            };
+
+        } catch (err) {
+            console.error('PDF export failed:', err);
+            alert('Failed to export PDF. Please try again.');
             const portal = document.getElementById('resume-pdf-print-portal');
-            if (portal) portal.style.left = '0px';
-        },
-        onAfterPrint: () => {
-            const portal = document.getElementById('resume-pdf-print-portal');
-            if (portal) portal.style.left = '-9999px';
-        },
-    });
+            if (portal) { portal.style.left = '-9999px'; portal.style.zIndex = 'auto'; }
+        } finally {
+            setIsPrinting(false);
+        }
+    };
 
     const [isExportingImage, setIsExportingImage] = useState(false);
 
@@ -437,11 +486,11 @@ function BuilderContent() {
                         <DropdownMenuTrigger asChild>
                             <Button
                                 size="sm"
-                                disabled={isExportingImage}
+                                disabled={isExportingImage || isPrinting}
                                 className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 hover:opacity-90 transition-opacity shadow-md"
                             >
-                                {isExportingImage ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
-                                {isExportingImage ? "Exporting..." : "Export"}
+                                {(isExportingImage || isPrinting) ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
+                                {isPrinting ? "Generating PDF..." : isExportingImage ? "Exporting..." : "Export"}
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48 bg-background border-border">
