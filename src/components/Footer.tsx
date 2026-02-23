@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Twitter, Linkedin, Mail } from "lucide-react";
+import { Github, Twitter, Linkedin } from "lucide-react";
 
 export function Footer() {
     return (
@@ -25,7 +25,6 @@ export function Footer() {
                             <SocialLink href="https://github.com" icon={<Github className="w-5 h-5" />} label="GitHub" />
                             <SocialLink href="https://twitter.com" icon={<Twitter className="w-5 h-5" />} label="Twitter" />
                             <SocialLink href="https://linkedin.com" icon={<Linkedin className="w-5 h-5" />} label="LinkedIn" />
-                            <SocialLink href="mailto:hello@resumeai.com" icon={<Mail className="w-5 h-5" />} label="Email" />
                         </div>
                     </div>
 

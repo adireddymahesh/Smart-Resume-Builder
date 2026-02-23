@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'export',
-  // basePath: '/Smart-Resume-Builder',
+  basePath: '/Smart-Resume-Builder',
   images: {
     unoptimized: true,
   },
