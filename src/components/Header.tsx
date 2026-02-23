@@ -15,13 +15,14 @@ export function Header() {
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 <Link
                     href="/"
-                    className="flex items-center space-x-2 transition-opacity hover:opacity-80"
+                    className="flex items-center gap-1.5 transition-opacity hover:opacity-80"
                 >
-                    {/* <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
-                        <FileText className="h-5 w-5 text-white" />
-                    </div> */}
-                    <span className="font-bold text-xl tracking-tight hidden sm:flex items-center gap-1.5">
-                        AI Powered Resume World <span className="text-2xl">🌍</span>
+                    <span className="text-2xl leading-none">🌍</span>
+                    <span className="font-bold text-base sm:text-xl tracking-tight hidden xs:inline sm:inline">
+                        AI Powered Resume World
+                    </span>
+                    <span className="font-bold text-base tracking-tight sm:hidden">
+                        AI Resume
                     </span>
                 </Link>
 

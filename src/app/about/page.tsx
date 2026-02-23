@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, useAnimation, useMotionValue } from "framer-motion";
-import { Github, Linkedin, Twitter, Mail, ChevronLeft, ChevronRight } from "lucide-react";
+import { Github, Linkedin, Twitter, Mail, ChevronLeft, ChevronRight, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import Image from "next/image";
 
 import BharthImg from "../../../public/images/Bharth.jpeg";
@@ -96,7 +97,13 @@ export default function AboutPage() {
                 <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-500/40 dark:bg-purple-500/20 hover:bg-purple-500/50 dark:hover:bg-purple-500/30 transition-colors duration-1000 rounded-full blur-[100px]" />
                 <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-pink-500/30 dark:bg-pink-500/10 hover:bg-pink-500/40 dark:hover:bg-pink-500/20 transition-colors duration-1000 rounded-full blur-[130px]" />
             </div>
-            <main className="container mx-auto px-6 py-20 lg:py-32 flex-1 flex flex-col">
+            <main className="container mx-auto px-6 py-12 lg:py-20 flex-1 flex flex-col">
+                {/* Back Button */}
+                <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group w-fit">
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                    Back to Home
+                </Link>
+
                 {/* Header Section */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

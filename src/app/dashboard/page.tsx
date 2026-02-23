@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, FileText, ArrowRight, Trash2 } from "lucide-react";
+import { Plus, FileText, ArrowRight, Trash2, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -95,7 +95,13 @@ export default function DashboardPage() {
 
                 {/* Navbar */}
 
-                <main className="flex-1 container mx-auto px-6 py-12">
+                <main className="flex-1 container mx-auto px-6 py-8">
+                    {/* Back Button */}
+                    <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6 group">
+                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                        Back to Home
+                    </Link>
+
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}

@@ -6,11 +6,12 @@ import { db } from "@/lib/firebase";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, Wand2, FileText, Upload, Copy, Check, Download } from "lucide-react";
+import { Loader2, Wand2, FileText, Upload, Copy, Check, Download, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import dynamic from "next/dynamic";
@@ -127,6 +128,12 @@ export default function CoverLetterPage() {
 
                     {/* Input Section */}
                     <div className="space-y-6">
+                        {/* Back Button */}
+                        <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors group">
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                            Back to Home
+                        </Link>
+
                         <div>
                             <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
                                 <Wand2 className="w-8 h-8 text-purple-500" />

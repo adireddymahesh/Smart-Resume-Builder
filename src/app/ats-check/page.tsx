@@ -119,7 +119,7 @@ export default function AtsCheckPage() {
                 </div>
 
 
-                <main className="container mx-auto px-6 py-12 flex-1 flex flex-col items-center">
+                <main className="container mx-auto px-6 py-8 flex-1 flex flex-col items-center">
                     <AnimatePresence mode="wait">
                         {!results && !isAnalyzing ? (
                             <motion.div
@@ -129,6 +129,14 @@ export default function AtsCheckPage() {
                                 exit={{ opacity: 0, y: -20 }}
                                 className="w-full flex flex-col items-center"
                             >
+                                {/* Back Button */}
+                                <div className="w-full max-w-2xl mb-6">
+                                    <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors group">
+                                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                                        Back to Home
+                                    </Link>
+                                </div>
+
                                 <div className="text-center max-w-2xl mb-12">
                                     <h1 className="text-4xl font-bold mb-4">Optimize for Application Robots</h1>
                                     <p className="text-muted-foreground text-lg">Upload your resume to see how well it parses against Applicant Tracking Systems (ATS). Get a score and actionable feedback.</p>

@@ -57,6 +57,12 @@ export default function KeywordExtractor() {
 
                 <div className="max-w-4xl mx-auto space-y-8">
 
+                    {/* Back Button */}
+                    <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors group">
+                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                        Back to Home
+                    </Link>
+
                     {/* Mode Selection */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
                         <div className="flex gap-4 p-1 bg-black/5 dark:bg-white/5 rounded-2xl w-fit">
