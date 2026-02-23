@@ -121,7 +121,7 @@
     width: 210mm !important;
   }
 
-  /* Force the browser's native PDF paginator to match our visual preview's section-aware page breaks */
+  /* Section-aware page break hints */
   #resume-print-content>div>div>* {
     page-break-inside: avoid;
     break-inside: avoid;

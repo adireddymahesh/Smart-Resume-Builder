@@ -139,7 +139,7 @@ export function ATSStandardTemplate({ data }: TemplateProps) {
                     <h2 className="text-[14pt] font-bold uppercase border-b-2 border-gray-300 pb-1 mb-3" style={{ color: headingColor }}>
                         Certifications
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                         {certifications.map((cert) => (
                             <div key={cert.id} className="flex flex-col">
                                 <div className="font-medium text-[0.95rem] flex items-center gap-1.5">

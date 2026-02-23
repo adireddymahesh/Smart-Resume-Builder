@@ -21,7 +21,6 @@ import { useAuth } from "@/context/AuthContext";
 import { db } from "@/lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useReactToPrint } from "react-to-print";
-import { initialResumeState } from "@/types/resume";
 import { useSearchParams } from "next/navigation";
 import * as htmlToImage from "html-to-image";
 import {
@@ -176,18 +175,20 @@ function BuilderContent() {
         contentRef: previewRef,
         documentTitle: resumeData.profile.fullName || "Resume",
         pageStyle: `
-        @page {
-            size: A4 portrait;
-            margin: 0 !important;
-        }
-        @media print {
-            body { 
-                margin: 0 !important; 
-                padding: 0 !important;
-                background: white !important;
+            @page { size: A4 portrait; margin: 0 !important; }
+            @media print {
+                html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
             }
-        }
         `,
+        onBeforePrint: async () => {
+            // Temporarily move the hidden container into view so browsers can clone its styles correctly
+            const portal = document.getElementById('resume-pdf-print-portal');
+            if (portal) portal.style.left = '0px';
+        },
+        onAfterPrint: () => {
+            const portal = document.getElementById('resume-pdf-print-portal');
+            if (portal) portal.style.left = '-9999px';
+        },
     });
 
     const [isExportingImage, setIsExportingImage] = useState(false);
@@ -650,7 +651,7 @@ function BuilderContent() {
                 {/* Right Side - Preview (PDF viewer style) */}
 
                 {/* Hidden off-screen print target — used ONLY for Export PDF */}
-                <div style={{ position: 'fixed', left: '-9999px', top: 0, width: '210mm' }} aria-hidden="true">
+                <div id="resume-pdf-print-portal" style={{ position: 'fixed', left: '-9999px', top: 0, width: '210mm' }} aria-hidden="true">
                     <div
                         ref={previewRef}
                         id="resume-preview-container"

@@ -158,7 +158,7 @@ export function ModernTemplate({ data }: TemplateProps) {
                     <h3 className="uppercase font-bold border-b mb-2 pb-1 text-xs tracking-wider text-gray-800 border-gray-200">
                         Certifications
                     </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                         {certifications.map((cert) => (
                             <div key={cert.id} className="flex flex-col">
                                 <h4 className="font-medium text-sm text-gray-800 flex items-center gap-1.5">

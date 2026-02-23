@@ -164,7 +164,7 @@ export function CreativeTemplate({ data }: TemplateProps) {
                         <span className="w-1.5 h-1.5 rounded-full bg-gray-900"></span>
                         Certifications
                     </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                         {certifications.map(cert => (
                             <div key={cert.id} className="flex flex-col">
                                 <h4 className="font-medium text-[0.95rem] text-gray-900 flex items-center gap-1.5">

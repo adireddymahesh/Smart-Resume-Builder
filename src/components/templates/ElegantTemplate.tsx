@@ -134,7 +134,7 @@ export function ElegantTemplate({ data }: TemplateProps) {
                             <span style={{ color: accent }}>Certifications</span>
                             <span className="w-12 h-[1px] bg-gray-300"></span>
                         </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 px-8">
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-4 px-8">
                             {certifications.map((cert) => (
                                 <div key={cert.id} className="flex flex-col text-center">
                                     <h4 className="font-medium text-sm text-gray-800">
