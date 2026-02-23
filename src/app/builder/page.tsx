@@ -175,17 +175,18 @@ function BuilderContent() {
         if (!previewRef.current) return;
         setIsPrinting(true);
 
+        // Move the print portal into the visible area so html-to-image can render correctly
+        const portal = document.getElementById('resume-pdf-print-portal');
         try {
-            // Move the print portal into the visible area so html-to-image can render it
-            const portal = document.getElementById('resume-pdf-print-portal');
-            if (!portal) return;
+            if (!portal) throw new Error('Print container not found');
             portal.style.left = '0px';
             portal.style.zIndex = '99999';
 
             // Wait one frame for layout to settle
             await new Promise(r => requestAnimationFrame(r));
+            await new Promise(r => setTimeout(r, 100));
 
-            // Capture the full resume as a high-res PNG
+            // Capture the full resume as a high-res image
             const dataUrl = await htmlToImage.toPng(previewRef.current, {
                 pixelRatio: 2,
                 backgroundColor: '#ffffff',
@@ -195,45 +196,39 @@ function BuilderContent() {
             portal.style.left = '-9999px';
             portal.style.zIndex = 'auto';
 
-            // Build a clean A4 print page with only the resume image
-            const printWindow = window.open('', '_blank', 'width=900,height=700');
-            if (!printWindow) {
-                alert('Please allow popups for this site to export the PDF.');
-                return;
+            // Create an Image element to measure natural dimensions
+            const img = new Image();
+            await new Promise<void>((res, rej) => {
+                img.onload = () => res();
+                img.onerror = rej;
+                img.src = dataUrl;
+            });
+
+            // A4 dimensions in mm
+            const A4_W = 210;
+            const A4_H = 297;
+            const imgAspect = img.naturalHeight / img.naturalWidth;
+            const pdfImgHeight = A4_W * imgAspect;
+
+            // Dynamically import jsPDF to keep bundle lean
+            const { jsPDF } = await import('jspdf');
+
+            // How many A4 pages do we need?
+            const pageCount = Math.ceil(pdfImgHeight / A4_H);
+            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+            for (let page = 0; page < pageCount; page++) {
+                if (page > 0) pdf.addPage();
+                // Shift the image up by one A4-height per page so each page shows its slice
+                const yOffset = -page * A4_H;
+                pdf.addImage(dataUrl, 'PNG', 0, yOffset, A4_W, pdfImgHeight);
             }
 
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>${resumeData.profile.fullName || 'Resume'}</title>
-                    <style>
-                        * { margin: 0; padding: 0; box-sizing: border-box; }
-                        @page { size: A4 portrait; margin: 0; }
-                        html, body { width: 210mm; background: white; }
-                        img { display: block; width: 210mm; height: auto; page-break-inside: avoid; }
-                    </style>
-                </head>
-                <body>
-                    <img src="${dataUrl}" />
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-
-            // Wait for image to load then trigger print
-            printWindow.onload = () => {
-                setTimeout(() => {
-                    printWindow.focus();
-                    printWindow.print();
-                    printWindow.close();
-                }, 500);
-            };
+            pdf.save(`${resumeData.profile.fullName || 'Resume'}.pdf`);
 
         } catch (err) {
             console.error('PDF export failed:', err);
             alert('Failed to export PDF. Please try again.');
-            const portal = document.getElementById('resume-pdf-print-portal');
             if (portal) { portal.style.left = '-9999px'; portal.style.zIndex = 'auto'; }
         } finally {
             setIsPrinting(false);
