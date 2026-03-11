@@ -133,14 +133,14 @@ function BuilderContent() {
                 // Otherwise we'd produce a nearly-blank page.
                 if (contentOnPage >= MIN_CONTENT_FOR_BREAK) {
                     breaks.push(sTop);
-                    pageBottom = sTop + A4_H_PX;
+                    pageBottom = sTop + (A4_H_PX - PAGE_TOP_PAD_PX);
                 }
             }
 
             // If a single section is taller than one page, add raw breaks inside it
             while (pageBottom < sBot) {
                 breaks.push(pageBottom);
-                pageBottom += A4_H_PX;
+                pageBottom += (A4_H_PX - PAGE_TOP_PAD_PX);
             }
         }
 
@@ -231,23 +231,35 @@ function BuilderContent() {
             // A4 dimensions in mm
             const A4_W = 210;
             const A4_H = 297;
-            const imgAspect = img.naturalHeight / img.naturalWidth;
-            const pdfImgHeight = A4_W * imgAspect;
+            const imgAspect = img.naturalWidth / A4_W;
+            const pdfImgHeight = img.naturalHeight / imgAspect;
 
             // Dynamically import jsPDF to keep bundle lean
             const { jsPDF } = await import('jspdf');
 
-            // How many A4 pages do we need?
-            const pageCount = Math.ceil(pdfImgHeight / A4_H);
             const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-            for (let page = 0; page < pageCount; page++) {
-                if (page > 0) pdf.addPage();
-                // Shift the image up by one A4-height per page so each page shows its slice
-                // Add top padding on pages 2+ so content doesn't start flush at the top
-                const topPad = page > 0 ? PAGE_TOP_PAD_PX * (A4_W / 794) : 0;
-                const yOffset = -page * A4_H + topPad;
+            // Use the same page breaks as computed for the preview
+            const scaleToMm = A4_W / 794; // 794 is the CSS pixel width of our A4 container 
+
+            // Convert CSS-pixel pageBreaks to PDF mm pageBreaks
+            const breaksMm = pageBreaks.map(b => b * scaleToMm);
+
+            for (let i = 0; i < breaksMm.length; i++) {
+                if (i > 0) pdf.addPage();
+
+                const topPadMm = i > 0 ? PAGE_TOP_PAD_PX * scaleToMm : 0;
+                const breakStartMm = breaksMm[i];
+                const yOffset = -breakStartMm + topPadMm;
+
+                // Add the shifted image
                 pdf.addImage(dataUrl, 'PNG', 0, yOffset, A4_W, pdfImgHeight);
+
+                // Overlay a white rectangle at the top to hide the clipped content
+                if (topPadMm > 0) {
+                    pdf.setFillColor(255, 255, 255);
+                    pdf.rect(0, 0, A4_W, topPadMm, 'F');
+                }
             }
 
             pdf.save(`${resumeData.profile.fullName || 'Resume'}.pdf`);
@@ -765,9 +777,11 @@ function BuilderContent() {
                                                 Page {i + 1}
                                             </div>
                                             {/* Shift content to show only this page's slice, with top padding for page 2+ */}
-                                            <div style={{ height: `${breakEnd - breakStart}px`, overflow: 'hidden', paddingTop: `${topPad}px` }}>
-                                                <div style={{ marginTop: `-${breakStart}px` }}>
-                                                    <ResumePreview />
+                                            <div style={{ paddingTop: `${topPad}px`, height: '100%', boxSizing: 'border-box' }}>
+                                                <div style={{ height: `${breakEnd - breakStart}px`, overflow: 'hidden' }}>
+                                                    <div style={{ marginTop: `-${breakStart}px` }}>
+                                                        <ResumePreview />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -137,7 +137,7 @@ export default function AboutPage() {
                                     {/* Image Container */}
                                     <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-56 h-56">
                                         <div className="absolute inset-0 bg-linear-to-tr from-primary/60 to-purple-500/60 dark:from-primary/30 dark:to-purple-500/30 rounded-[2.5rem] blur-2xl transition-opacity duration-500 opacity-0 group-hover/card:opacity-100" />
-                                        <div className="relative w-full h-full rounded-[2.5rem] border-[8px] border-background shadow-2xl overflow-hidden bg-muted transition-transform duration-300 group-hover/card:scale-[1.05]">
+                                        <div className="relative w-full h-full rounded-[2.5rem] border-8 border-background shadow-2xl overflow-hidden bg-muted transition-transform duration-300 group-hover/card:scale-[1.05]">
                                             <Image
                                                 src={member.image}
                                                 alt={member.name}
@@ -172,8 +172,8 @@ export default function AboutPage() {
                     transition={{ duration: 0.6, delay: 0.8 }}
                     className="mt-32 max-w-4xl mx-auto relative group"
                 >
-                    <div className="absolute inset-0 bg-linear-to-r from-primary/30 via-purple-500/30 to-pink-500/30 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative bg-white/60 dark:bg-black/60 backdrop-blur-3xl rounded-[2rem] p-10 md:p-16 text-center border border-zinc-200/50 dark:border-white/5 shadow-xl dark:shadow-none overflow-hidden">
+                    <div className="absolute inset-0 bg-linear-to-r from-primary/30 via-purple-500/30 to-pink-500/30 rounded-4xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative bg-white/60 dark:bg-black/60 backdrop-blur-3xl rounded-4xl p-10 md:p-16 text-center border border-zinc-200/50 dark:border-white/5 shadow-xl dark:shadow-none overflow-hidden">
                         {/* Inner Gradient Spot */}
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-linear-to-b from-primary/20 to-transparent blur-2xl pointer-events-none" />
 

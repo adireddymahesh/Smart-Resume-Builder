@@ -78,7 +78,7 @@ export default function LoginPage() {
             >
                 {/* Animated Background */}
                 <div className="absolute inset-0 bg-white dark:bg-zinc-950">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-primary/10 dark:from-primary/20 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,var(--tw-gradient-stops))] from-primary/10 dark:from-primary/20 via-transparent to-transparent" />
                     <div className="absolute inset-0 opacity-[0.03] dark:opacity-20 bg-size-[50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
                 </div>
 
