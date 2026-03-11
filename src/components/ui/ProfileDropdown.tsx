@@ -41,7 +41,7 @@ export function ProfileDropdown() {
                         {user?.photoURL ? (
                             <img src={user.photoURL} alt="User" className="h-full w-full object-cover" />
                         ) : (
-                            <div className="h-full w-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                            <div className="h-full w-full bg-linear-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold text-sm">
                                 {user?.email?.charAt(0).toUpperCase()}
                             </div>
                         )}

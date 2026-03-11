@@ -49,20 +49,30 @@ export default function DashboardPage() {
     }, [user, authLoading]);
 
     const handleCreateNew = async () => {
-        if (!user) return;
+        if (!user) {
+            console.error("handleCreateNew: No user logged in");
+            return;
+        }
+        console.log("handleCreateNew: Starting, user uid:", user.uid);
         const newId = crypto.randomUUID();
         try {
-            await setDoc(doc(db, "users", user.uid, "resumes", newId), {
+            const resumeData = {
                 ...initialResumeState,
                 id: newId,
+                userId: user.uid,
                 title: "Untitled Resume",
                 updatedAt: new Date().toISOString(),
                 createdAt: new Date().toISOString(),
-            });
+            };
+            console.log("handleCreateNew: Writing to Firestore path:", `users/${user.uid}/resumes/${newId}`);
+            await setDoc(doc(db, "users", user.uid, "resumes", newId), resumeData);
+            console.log("handleCreateNew: Success, navigating to builder");
             router.push(`/builder?id=${newId}`);
-        } catch (error) {
-            console.error("Error creating resume:", error);
-            alert("Failed to create new resume. Please try again.");
+        } catch (error: any) {
+            console.error("handleCreateNew: Firestore error code:", error?.code);
+            console.error("handleCreateNew: Firestore error message:", error?.message);
+            console.error("handleCreateNew: Full error:", error);
+            alert(`Failed to create new resume.\nError: ${error?.code || error?.message || "Unknown error"}\nPlease check the browser console for details.`);
         }
     };
 
@@ -153,7 +163,7 @@ export default function DashboardPage() {
                                         transition={{ delay: 0.15 + index * 0.05 }}
                                     >
                                         <Card className="h-[280px] flex flex-col p-6 hover:shadow-xl transition-all border-border/50 hover:border-primary/50 group relative overflow-hidden cursor-pointer">
-                                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500" />
+                                            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-500 to-purple-500" />
                                             {/* Delete Button */}
                                             <div className="absolute top-4 right-4 z-10">
                                                 <Button

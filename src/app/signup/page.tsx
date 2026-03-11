@@ -71,8 +71,8 @@ export default function SignupPage() {
             >
                 {/* Animated Background */}
                 <div className="absolute inset-0 bg-white dark:bg-zinc-950">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 dark:from-blue-500/20 via-transparent to-transparent" />
-                    <div className="absolute inset-0 opacity-[0.03] dark:opacity-20 bg-[size:50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-blue-500/10 dark:from-blue-500/20 via-transparent to-transparent" />
+                    <div className="absolute inset-0 opacity-[0.03] dark:opacity-20 bg-size-[50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
                 </div>
 
                 {/* Content */}
@@ -86,7 +86,7 @@ export default function SignupPage() {
                     </div>
                     <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-6 leading-tight">
                         Join the  <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-500">
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-500">
                             AI Revolution
                         </span>
                     </h1>
@@ -102,7 +102,7 @@ export default function SignupPage() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="relative w-full max-w-sm"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-cyan-500/20 blur-2xl rounded-3xl"></div>
+                        <div className="absolute inset-0 bg-linear-to-tr from-blue-500/20 to-cyan-500/20 blur-2xl rounded-3xl"></div>
                         <div className="relative bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 rounded-3xl shadow-2xl">
                             <h3 className="font-semibold text-lg text-zinc-900 dark:text-white mb-6">Premium AI Tools Included</h3>
                             <div className="space-y-4">
@@ -113,7 +113,7 @@ export default function SignupPage() {
                                     { text: "Keyword Analysis", color: "text-orange-500", bg: "bg-orange-100 dark:bg-orange-900/30" }
                                 ].map((feature, i) => (
                                     <div key={i} className="flex items-center gap-3">
-                                        <div className={`w-8 h-8 rounded-full ${feature.bg} flex items-center justify-center flex-shrink-0`}>
+                                        <div className={`w-8 h-8 rounded-full ${feature.bg} flex items-center justify-center shrink-0`}>
                                             <CheckCircle2 className={`w-4 h-4 ${feature.color}`} />
                                         </div>
                                         <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{feature.text}</span>

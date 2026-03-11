@@ -39,7 +39,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#9f2bf0] via-[#d48aff] to-[#9f2bf0] animate-gradient-text"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 text-transparent bg-clip-text bg-linear-to-r from-[#9f2bf0] via-[#d48aff] to-[#9f2bf0] animate-gradient-text"
             >
               AI Powered Resume World
             </motion.h1>
@@ -61,14 +61,14 @@ export default function Home() {
             >
               <h2 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tight leading-[1.1] flex flex-wrap gap-[0.3em] uppercase relative z-10 w-full">
                 <span className="text-zinc-900 dark:text-white">ONE</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a332fc] via-[#ea1a7d] to-[#e61313] dark:from-[#bc7dff] dark:via-[#ff479b] dark:to-[#ff4040]">PLATFORM</span>
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-[#a332fc] via-[#ea1a7d] to-[#e61313] dark:from-[#bc7dff] dark:via-[#ff479b] dark:to-[#ff4040]">PLATFORM</span>
               </h2>
               <h2 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tight leading-[1.1] flex flex-wrap gap-[0.3em] uppercase relative z-10 w-full">
                 <span className="text-zinc-900 dark:text-white">MANY</span>
                 <span className="inline-block min-w-0">
                   <TypewriterText
                     words={["SOLUTIONS", "FEATURES"]}
-                    className="text-transparent bg-clip-text bg-gradient-to-r from-[#a332fc] via-[#ea1a7d] to-[#e61313] dark:from-[#bc7dff] dark:via-[#ff479b] dark:to-[#ff4040]"
+                    className="text-transparent bg-clip-text bg-linear-to-r from-[#a332fc] via-[#ea1a7d] to-[#e61313] dark:from-[#bc7dff] dark:via-[#ff479b] dark:to-[#ff4040]"
                   />
                 </span>
               </h2>
@@ -173,7 +173,7 @@ export default function Home() {
                 >
                   <div className="px-5 py-4 border-b flex items-center justify-between border-zinc-200 dark:border-white/5 bg-zinc-50/50 dark:bg-zinc-950/50">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                      <div className="w-8 h-8 rounded-full bg-linear-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg">
                         <CheckCircle className="w-4 h-4 text-white" />
                       </div>
                       <span className="font-semibold text-sm">ATS Analysis</span>
@@ -222,7 +222,7 @@ export default function Home() {
               >
                 <div className="px-5 py-4 border-b flex items-center justify-between border-zinc-200 dark:border-white/5 bg-zinc-50/50 dark:bg-zinc-950/50">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                    <div className="w-8 h-8 rounded-full bg-linear-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg">
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
                     <span className="font-semibold text-sm">ATS Analysis</span>
@@ -259,7 +259,7 @@ export default function Home() {
       </section>
 
       {/* Features Section (Below Fold) */}
-      <section className="py-24 px-4 relative z-10 bg-gradient-to-b from-transparent via-accent/5 to-background overflow-hidden -mt-10 pt-32">
+      <section className="py-24 px-4 relative z-10 bg-linear-to-b from-transparent via-accent/5 to-background overflow-hidden -mt-10 pt-32">
 
         {/* Deep Background Floating Orbs */}
         <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-purple-500/5 dark:bg-purple-500/10 blur-[150px] rounded-full pointer-events-none" />

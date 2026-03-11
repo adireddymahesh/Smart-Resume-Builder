@@ -69,6 +69,8 @@ function BuilderContent() {
 
     // A4 height in natural pixels (297mm at 96dpi)
     const A4_H_PX = 1122.5;
+    // Top padding for page 2+ (to avoid content starting flush at the top)
+    const PAGE_TOP_PAD_PX = 40;
 
     // Section-aware page breaks: computed break points in natural pixels.
     // Each value is the contentHeight offset where a new page should start.
@@ -92,7 +94,27 @@ function BuilderContent() {
         }
 
         const containerTop = el.getBoundingClientRect().top;
-        const sections = Array.from(templateRoot.children) as HTMLElement[];
+
+        // Collect candidate sections: direct children of the template root.
+        // If a child is extremely tall (> 70% of a page) AND has its own children,
+        // it is likely a non-semantic wrapper div (e.g. ExecutiveTemplate's div.px-4).
+        // In that case, expand it into its children so page breaks can be placed inside it.
+        const rawChildren = Array.from(templateRoot.children) as HTMLElement[];
+        const sections: HTMLElement[] = [];
+        for (const child of rawChildren) {
+            const childRect = child.getBoundingClientRect();
+            if (childRect.height > A4_H_PX * 0.7 && child.children.length > 1) {
+                // Expand wrapper into its children
+                sections.push(...(Array.from(child.children) as HTMLElement[]));
+            } else {
+                sections.push(child);
+            }
+        }
+
+        // Minimum content that must exist on the current page before we're allowed to
+        // push a section to the top of the next page. Using 30% of A4 height prevents
+        // massive blank gaps when sections start near the top of a page.
+        const MIN_CONTENT_FOR_BREAK = A4_H_PX * 0.30;
 
         const breaks: number[] = [0];
         let pageBottom = A4_H_PX; // end of the first page in natural px
@@ -102,12 +124,14 @@ function BuilderContent() {
             const sTop = Math.max(0, rect.top - containerTop);
             const sBot = sTop + rect.height;
 
-            // If this section straddles the current page boundary, push break to section start
+            // If this section straddles the current page boundary, consider pushing
+            // the break to the start of this section (keeps sections intact).
             if (sTop < pageBottom && sBot > pageBottom && sTop > 10) {
-                // Only break if it's not the very top of the page
-                // to avoid pushing an empty page 1
                 const lastBreak = breaks[breaks.length - 1];
-                if (sTop - lastBreak > 50) {
+                const contentOnPage = sTop - lastBreak;
+                // Only push the break if there's enough content already on this page.
+                // Otherwise we'd produce a nearly-blank page.
+                if (contentOnPage >= MIN_CONTENT_FOR_BREAK) {
                     breaks.push(sTop);
                     pageBottom = sTop + A4_H_PX;
                 }
@@ -220,7 +244,9 @@ function BuilderContent() {
             for (let page = 0; page < pageCount; page++) {
                 if (page > 0) pdf.addPage();
                 // Shift the image up by one A4-height per page so each page shows its slice
-                const yOffset = -page * A4_H;
+                // Add top padding on pages 2+ so content doesn't start flush at the top
+                const topPad = page > 0 ? PAGE_TOP_PAD_PX * (A4_W / 794) : 0;
+                const yOffset = -page * A4_H + topPad;
                 pdf.addImage(dataUrl, 'PNG', 0, yOffset, A4_W, pdfImgHeight);
             }
 
@@ -482,7 +508,7 @@ function BuilderContent() {
                             <Button
                                 size="sm"
                                 disabled={isExportingImage || isPrinting}
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 hover:opacity-90 transition-opacity shadow-md"
+                                className="bg-linear-to-r from-blue-600 to-purple-600 border-0 hover:opacity-90 transition-opacity shadow-md"
                             >
                                 {(isExportingImage || isPrinting) ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
                                 {isPrinting ? "Generating PDF..." : isExportingImage ? "Exporting..." : "Export"}
@@ -629,7 +655,7 @@ function BuilderContent() {
                                     <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">Choose Template</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         {[
-                                            { id: 'modern', name: 'Modern', color: 'bg-gradient-to-br from-gray-100 to-gray-200' },
+                                            { id: 'modern', name: 'Modern', color: 'bg-linear-to-br from-gray-100 to-gray-200' },
                                             { id: 'professional', name: 'Professional', color: 'bg-blue-50 border-l-4 border-blue-200' },
                                             { id: 'elegant', name: 'Elegant', color: 'bg-[#fcfbf9] border border-stone-200 font-serif' },
                                             { id: 'creative', name: 'Creative', color: 'bg-gray-50 border-2 border-gray-900' },
@@ -646,7 +672,7 @@ function BuilderContent() {
                                                         : "border-transparent hover:border-primary/50 opacity-80 hover:opacity-100"
                                                 )}
                                             >
-                                                <div className={cn("aspect-[210/297] w-full flex items-center justify-center p-4", template.color)}>
+                                                <div className={cn("aspect-210/297 w-full flex items-center justify-center p-4", template.color)}>
                                                     <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{template.name}</span>
                                                 </div>
                                             </div>
@@ -726,6 +752,8 @@ function BuilderContent() {
                                     const pageH = i < pageBreaks.length - 1
                                         ? A4_H_PX
                                         : Math.max(breakEnd - breakStart, 1); // last page: natural height
+                                    // Pages 2+ get top padding so content doesn't start flush at the edge
+                                    const topPad = i > 0 ? PAGE_TOP_PAD_PX : 0;
                                     return (
                                         <div
                                             key={i}
@@ -736,8 +764,8 @@ function BuilderContent() {
                                             <div className="absolute bottom-2 right-2 z-10 bg-black/10 text-gray-500 text-[8px] font-medium px-2 py-0.5 rounded-full">
                                                 Page {i + 1}
                                             </div>
-                                            {/* Shift content to show only this page's slice */}
-                                            <div style={{ height: `${breakEnd - breakStart}px`, overflow: 'hidden' }}>
+                                            {/* Shift content to show only this page's slice, with top padding for page 2+ */}
+                                            <div style={{ height: `${breakEnd - breakStart}px`, overflow: 'hidden', paddingTop: `${topPad}px` }}>
                                                 <div style={{ marginTop: `-${breakStart}px` }}>
                                                     <ResumePreview />
                                                 </div>

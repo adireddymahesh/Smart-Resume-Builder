@@ -52,9 +52,9 @@ export function ElegantTemplate({ data }: TemplateProps) {
                 {experience.length > 0 && (
                     <section>
                         <h2 className="text-center text-lg uppercase tracking-widest font-bold mb-8 flex items-center justify-center gap-4">
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                             <span style={{ color: accent }}>Experience</span>
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                         </h2>
                         <div className="space-y-8">
                             {experience.map(exp => (
@@ -75,9 +75,9 @@ export function ElegantTemplate({ data }: TemplateProps) {
                 {projects.length > 0 && (
                     <section>
                         <h2 className="text-center text-lg uppercase tracking-widest font-bold mb-8 flex items-center justify-center gap-4">
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                             <span style={{ color: accent }}>Projects</span>
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                         </h2>
                         <div className="grid grid-cols-1 gap-6">
                             {projects.map(proj => (
@@ -104,9 +104,9 @@ export function ElegantTemplate({ data }: TemplateProps) {
                 {education.length > 0 && (
                     <section>
                         <h2 className="text-center text-lg uppercase tracking-widest font-bold mb-8 flex items-center justify-center gap-4">
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                             <span style={{ color: accent }}>Education</span>
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                         </h2>
                         <div className="space-y-4">
                             {education.map(edu => (
@@ -130,9 +130,9 @@ export function ElegantTemplate({ data }: TemplateProps) {
                 {certifications && certifications.length > 0 && (
                     <section>
                         <h2 className="text-center text-lg uppercase tracking-widest font-bold mb-8 flex items-center justify-center gap-4">
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                             <span style={{ color: accent }}>Certifications</span>
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                         </h2>
                         <div className="grid grid-cols-2 gap-x-8 gap-y-4 px-8">
                             {certifications.map((cert) => (
@@ -160,9 +160,9 @@ export function ElegantTemplate({ data }: TemplateProps) {
                 {skills.length > 0 && (
                     <section>
                         <h2 className="text-center text-lg uppercase tracking-widest font-bold mb-8 flex items-center justify-center gap-4">
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                             <span style={{ color: accent }}>Skills</span>
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                         </h2>
                         <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 px-8">
                             {skills.map(skill => (
@@ -179,9 +179,9 @@ export function ElegantTemplate({ data }: TemplateProps) {
                 {customSection?.visible && (
                     <section>
                         <h2 className="text-center text-lg uppercase tracking-widest font-bold mb-8 flex items-center justify-center gap-4">
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                             <span style={{ color: accent }}>{customSection.title}</span>
-                            <span className="w-12 h-[1px] bg-gray-300"></span>
+                            <span className="w-12 h-px bg-gray-300"></span>
                         </h2>
                         <div className="text-sm text-gray-700 text-justify leading-relaxed whitespace-pre-line max-w-2xl mx-auto">
                             {customSection.content}

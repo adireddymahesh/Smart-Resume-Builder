@@ -79,7 +79,7 @@ export default function LoginPage() {
                 {/* Animated Background */}
                 <div className="absolute inset-0 bg-white dark:bg-zinc-950">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-primary/10 dark:from-primary/20 via-transparent to-transparent" />
-                    <div className="absolute inset-0 opacity-[0.03] dark:opacity-20 bg-[size:50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
+                    <div className="absolute inset-0 opacity-[0.03] dark:opacity-20 bg-size-[50px_50px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
                 </div>
 
                 {/* Content */}
@@ -90,7 +90,7 @@ export default function LoginPage() {
                     </Link>
                     <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-6 leading-tight">
                         Welcome back to the <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600 dark:from-purple-400 dark:to-pink-600">
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-pink-600 dark:from-purple-400 dark:to-pink-600">
                             Future of Work
                         </span>
                     </h1>
@@ -106,7 +106,7 @@ export default function LoginPage() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="relative w-full max-w-sm"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-500/20 blur-2xl rounded-3xl"></div>
+                        <div className="absolute inset-0 bg-linear-to-tr from-primary/20 to-purple-500/20 blur-2xl rounded-3xl"></div>
                         <div className="relative bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 rounded-3xl shadow-2xl">
                             <div className="flex gap-4 items-center mb-6">
                                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -138,7 +138,7 @@ export default function LoginPage() {
                                 </div>
                             </div>
                             <div className="mt-6 flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-100/50 dark:bg-zinc-800/50 p-3 rounded-lg">
-                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                                <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
                                 <span>Found 12 matching keywords for your target role</span>
                             </div>
                         </div>

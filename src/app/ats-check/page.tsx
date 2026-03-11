@@ -143,7 +143,7 @@ export default function AtsCheckPage() {
                                 </div>
 
                                 <div className="w-full max-w-xl mb-6">
-                                    <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20 bg-primary/5 flex items-center justify-between">
+                                    <Card className="p-4 bg-primary/5 backdrop-blur-sm border-primary/20 flex items-center justify-between">
                                         <div className="space-y-0.5">
                                             <Label htmlFor="fresher-mode" className="text-base font-semibold text-primary">I am a Fresher / Entry-Level</Label>
                                             <p className="text-sm text-muted-foreground">Adapts the ATS scoring algorithm to not penalize for missing work experience.</p>
@@ -282,7 +282,7 @@ export default function AtsCheckPage() {
                                                         {results.issues.filter((i: any) => i.type === 'critical').length > 0 ? (
                                                             results.issues.filter((i: any) => i.type === 'critical').map((issue: any, idx: number) => (
                                                                 <li key={idx} className="flex gap-3 text-sm">
-                                                                    <span className="w-1.5 h-1.5 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                                                                    <span className="w-1.5 h-1.5 bg-red-500 rounded-full mt-2 shrink-0" />
                                                                     <span>{issue.message}</span>
                                                                 </li>
                                                             ))
@@ -302,7 +302,7 @@ export default function AtsCheckPage() {
                                                         {results.issues.filter((i: any) => i.type === 'warning').length > 0 ? (
                                                             results.issues.filter((i: any) => i.type === 'warning').map((issue: any, idx: number) => (
                                                                 <li key={idx} className="flex gap-3 text-sm">
-                                                                    <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
+                                                                    <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 shrink-0" />
                                                                     <span>{issue.message}</span>
                                                                 </li>
                                                             ))
@@ -322,7 +322,7 @@ export default function AtsCheckPage() {
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                     {results.positive.map((item: string, idx: number) => (
                                                         <div key={idx} className="flex items-start gap-2 text-sm text-foreground/80">
-                                                            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                                                            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
                                                             {item}
                                                         </div>
                                                     ))}

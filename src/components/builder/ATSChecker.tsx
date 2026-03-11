@@ -252,7 +252,7 @@ export function ATSChecker({ data }: ATSCheckerProps) {
                     <ScrollArea className="h-[300px] pr-4">
                         {analysis.suggestions.length === 0 ? (
                             <div className="flex items-center gap-3 p-3 rounded-lg bg-green-500/10 text-green-700 border border-green-200">
-                                <CircleCheck className="w-5 h-5 flex-shrink-0" />
+                                <CircleCheck className="w-5 h-5 shrink-0" />
                                 <span className="text-sm font-medium">Great job! No major issues found.</span>
                             </div>
                         ) : (
@@ -261,15 +261,15 @@ export function ATSChecker({ data }: ATSCheckerProps) {
                                     <div
                                         key={suggestion.id}
                                         className={`p-3 rounded-lg border flex gap-3 items-start ${suggestion.type === 'critical' ? 'bg-red-500/5 border-red-200' :
-                                                suggestion.type === 'warning' ? 'bg-yellow-500/5 border-yellow-200' :
-                                                    'bg-green-500/5 border-green-200'
+                                            suggestion.type === 'warning' ? 'bg-yellow-500/5 border-yellow-200' :
+                                                'bg-green-500/5 border-green-200'
                                             }`}>
                                         {suggestion.type === 'critical' ? (
-                                            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                                            <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                                         ) : suggestion.type === 'warning' ? (
-                                            <AlertTriangle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
+                                            <AlertTriangle className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
                                         ) : (
-                                            <CircleCheck className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                                            <CircleCheck className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                                         )}
                                         <div>
                                             <div className="flex items-center gap-2 mb-1">

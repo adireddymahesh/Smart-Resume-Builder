@@ -11,7 +11,7 @@ export function Header() {
     const { user, loading } = useAuth();
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-purple-500/20 bg-background/40 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <header className="sticky top-0 z-50 w-full border-b border-purple-500/20 bg-background/40 backdrop-blur-2xl supports-backdrop-filter:bg-background/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 <Link
                     href="/"

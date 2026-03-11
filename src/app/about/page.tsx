@@ -112,11 +112,11 @@ export default function AboutPage() {
                     className="text-center max-w-4xl mx-auto mb-20 relative"
                 >
                     {/* Glowing Backlight behind Text */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-gradient-to-r dark:from-primary/30 dark:to-purple-500/30 blur-3xl rounded-full opacity-0 dark:opacity-50 pointer-events-none transition-opacity duration-500" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-linear-to-r dark:from-primary/30 dark:to-purple-500/30 blur-3xl rounded-full opacity-0 dark:opacity-50 pointer-events-none transition-opacity duration-500" />
 
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-600 dark:from-white dark:via-zinc-200 dark:to-zinc-500 drop-shadow-sm">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 relative z-10 text-transparent bg-clip-text bg-linear-to-r from-zinc-900 via-zinc-800 to-zinc-600 dark:from-white dark:via-zinc-200 dark:to-zinc-500 drop-shadow-sm">
                         Meet the brilliant minds behind{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-purple-500">
                             ResumeAI
                         </span>
                     </h1>
@@ -136,7 +136,7 @@ export default function AboutPage() {
                                 <div className={`relative bg-white/80 dark:bg-card/40 backdrop-blur-xl border border-zinc-200/80 dark:border-white/5 shadow-2xl dark:shadow-none transition-transform duration-500 hover:-translate-y-2 rounded-[3.5rem] pt-36 pb-12 px-8 flex flex-col items-center justify-center text-center ${member.hoverGlow}`}>
                                     {/* Image Container */}
                                     <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-56 h-56">
-                                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/60 to-purple-500/60 dark:from-primary/30 dark:to-purple-500/30 rounded-[2.5rem] blur-2xl transition-opacity duration-500 opacity-0 group-hover/card:opacity-100" />
+                                        <div className="absolute inset-0 bg-linear-to-tr from-primary/60 to-purple-500/60 dark:from-primary/30 dark:to-purple-500/30 rounded-[2.5rem] blur-2xl transition-opacity duration-500 opacity-0 group-hover/card:opacity-100" />
                                         <div className="relative w-full h-full rounded-[2.5rem] border-[8px] border-background shadow-2xl overflow-hidden bg-muted transition-transform duration-300 group-hover/card:scale-[1.05]">
                                             <Image
                                                 src={member.image}
@@ -172,12 +172,12 @@ export default function AboutPage() {
                     transition={{ duration: 0.6, delay: 0.8 }}
                     className="mt-32 max-w-4xl mx-auto relative group"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-purple-500/30 to-pink-500/30 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-r from-primary/30 via-purple-500/30 to-pink-500/30 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative bg-white/60 dark:bg-black/60 backdrop-blur-3xl rounded-[2rem] p-10 md:p-16 text-center border border-zinc-200/50 dark:border-white/5 shadow-xl dark:shadow-none overflow-hidden">
                         {/* Inner Gradient Spot */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-gradient-to-b from-primary/20 to-transparent blur-2xl pointer-events-none" />
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-linear-to-b from-primary/20 to-transparent blur-2xl pointer-events-none" />
 
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-white dark:to-white/70">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-linear-to-r from-zinc-900 to-zinc-600 dark:from-white dark:to-white/70">
                             Crafted with precision & care
                         </h2>
                         <p className="text-muted-foreground text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">

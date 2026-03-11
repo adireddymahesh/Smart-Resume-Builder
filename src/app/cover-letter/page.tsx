@@ -216,7 +216,7 @@ export default function CoverLetterPage() {
                                 </div>
 
                                 <Button
-                                    className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-purple-500/25"
+                                    className="w-full h-12 text-lg font-semibold bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-purple-500/25"
                                     onClick={handleGenerate}
                                     disabled={isGenerating || !resumeText || !jobDescription}
                                 >
@@ -237,7 +237,7 @@ export default function CoverLetterPage() {
 
                     {/* Output Section */}
                     <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent rounded-3xl -z-10" />
+                        <div className="absolute inset-0 bg-linear-to-b from-purple-500/5 to-transparent rounded-3xl -z-10" />
 
                         <div className="h-full flex flex-col">
                             <div className="flex items-center justify-between mb-2">

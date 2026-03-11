@@ -43,7 +43,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
                         initial={{ y: -20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="w-20 h-20 bg-gradient-to-tr from-purple-500/20 to-blue-500/20 dark:from-purple-500/20 dark:to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/30 dark:border-white/5 shadow-inner"
+                        className="w-20 h-20 bg-linear-to-tr from-purple-500/20 to-blue-500/20 dark:from-purple-500/20 dark:to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/30 dark:border-white/5 shadow-inner"
                     >
                         <Lock className="w-10 h-10 text-primary dark:text-primary" />
                     </motion.div>

@@ -77,7 +77,7 @@ export function ExecutiveTemplate({ data }: TemplateProps) {
                                     <ul className="list-none space-y-2 text-gray-700">
                                         {(exp.description || "").split('\n').filter(line => line.trim()).map((line, i) => (
                                             <li key={i} className="flex items-start">
-                                                <span className="mr-2 mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ backgroundColor: primaryColor }}></span>
+                                                <span className="mr-2 mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: primaryColor }}></span>
                                                 <span className="flex-1">{line.replace(/^[•\-\*]\s*/, '')}</span>
                                             </li>
                                         ))}
@@ -106,7 +106,7 @@ export function ExecutiveTemplate({ data }: TemplateProps) {
                                     <ul className="list-none space-y-1.5 text-gray-700">
                                         {(proj.description || "").split('\n').filter(line => line.trim()).map((line, i) => (
                                             <li key={i} className="flex items-start">
-                                                <span className="mr-2 mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ backgroundColor: primaryColor }}></span>
+                                                <span className="mr-2 mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: primaryColor }}></span>
                                                 <span className="flex-1">{line.replace(/^[•\-\*]\s*/, '')}</span>
                                             </li>
                                         ))}

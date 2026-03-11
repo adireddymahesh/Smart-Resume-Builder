@@ -74,7 +74,7 @@ export function LogoutOverlay({ isVisible }: LogoutOverlayProps) {
                                 </defs>
                             </svg>
                             {/* Center icon */}
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 relative z-10">
+                            <div className="w-10 h-10 rounded-full bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 relative z-10">
                                 <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                                     <polyline points="16 17 21 12 16 7" />
@@ -120,7 +120,7 @@ export function LogoutOverlay({ isVisible }: LogoutOverlayProps) {
                                         delay: i * 0.15,
                                         ease: "easeInOut",
                                     }}
-                                    className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
+                                    className="w-2 h-2 rounded-full bg-linear-to-r from-purple-500 to-pink-500"
                                 />
                             ))}
                         </motion.div>

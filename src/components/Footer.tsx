@@ -3,9 +3,9 @@ import { Github, Twitter, Linkedin } from "lucide-react";
 
 export function Footer() {
     return (
-        <footer className="w-full relative z-10 bg-background/60 backdrop-blur-2xl border-t border-purple-500/20 shadow-[0_-4px_30px_rgba(0,0,0,0.05)] mt-auto mt-24">
+        <footer className="w-full relative z-10 bg-background/60 backdrop-blur-2xl border-t border-purple-500/20 shadow-[0_-4px_30px_rgba(0,0,0,0.05)] mt-24">
             {/* Gradient Top Border */}
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+            <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-purple-500/50 to-transparent" />
 
             <div className="container mx-auto px-4 py-12 md:py-24">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
