@@ -183,8 +183,7 @@ export async function generateCoverLetter(resumeText: string, jobDescription: st
     RESUME CONTENT:
     ${resumeText.substring(0, 10000)}
 
-    JOB DESCRIPTION:
-    ${jobDescription.substring(0, 5000)}
+    ${jobDescription ? `JOB DESCRIPTION:\n    ${jobDescription.substring(0, 5000)}` : `Write a general, versatile cover letter showcasing the candidate's strengths since no specific job description was provided.`}
 
     INSTRUCTIONS:
     1. Start with a strong hook suitable for the tone.

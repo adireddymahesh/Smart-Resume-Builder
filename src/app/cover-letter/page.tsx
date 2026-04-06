@@ -101,7 +101,6 @@ export default function CoverLetterPage() {
 
     const handleGenerate = async () => {
         if (!resumeText) return alert("Please select a resume or upload one.");
-        if (!jobDescription) return alert("Please enter a job description.");
 
         setIsGenerating(true);
         try {
@@ -191,7 +190,7 @@ export default function CoverLetterPage() {
                                 </Tabs>
 
                                 <div className="space-y-2">
-                                    <Label>Job Description</Label>
+                                    <Label>Job Description (Optional)</Label>
                                     <Textarea
                                         placeholder="Paste the job description here..."
                                         className="min-h-[150px] resize-none"
@@ -218,7 +217,7 @@ export default function CoverLetterPage() {
                                 <Button
                                     className="w-full h-12 text-lg font-semibold bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-purple-500/25"
                                     onClick={handleGenerate}
-                                    disabled={isGenerating || !resumeText || !jobDescription}
+                                    disabled={isGenerating || !resumeText}
                                 >
                                     {isGenerating ? (
                                         <>
