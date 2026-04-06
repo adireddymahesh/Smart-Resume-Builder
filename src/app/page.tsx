@@ -12,17 +12,17 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-20 pb-20 lg:pt-32 overflow-hidden">
         {/* Ambient Glows (Theme-aware) */}
-        <div className="absolute top-[10%] left-[5%] w-[400px] h-[400px] bg-primary/10 dark:bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
-        <div className="absolute top-[30%] right-[5%] w-[600px] h-[600px] bg-purple-500/5 dark:bg-purple-500/15 blur-[150px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-[-10%] right-[30%] w-[500px] h-[500px] bg-pink-500/5 dark:bg-pink-500/10 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-[10%] left-[5%] w-[400px] h-[400px] bg-primary/20 dark:bg-primary/30 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute top-[30%] right-[5%] w-[600px] h-[600px] bg-purple-500/15 dark:bg-purple-500/30 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[30%] w-[500px] h-[500px] bg-pink-500/15 dark:bg-pink-500/25 blur-[100px] rounded-full pointer-events-none" />
 
         {/* CSS Grid Pattern Overlay */}
         <div
           className="absolute inset-0 z-0 pointer-events-none"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px)
+              linear-gradient(to right, rgba(128, 128, 128, 0.15) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(128, 128, 128, 0.15) 1px, transparent 1px)
             `,
             backgroundSize: "40px 40px",
             maskImage: "linear-gradient(to bottom, black 20%, transparent 80%)",
@@ -39,31 +39,29 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 text-transparent bg-clip-text bg-linear-to-r from-[#9f2bf0] via-[#d48aff] to-[#9f2bf0] animate-gradient-text"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-4 text-transparent bg-clip-text bg-linear-to-r from-[#9f2bf0] via-[#d48aff] to-[#9f2bf0] animate-gradient-text"
             >
-              AI Powered Resume World
+              AI-Based Resume Screening & Optimization Platform
             </motion.h1>
-
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base sm:text-lg text-muted-foreground mb-10 leading-relaxed font-medium"
+              className="text-lg md:text-xl text-zinc-400 dark:text-zinc-300 font-medium leading-relaxed mb-6 max-w-[90%]"
             >
-              Powered by AI, It is the easiest way to create a tailored resume containing all the right keywords, improve your writing &amp; highlight your strengths.
+              Using Natural Language Processing, Cosine Similarity & Machine Learning Algorithms
             </motion.p>
-
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col gap-2 mb-10"
             >
-              <h2 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tight leading-[1.1] flex flex-wrap gap-[0.3em] uppercase relative z-10 w-full">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-[1.1] flex flex-wrap gap-[0.3em] uppercase relative z-10 w-full">
                 <span className="text-zinc-900 dark:text-white">ONE</span>
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-[#a332fc] via-[#ea1a7d] to-[#e61313] dark:from-[#bc7dff] dark:via-[#ff479b] dark:to-[#ff4040]">PLATFORM</span>
               </h2>
-              <h2 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tight leading-[1.1] flex flex-wrap gap-[0.3em] uppercase relative z-10 w-full">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-[1.1] flex flex-wrap gap-[0.3em] uppercase relative z-10 w-full">
                 <span className="text-zinc-900 dark:text-white">MANY</span>
                 <span className="inline-block min-w-0">
                   <TypewriterText

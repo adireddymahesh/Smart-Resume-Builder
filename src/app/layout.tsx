@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
-  title: "AI Resume & Career Architect",
+  title: "ResumeX AI & Career Architect",
   description: "Build your future with AI-powered resumes, cover letters, and career tools.",
 };
 

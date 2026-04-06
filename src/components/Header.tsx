@@ -17,12 +17,11 @@ export function Header() {
                     href="/"
                     className="flex items-center gap-1.5 transition-opacity hover:opacity-80"
                 >
-                    <span className="text-2xl leading-none">🌍</span>
                     <span className="font-bold text-base sm:text-xl tracking-tight hidden xs:inline sm:inline">
-                        AI Powered Resume World
+                        ResumeX AI
                     </span>
                     <span className="font-bold text-base tracking-tight sm:hidden">
-                        AI Resume
+                        ResumeX AI
                     </span>
                 </Link>
 
@@ -47,6 +46,6 @@ export function Header() {
                     )}
                 </nav>
             </div>
-        </header>
+        </header >
     );
 }
