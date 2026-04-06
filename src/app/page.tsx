@@ -176,7 +176,6 @@ export default function Home() {
                       </div>
                       <span className="font-semibold text-sm">ATS Analysis</span>
                     </div>
-                    <X className="w-4 h-4 text-zinc-400" />
                   </div>
                   <div className="p-5 space-y-4 text-sm">
                     <div className="flex items-center gap-4 bg-zinc-100 dark:bg-zinc-800/50 p-3 rounded-xl border border-zinc-200/50 dark:border-white/5">
@@ -225,7 +224,6 @@ export default function Home() {
                     </div>
                     <span className="font-semibold text-sm">ATS Analysis</span>
                   </div>
-                  <X className="w-4 h-4 text-zinc-400" />
                 </div>
                 <div className="p-5 space-y-4 text-sm">
                   <div className="flex items-center gap-4 bg-zinc-100 dark:bg-zinc-800/50 p-3 rounded-xl border border-zinc-200/50 dark:border-white/5">
